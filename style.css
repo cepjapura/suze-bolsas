@@ -247,13 +247,29 @@ h4 {
     height: 80px;
 }
 
-.logo-img {
-    height: 150px;
-    width: 200px;
-    object-fit: cover;
-    object-position: center;
-    margin: -35px 0;
+.logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
     mix-blend-mode: multiply;
+    /* Keeps the white background transparent against the header */
+}
+
+.header-container .logo {
+    height: 70px;
+    /* Fits inside the 80px header cleanly */
+    width: 140px;
+}
+
+.logo-img {
+    height: 180px;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    filter: contrast(1.1) brightness(1.05);
+    /* Pushes the off-white background to pure white so multiply makes it 100% transparent */
 }
 
 .logo-text {
@@ -358,6 +374,15 @@ h4 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--space-lg);
+}
+
+.mobile-nav-header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.mobile-nav-header .logo-img {
+    max-height: 35px;
 }
 
 .close-menu-btn {
@@ -952,11 +977,13 @@ h4 {
     margin-bottom: var(--space-xl);
 }
 
+.brand-col .logo {
+    margin-bottom: 1rem;
+}
+
 .brand-col .logo-img {
-    height: 100px;
-    width: 150px;
-    margin-left: -20px;
-    margin-top: -20px;
+    max-height: 60px;
+    width: auto;
 }
 
 .brand-col p {
@@ -1092,9 +1119,8 @@ h4 {
     }
 
     .logo-img {
-        height: 120px;
-        width: 160px;
-        margin: -20px 0;
+        max-height: 50px;
+        width: auto;
     }
 
     .hero-title {
@@ -1134,7 +1160,7 @@ h4 {
     }
 
     .logo-img {
-        max-height: 80px;
+        max-height: 40px;
     }
 
     .hero {
