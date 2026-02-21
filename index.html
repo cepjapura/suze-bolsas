@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suze Bolsas | Maternidade Premium</title>
+    <meta name="description" content="Bolsas maternidade, capas de caderneta, necessaires e kits personalizados premium. Design moderno, acolhedor e elegante para mamães e gestantes.">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Google Fonts: Outfit (modern, readable, elegant) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons (Minimalist icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <p>Frete grátis para todo o Brasil em compras acima de R$ 499 ✨ Personalize sua peça!</p>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+                <i class="ph ph-list"></i>
+            </button>
+
+            <!-- Menu Desktop -->
+            <nav class="desktop-nav">
+                <ul class="nav-list">
+                    <li><a href="#lancamentos">Lançamentos</a></li>
+                    <li><a href="#maternidade">Maternidade</a></li>
+                    <li><a href="#personalizados">Personalizados</a></li>
+                    <li><a href="#sobre">Nossa História</a></li>
+                </ul>
+            </nav>
+
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <span class="logo-text">Suze Bolsas</span>
+            </a>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <button class="action-btn" aria-label="Buscar" title="Buscar">
+                    <i class="ph ph-magnifying-glass"></i>
+                </button>
+                <button class="action-btn user-btn" aria-label="Minha Conta" title="Minha Conta">
+                    <i class="ph ph-user"></i>
+                </button>
+                <button class="action-btn cart-btn" aria-label="Carrinho" title="Carrinho">
+                    <i class="ph ph-handbag"></i>
+                    <span class="cart-count">2</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu Mobile (Hidden by default) -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-header">
+                <span class="logo-text">Suze Bolsas</span>
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Fechar menu">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+            <ul class="mobile-nav-list">
+                <li><a href="#lancamentos">Lançamentos</a></li>
+                <li><a href="#maternidade">Maternidade</a></li>
+                <li><a href="#personalizados">Personalizados</a></li>
+                <li><a href="#capas">Capas de Caderneta</a></li>
+                <li><a href="#sobre">Nossa História</a></li>
+                <li><a href="#faq">Dúvidas Frequentes</a></li>
+            </ul>
+        </div>
+        <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg">
+                <!-- Using a soft, premium placeholder image for maternal aesthetic -->
+                <img src="https://images.unsplash.com/photo-1555252333-9f8e92e65df9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Mãe segurando bebê com bolsa maternidade" class="hero-img">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="container hero-content">
+                <span class="hero-badge">Nova Coleção</span>
+                <h1 class="hero-title">Onde o amor encontra a elegância</h1>
+                <p class="hero-subtitle">Bolsas maternidade e acessórios premium, feitos à mão com cuidado para o momento mais especial da sua vida.</p>
+                <div class="hero-ctas">
+                    <a href="#maternidade" class="btn btn-primary">Comprar Agora</a>
+                    <a href="#personalizados" class="btn btn-secondary">Conhecer Personalização</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Differentials (Destaques/Features) -->
+        <section class="differentials">
+            <div class="container diff-container">
+                <div class="diff-item">
+                    <div class="diff-icon"><i class="ph ph-magic-wand"></i></div>
+                    <h3>Personalização Artesanal</h3>
+                    <p>Bordado exclusivo</p>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon"><i class="ph ph-star"></i></div>
+                    <h3>Qualidade Premium</h3>
+                    <p>Materiais sofisticados</p>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon"><i class="ph ph-credit-card"></i></div>
+                    <h3>Pagamento Seguro</h3>
+                    <p>Até 6x sem juros</p>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon"><i class="ph ph-truck"></i></div>
+                    <h3>Envio Nacional</h3>
+                    <p>Para todo o Brasil</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collections -->
+        <section class="collections section-padding" id="colecoes">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Coleções em Destaque</h2>
+                    <p class="section-desc">Elegância e praticidade para todas as fases da maternidade</p>
+                </div>
+                
+                <div class="collections-grid">
+                    <a href="#" class="collection-card large">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Maternidade Premium">
+                        <div class="collection-content">
+                            <h3>Maternidade Premium</h3>
+                            <span class="collection-link">Ver coleção <i class="ph ph-arrow-right"></i></span>
+                        </div>
+                    </a>
+                    
+                    <div class="collection-col">
+                        <a href="#" class="collection-card">
+                            <img src="https://images.unsplash.com/photo-1584362917165-526a968579e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kits Mamãe & Bebê">
+                            <div class="collection-content">
+                                <h3>Kit Mamãe & Bebê</h3>
+                                <span class="collection-link">Ver coleção <i class="ph ph-arrow-right"></i></span>
+                            </div>
+                        </a>
+                        <a href="#" class="collection-card">
+                            <img src="https://images.unsplash.com/photo-1588624127993-4e8990176378?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Capas e Organizadores">
+                            <div class="collection-content">
+                                <h3>Capas de Caderneta</h3>
+                                <span class="collection-link">Ver coleção <i class="ph ph-arrow-right"></i></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Best Sellers -->
+        <section class="products section-padding bg-light" id="maternidade">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Mais Amados</h2>
+                    <p class="section-desc">As escolhas favoritas das mamães</p>
+                </div>
+
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-badges">
+                            <span class="badge badge-primary">Mais Vendido</span>
+                        </div>
+                        <div class="product-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Bolsa Maternidade Clássica Rose">
+                            <button class="wishlist-btn" aria-label="Adicionar aos favoritos"><i class="ph ph-heart"></i></button>
+                            <div class="quick-add">
+                                <button class="btn btn-primary btn-block">Adicionar <i class="ph ph-shopping-cart-simple"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name"><a href="#">Bolsa Maternidade Clássica Nude</a></h3>
+                            <div class="product-rating">
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <span>(42)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">R$ 489,90</span>
+                                <span class="installments">ou 6x de R$ 81,65</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-badges">
+                            <span class="badge badge-secondary">Personalizável</span>
+                        </div>
+                        <div class="product-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1584916201218-f4242ceb4809?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kit Mochila e Frasqueira">
+                            <button class="wishlist-btn" aria-label="Adicionar aos favoritos"><i class="ph ph-heart"></i></button>
+                            <div class="quick-add">
+                                <button class="btn btn-primary btn-block">Adicionar <i class="ph ph-shopping-cart-simple"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name"><a href="#">Kit Mochila e Frasqueira Térmica</a></h3>
+                            <div class="product-rating">
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <span>(28)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">R$ 599,90</span>
+                                <span class="installments">ou 6x de R$ 99,98</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-badges">
+                            <span class="badge badge-dark">Feito à mão</span>
+                        </div>
+                        <div class="product-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1621535266839-fd508fa9ee0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Capa de Caderneta de Vacina">
+                            <button class="wishlist-btn" aria-label="Adicionar aos favoritos"><i class="ph ph-heart"></i></button>
+                            <div class="quick-add">
+                                <button class="btn btn-primary btn-block">Adicionar <i class="ph ph-shopping-cart-simple"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name"><a href="#">Capa para Caderneta Bodada</a></h3>
+                            <div class="product-rating">
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph ph-star"></i>
+                                <span>(15)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">R$ 129,90</span>
+                                <span class="installments">ou 3x de R$ 43,30</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1522204481525-46aa1d07ecad?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Necessaire Organizadora">
+                            <button class="wishlist-btn" aria-label="Adicionar aos favoritos"><i class="ph ph-heart"></i></button>
+                            <div class="quick-add">
+                                <button class="btn btn-primary btn-block">Adicionar <i class="ph ph-shopping-cart-simple"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name"><a href="#">Necessaire Organizadora Baby</a></h3>
+                            <div class="product-rating">
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <span>(56)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">R$ 149,90</span>
+                                <span class="installments">ou 3x de R$ 49,96</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center" style="margin-top: 3rem;">
+                    <a href="#" class="btn btn-outline">Ver todos os produtos</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about section-padding" id="sobre">
+            <div class="container about-container">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1544006659-f0b21884ce1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ateliê Suze Bolsas">
+                    <div class="about-experience">
+                        <span class="exp-number">10+</span>
+                        <span class="exp-text">Anos de<br>Amor e Cuidado</span>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <span class="tag">Nossa História</span>
+                    <h2 class="section-title text-left">Feito com carinho, para momentos inesquecíveis</h2>
+                    <p>A <strong>Suze Bolsas</strong> nasceu do sonho de oferecer peças que unem sofisticação, praticidade e muito afeto. Entendemos que a chegada de um bebê é um momento mágico, e cada detalhe importa.</p>
+                    <p>Nosso compromisso é com as mamães: entregamos produtos de alto padrão, cortados e costurados artesanalmente, garantindo que cada bolsa, necessaire e capa carregue a dedicação que a sua família merece.</p>
+                    <ul class="about-list">
+                        <li><i class="ph ph-check-circle"></i> Produção artesanal rigorosa</li>
+                        <li><i class="ph ph-check-circle"></i> Foco em utilidade e elegância</li>
+                        <li><i class="ph ph-check-circle"></i> Materiais duráveis e fáceis de limpar</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary mt-2">Conheça nosso ateliê</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq section-padding bg-light" id="faq">
+            <div class="container faq-container">
+                <div class="faq-header text-center">
+                    <h2 class="section-title">Dúvidas Frequentes</h2>
+                    <p class="section-desc">Tudo que você precisa saber sobre nossos produtos e envios</p>
+                </div>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Como funciona a personalização?
+                            <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Você pode personalizar diversos itens com o nome do bebê ou iniciais. No momento da compra, basta selecionar a opção "Personalizar", digitar o nome desejado e escolher a fonte de bordado. Nosso time cuidará de cada detalhe com muito amor.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Qual o prazo de produção e entrega?
+                            <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Para peças personalizadas ou feitas sob encomenda, temos um prazo de produção de 10 a 15 dias úteis. Somado a isso, temos o prazo da transportadora para sua região. Produtos a pronta entrega são despachados em até 2 dias úteis.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Como limpar e cuidar da minha bolsa?
+                            <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Recomendamos a limpeza apenas com pano levemente umedecido em água e sabão neutro. Não lavar na máquina, não deixar de molho e secar sempre à sombra. Isso garante a durabilidade e a beleza da sua peça por muitos anos.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Quais são as formas de pagamento?
+                            <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Aceitamos pagamentos via PIX (com 5% de desconto), Boleto Bancário e Cartão de Crédito em até 6x sem juros ou em até 12x com juros da operadora.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> <!-- Closing FAQ Section correctly--> 
+
+        <!-- Contact/Newsletter -->
+        <section class="contact-cta section-padding">
+            <div class="container contact-container">
+                <div class="contact-card">
+                    <h2>Ficou com alguma dúvida?</h2>
+                    <p>Nossa equipe está pronta para te ajudar a escolher o kit perfeito para a chegada do seu bebê. O atendimento é humanizado e com muito carinho.</p>
+                    <a href="https://wa.me/5511999999999" target="_blank" class="btn btn-whatsapp">
+                        <i class="ph-fill ph-whatsapp-logo"></i> Chamar no WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col brand-col">
+                <a href="#" class="logo">
+                    <span class="logo-text">Suze Bolsas</span>
+                </a>
+                <p>Onde o amor encontra a elegância. Bolsas maternidade e acessórios premium para o momento mais especial da sua vida.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="ph ph-pinterest-logo"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Venda Online</h3>
+                <ul>
+                    <li><a href="#">Todas as Bolsas</a></li>
+                    <li><a href="#">Kits Maternidade</a></li>
+                    <li><a href="#">Capas de Caderneta</a></li>
+                    <li><a href="#">Personalização</a></li>
+                    <li><a href="#">Lançamentos</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Ajuda & Suporte</h3>
+                <ul>
+                    <li><a href="#">Dúvidas Frequentes (FAQ)</a></li>
+                    <li><a href="#">Rastrear Pedido</a></li>
+                    <li><a href="#">Política de Frete</a></li>
+                    <li><a href="#">Trocas e Devoluções</a></li>
+                    <li><a href="#">Garantia</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Segurança & Pagamento</h3>
+                <div class="payment-methods">
+                    <i class="ph ph-credit-card"></i>
+                    <i class="ph ph-bank"></i>
+                    <i class="ph ph-pix-logo"></i>
+                </div>
+                <div class="security-badges mt-2">
+                    <span><i class="ph ph-lock-key"></i> Compra 100% Segura</span>
+                    <span><i class="ph ph-shield-check"></i> SSL Criptografado</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container footer-bottom-inner">
+                <p>&copy; 2026 Suze Bolsas. Todos os direitos reservados. CNPJ: 00.000.000/0001-00.</p>
+                <div class="dev-credits">
+                    Desenvolvido com <i class="ph-fill ph-heart" style="color:var(--primary)"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/5511999999999" target="_blank" class="float-whatsapp" aria-label="Falar conosco no WhatsApp">
+        <i class="ph-fill ph-whatsapp-logo"></i>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>
