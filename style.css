@@ -251,25 +251,17 @@ h4 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    position: relative;
-    mix-blend-mode: multiply;
-    /* Keeps the white background transparent against the header */
 }
 
 .header-container .logo {
-    height: 70px;
-    /* Fits inside the 80px header cleanly */
-    width: 140px;
+    height: 100%;
 }
 
 .logo-img {
-    height: 180px;
+    height: 60px;
+    /* Sensible desktop height */
     width: auto;
-    max-width: none;
     object-fit: contain;
-    filter: contrast(1.1) brightness(1.05);
-    /* Pushes the off-white background to pure white so multiply makes it 100% transparent */
 }
 
 .logo-text {
