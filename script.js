@@ -952,7 +952,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutWhatsappBtn.addEventListener('click', () => {
             if (cart.length === 0) return;
 
-            const phone = "5511999999999";
+            const phone = "5544920002854";
             let message = "Olá Suze! Gostaria de fazer o seguinte pedido personalizado:\n\n";
 
             cart.forEach((item, index) => {
