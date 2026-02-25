@@ -227,3 +227,15 @@ Navegação completa e organizada
 Sugestão de banners
 
 Sugestão de organização de categorias
+
+🛒 7. ESTRATÉGIA DE CHECKOUT E VENDAS (ATUALIZADO)
+
+Projetar e desenvolver a integração final da loja focando na conversão e praticidade:
+
+Carrinho de Compras Inteligente em JavaScript (Side-cart ou modal)
+
+Integração de Parcelamento e Checkout via Mercado Pago
+
+Cálculo dinâmico de frete via API dos Correios (usando parâmetros de contrato)
+
+Opção Híbrida: O cliente deve poder escolher finalizar a compra automaticamente pelo Mercado Pago ou enviar o pedido formatado direto para o WhatsApp da loja para um atendimento personalizado.
