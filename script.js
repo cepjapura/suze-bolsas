@@ -82,14 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Kit Necessarie Luxo e Capa Caderneta Vacinação Personalizada",
             price: 209.99,
             installments: 3,
-            images: ["images/kit_jade_luxury.png"],
+            images: ["images/kit_francisco_1.jpg", "images/kit_francisco_2.jpg"],
             rating: 15,
             category: "Kits / Trocadores",
             stars: 5,
             weightKg: 0.5,
-            description: "Kit completo de luxo para organização: necessaire e capa protetora de caderneta de vacinação.",
+            description: "Kit completo de luxo coordenado contendo:\n\n- 01 Capa para Caderneta de Vacinação com pingente personalizado.\n- 01 Necessaire formato Box estruturada.\n\nFabricado em linho premium com bordados de alta definição (ex: Francisco). Essencial para manter a organização e os documentos do seu bebê maravilhosamente seguros.",
             requiresCustomization: true,
-            variations: []
+            variations: [{ name: "Cor do Linho", options: ["Bege / Dourado"] }]
         },
         {
             id: 7,
@@ -128,9 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (storedAdminProducts && (
         storedAdminProducts.includes("cf.shopee.com.br") ||
         storedAdminProducts.includes("1771978094346.png") ||
-        storedAdminProducts.includes("1771978070228.png") ||
-        storedAdminProducts.includes("1771978044311.png") ||
-        storedAdminProducts.includes("Máscara de Proteção 3D") ||
+        !storedAdminProducts.includes("kit_francisco_1.jpg") ||
         !storedAdminProducts.includes("necessaire_enrico_luxury.png") ||
         !storedAdminProducts.includes("capa_mirela_luxury.png") ||
         !storedAdminProducts.includes("chaveiro_mirela_luxury.png") ||
@@ -953,7 +951,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (cart.length === 0) return;
 
             const phone = "5544920002854";
-            let message = "Olá Suze! Gostaria de fazer o seguinte pedido personalizado:\n\n";
+            let message = "[NOVO PEDIDO DO SITE] Olá Suze! Gostaria de fechar o seguinte pedido:\n\n";
 
             cart.forEach((item, index) => {
                 const itemTotal = item.unitPrice * item.quantity;
@@ -985,48 +983,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ==========================================================================
        Mercado Pago Checkout (Frontend Logic)
+       Removido temporariamente. Fechamento 100% via WhatsApp.
        ========================================================================== */
-    const checkoutMercadoPagoBtn = document.getElementById('checkoutMercadoPagoBtn');
-
-    if (checkoutMercadoPagoBtn) {
-        checkoutMercadoPagoBtn.addEventListener('click', () => {
-            if (cart.length === 0) return;
-
-            const items = cart.map(item => {
-                // Incorporate variation and custom text into the title so it appears on the MP receipt
-                let titleParts = [item.name];
-                if (item.customText) titleParts.push(`(Bordado: ${item.customText})`);
-                if (item.variations.length > 0) titleParts.push(`[${item.variations.join(', ')}]`);
-
-                return {
-                    id: item.id,
-                    title: titleParts.join(' '),
-                    unit_price: item.unitPrice,
-                    quantity: item.quantity,
-                    currency_id: "BRL"
-                };
-            });
-
-            if (shippingCost > 0) {
-                items.push({
-                    id: "shipping",
-                    title: `Frete - ${shippingOption}`,
-                    unit_price: shippingCost,
-                    quantity: 1,
-                    currency_id: "BRL"
-                });
-            }
-
-            const preferencePayload = {
-                items: items,
-                back_urls: { success: window.location.href, failure: window.location.href, pending: window.location.href },
-                auto_return: "approved"
-            };
-
-            console.log("Mercado Pago Payload:", preferencePayload);
-            alert("Atenção: Carrinho processado pelo Front-End com sucesso. Para abrir o Checkout do Mercado Pago, insira as credenciais no Backend gerando uma Preference API.");
-        });
-    }
 
     // Initialize UI
     updateCartUI();

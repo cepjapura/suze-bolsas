@@ -2,6 +2,18 @@
    SuzeAdmin Logic - LocalStorage Mock for Nuvemshop style Dashboard
    ========================================================================== */
 
+// Security Check
+if (!sessionStorage.getItem('suze_admin_auth')) {
+    const password = prompt("Área Restrita. Digite a senha administrativa:");
+    if (password === "suze123") {
+        sessionStorage.setItem('suze_admin_auth', 'true');
+    } else {
+        alert("Senha incorreta. Redirecionando para a loja...");
+        window.location.href = "index.html";
+        throw new Error("Acesso Negado"); // Stop script execution
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Nav Logic
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
@@ -222,13 +234,13 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Kit Necessarie Luxo e Capa Caderneta Vacinação Personalizada",
             price: 209.99,
             installments: 3,
-            images: ["images/kit_jade_luxury.png"],
+            images: ["images/kit_francisco_1.jpg", "images/kit_francisco_2.jpg"],
             rating: 15,
             stars: 5,
             weightKg: 0.5,
-            description: "Kit completo de luxo para organização: necessaire e capa protetora de caderneta de vacinação.",
+            description: "Kit completo de luxo coordenado contendo:\n\n- 01 Capa para Caderneta de Vacinação com pingente personalizado.\n- 01 Necessaire formato Box estruturada.\n\nFabricado em linho premium com bordados de alta definição (ex: Francisco). Essencial para manter a organização e os documentos do seu bebê maravilhosamente seguros.",
             requiresCustomization: true,
-            variations: []
+            variations: [{ name: "Cor do Linho", options: ["Bege / Dourado"] }]
         },
         {
             id: 7,
