@@ -1051,15 +1051,19 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Order Payload to be sent to backend:", orderPayload);
 
             try {
-                // Call actual backend running locally for testing
-                const response = await fetch('http://localhost:3000/api/create-preference', {
+                // Determine API URL based on current host (local vs live)
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                // TODO: Replace with your actual hosted backend URL when you deploy the server.js to Render/Vercel/Railway
+                const API_BASE_URL = isLocal ? 'http://localhost:3000' : 'https://suze-bolsas-api.onrender.com';
+                
+                const response = await fetch(`${API_BASE_URL}/api/create-preference`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(orderPayload)
                 });
 
                 if (!response.ok) {
-                    throw new Error("Falha ao se comunicar com o servidor Mercado Pago");
+                    throw new Error("Falha ao se comunicar com o servidor de pagamentos");
                 }
 
                 const data = await response.json();
