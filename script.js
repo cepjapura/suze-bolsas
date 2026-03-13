@@ -1053,8 +1053,8 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // Determine API URL based on current host (local vs live)
                 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                // TODO: Replace with your actual hosted backend URL when you deploy the server.js to Render/Vercel/Railway
-                const API_BASE_URL = isLocal ? 'http://localhost:3000' : 'https://suze-bolsas-api.onrender.com';
+                // Usando a URL de produção fornecida pelo usuário no Render
+                const API_BASE_URL = isLocal ? 'http://localhost:3000' : 'https://suze-bolsas.onrender.com';
                 
                 const response = await fetch(`${API_BASE_URL}/api/create-preference`, {
                     method: 'POST',
