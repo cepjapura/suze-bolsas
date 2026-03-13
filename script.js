@@ -1077,7 +1077,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } catch (err) {
                 console.error("Error creating preference:", err);
-                alert("Houve um erro ao processar o pagamento. Verifique se o servidor local está rodando (node server.js).");
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                
+                if (isLocal) {
+                    alert("Houve um erro ao processar o pagamento. Verifique se o servidor local está rodando (node backend/server.js).");
+                } else {
+                    alert("Houve um erro: O servidor de pagamentos online ainda não foi publicado ou está indisponível.");
+                }
                 resetStepsToCart();
             }
         });
