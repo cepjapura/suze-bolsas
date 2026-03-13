@@ -368,46 +368,147 @@
     <!-- Side Cart -->
     <div class="cart-overlay" id="cartOverlay"></div>
     <div class="side-cart" id="sideCart">
+        <!-- Step Indicator -->
+        <div class="cart-steps-header" id="cartStepsHeader">
+            <div class="step active" id="step1Indicator">1. Carrinho</div>
+            <div class="step-divider"></div>
+            <div class="step" id="step2Indicator">2. Entrega</div>
+            <div class="step-divider"></div>
+            <div class="step" id="step3Indicator">3. Pagamento</div>
+        </div>
+
         <div class="cart-header">
-            <h2><i class="ph ph-handbag"></i> Seu Carrinho</h2>
+            <h2 id="cartTitle"><i class="ph ph-handbag"></i> Seu Carrinho</h2>
             <button class="close-cart-btn" id="closeCartBtn" aria-label="Fechar carrinho">
                 <i class="ph ph-x"></i>
             </button>
         </div>
-        <div class="cart-body" id="cartItemsContainer">
-            <!-- Cart items will be injected here -->
-            <div class="empty-cart-msg">
-                <i class="ph ph-shopping-bag"></i>
-                <p>Seu carrinho está vazio.</p>
-                <button class="btn btn-outline" id="continueShoppingBtn">Continuar Comprando</button>
+
+        <!-- STEP 1: CART ITEMS -->
+        <div id="cartStep1" class="cart-step active">
+            <div class="cart-body" id="cartItemsContainer">
+                <!-- Cart items will be injected here -->
+                <div class="empty-cart-msg">
+                    <i class="ph ph-shopping-bag"></i>
+                    <p>Seu carrinho está vazio.</p>
+                    <button class="btn btn-outline" id="continueShoppingBtn">Continuar Comprando</button>
+                </div>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-shipping">
+                    <label for="cepInput">Calcular Frete</label>
+                    <div class="shipping-calc">
+                        <input type="text" id="cepInput" placeholder="Digite seu CEP" maxlength="9">
+                        <button class="btn btn-secondary" id="calcShippingBtn">Calcular</button>
+                    </div>
+                    <div class="shipping-result" id="shippingResult">
+                        <!-- Shipping options (PAC/Sedex) will appear here -->
+                    </div>
+                </div>
+                <div class="cart-totals">
+                    <div class="cart-subtotal">
+                        <span>Subtotal</span>
+                        <span id="cartSubtotalValue">R$ 0,00</span>
+                    </div>
+                    <div class="cart-total">
+                        <span>Total Total</span>
+                        <span id="cartTotalValue">R$ 0,00</span>
+                    </div>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-primary btn-block btn-large mt-1" id="btnGoToStep2"
+                        style="font-size: 1.1rem; font-weight: 600;">
+                        Continuar para Entrega <i class="ph ph-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="cart-footer">
-            <div class="cart-shipping">
-                <label for="cepInput">Calcular Frete</label>
-                <div class="shipping-calc">
-                    <input type="text" id="cepInput" placeholder="Digite seu CEP" maxlength="9">
-                    <button class="btn btn-secondary" id="calcShippingBtn">Calcular</button>
+
+        <!-- STEP 2: DELIVERY INFO -->
+        <div id="cartStep2" class="cart-step" style="display: none;">
+            <div class="cart-body cart-delivery-form">
+                <div class="form-group">
+                    <label for="checkoutName">Nome Completo *</label>
+                    <input type="text" id="checkoutName" placeholder="Como no seu documento" required>
                 </div>
-                <div class="shipping-result" id="shippingResult">
-                    <!-- Shipping options (PAC/Sedex) will appear here -->
+                <div class="form-group">
+                    <label for="checkoutEmail">E-mail *</label>
+                    <input type="email" id="checkoutEmail" placeholder="Para enviarmos o código de rastreio" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkoutPhone">WhatsApp *</label>
+                    <input type="tel" id="checkoutPhone" placeholder="(00) 00000-0000" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkoutCPF">CPF *</label>
+                    <input type="text" id="checkoutCPF" placeholder="000.000.000-00" required>
+                </div>
+
+                <h3 class="mt-2" style="margin-bottom: 0.5rem; font-size: 1.1rem;">Endereço de Entrega</h3>
+
+                <div class="form-group">
+                    <label for="checkoutCEP">CEP *</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="checkoutCEP" placeholder="00000-000" required>
+                        <button class="btn btn-secondary" id="btnSearchCheckoutCEP" type="button"
+                            style="white-space: nowrap;">Buscar</button>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="checkoutStreet">Rua / Avenida *</label>
+                        <input type="text" id="checkoutStreet" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkoutNumber">Número *</label>
+                        <input type="text" id="checkoutNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkoutComplement">Complemento</label>
+                        <input type="text" id="checkoutComplement" placeholder="Apto, Bloco">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="checkoutNeighborhood">Bairro *</label>
+                        <input type="text" id="checkoutNeighborhood" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkoutCity">Cidade *</label>
+                        <input type="text" id="checkoutCity" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkoutState">Estado *</label>
+                        <input type="text" id="checkoutState" required readonly>
+                    </div>
+                </div>
+
+            </div>
+            <div class="cart-footer">
+                <div class="cart-actions" style="display: flex; gap: 0.5rem; flex-direction: column;">
+                    <button class="btn btn-primary btn-block btn-large" id="btnGoToStep3"
+                        style="font-size: 1.1rem; font-weight: 600;">
+                        Ir para Pagamento Seguro <i class="ph ph-lock-key"></i>
+                    </button>
+                    <button class="btn btn-outline btn-block" id="btnBackToStep1">
+                        Voltar ao Carrinho
+                    </button>
                 </div>
             </div>
-            <div class="cart-totals">
-                <div class="cart-subtotal">
-                    <span>Subtotal</span>
-                    <span id="cartSubtotalValue">R$ 0,00</span>
+        </div>
+
+        <!-- STEP 3: PAYMENT REDIRECT -->
+        <div id="cartStep3" class="cart-step" style="display: none;">
+            <div class="cart-body payment-loading"
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; gap: 1rem;">
+                <div class="spinner"></div>
+                <h3>Gerando link de pagamento...</h3>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Você será redirecionado para o ambiente seguro
+                    do Mercado Pago em instantes.</p>
+                <div
+                    style="margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.8rem;">
+                    <i class="ph-fill ph-shield-check" style="color: var(--success); font-size: 1.2rem;"></i> Ambiente
+                    100% Seguro
                 </div>
-                <div class="cart-total">
-                    <span>Total</span>
-                    <span id="cartTotalValue">R$ 0,00</span>
-                </div>
-            </div>
-            <div class="cart-actions">
-                <button class="btn btn-whatsapp btn-block btn-large mt-1" id="checkoutWhatsappBtn"
-                    style="font-size: 1.1rem; font-weight: 600;">
-                    Enviar Pedido para WhatsApp <i class="ph-fill ph-whatsapp-logo"></i>
-                </button>
             </div>
         </div>
     </div>

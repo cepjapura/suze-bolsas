@@ -942,42 +942,169 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ==========================================================================
-       WhatsApp Checkout
+       Multi-Step Checkout Logic
        ========================================================================== */
-    const checkoutWhatsappBtn = document.getElementById('checkoutWhatsappBtn');
+    const cartStep1 = document.getElementById('cartStep1');
+    const cartStep2 = document.getElementById('cartStep2');
+    const cartStep3 = document.getElementById('cartStep3');
+    const step1Indicator = document.getElementById('step1Indicator');
+    const step2Indicator = document.getElementById('step2Indicator');
+    const step3Indicator = document.getElementById('step3Indicator');
 
-    if (checkoutWhatsappBtn) {
-        checkoutWhatsappBtn.addEventListener('click', () => {
-            if (cart.length === 0) return;
+    const btnGoToStep2 = document.getElementById('btnGoToStep2');
+    const btnBackToStep1 = document.getElementById('btnBackToStep1');
+    const btnGoToStep3 = document.getElementById('btnGoToStep3');
 
-            const phone = "5544920002854";
-            let message = "[NOVO PEDIDO DO SITE] Olá Suze! Gostaria de fechar o seguinte pedido:\n\n";
+    function resetStepsToCart() {
+        cartStep1.style.display = 'flex';
+        cartStep2.style.display = 'none';
+        cartStep3.style.display = 'none';
 
-            cart.forEach((item, index) => {
-                const itemTotal = item.unitPrice * item.quantity;
-                message += `*Item ${index + 1}:* ${item.quantity}x ${item.name} (R$ ${itemTotal.toFixed(2).replace('.', ',')})\n`;
-                if (item.variations.length > 0) {
-                    message += `  > *Opções:* ${item.variations.join(' | ')}\n`;
-                }
-                if (item.customText) {
-                    message += `  > *Nome a Bordar:* ${item.customText}\n`;
-                }
-                message += '\n';
-            });
+        step1Indicator.classList.add('active');
+        step2Indicator.classList.remove('active');
+        step3Indicator.classList.remove('active');
+    }
 
-            const subtotal = cart.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
-            message += `*Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-
-            if (shippingOption) {
-                message += `\n*Frete (${shippingOption}):* R$ ${shippingCost.toFixed(2).replace('.', ',')}`;
+    if (btnGoToStep2 && btnBackToStep1 && btnGoToStep3) {
+        // From Cart to Delivery Info
+        btnGoToStep2.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert("Seu carrinho está vazio!");
+                return;
+            }
+            if (!shippingOption) {
+                alert("Por favor, calcule e selecione o frete antes de continuar.");
+                return;
             }
 
-            const finalTotal = subtotal + shippingCost;
-            message += `\n*Total:* R$ ${finalTotal.toFixed(2).replace('.', ',')}\n\n`;
-            message += "Aguardo retorno!";
+            cartStep1.style.display = 'none';
+            cartStep2.style.display = 'flex';
+            cartStep3.style.display = 'none';
 
-            const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
+            step1Indicator.classList.remove('active');
+            step2Indicator.classList.add('active');
+            step3Indicator.classList.remove('active');
+        });
+
+        // From Delivery Info back to Cart
+        btnBackToStep1.addEventListener('click', resetStepsToCart);
+
+        // From Delivery Info to Payment Redirect
+        btnGoToStep3.addEventListener('click', async () => {
+            // Basic Form Validation
+            const name = document.getElementById('checkoutName').value.trim();
+            const email = document.getElementById('checkoutEmail').value.trim();
+            const phone = document.getElementById('checkoutPhone').value.trim();
+            const cpf = document.getElementById('checkoutCPF').value.trim();
+            const cep = document.getElementById('checkoutCEP').value.trim();
+            const street = document.getElementById('checkoutStreet').value.trim();
+            const number = document.getElementById('checkoutNumber').value.trim();
+            const neighborhood = document.getElementById('checkoutNeighborhood').value.trim();
+            const city = document.getElementById('checkoutCity').value.trim();
+            const state = document.getElementById('checkoutState').value.trim();
+
+            if (!name || !email || !cpf || !cep || !street || !number || !neighborhood || !city || !state) {
+                alert("Por favor, preencha todos os campos obrigatórios (*).");
+                return;
+            }
+
+            // Move to Step 3 (Loading Screen)
+            cartStep1.style.display = 'none';
+            cartStep2.style.display = 'none';
+            cartStep3.style.display = 'flex';
+
+            step1Indicator.classList.remove('active');
+            step2Indicator.classList.remove('active');
+            step3Indicator.classList.add('active');
+
+            // Gather Payload
+            const orderPayload = {
+                items: cart.map(item => ({
+                    id: item.id.toString(),
+                    title: item.name + (item.customText ? ` (Bordado: ${item.customText})` : ''),
+                    quantity: item.quantity,
+                    unit_price: item.unitPrice,
+                    picture_url: item.image,
+                    description: item.variations.join(' | ')
+                })),
+                payer: {
+                    name: name.split(' ')[0],
+                    surname: name.split(' ').slice(1).join(' '),
+                    email: email,
+                    phone: { area_code: phone.substring(0, 2), number: phone.substring(2) },
+                    identification: { type: 'CPF', number: cpf.replace(/\D/g, '') },
+                    address: {
+                        zip_code: cep.replace(/\D/g, ''),
+                        street_name: street,
+                        street_number: number,
+                        neighborhood: neighborhood,
+                        city: city,
+                        federal_unit: state
+                    }
+                },
+                shipping: {
+                    cost: shippingCost,
+                    option: shippingOption
+                }
+            };
+
+            console.log("Order Payload to be sent to backend:", orderPayload);
+
+            try {
+                // Call actual backend running locally for testing
+                const response = await fetch('http://localhost:3000/api/create-preference', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderPayload)
+                });
+
+                if (!response.ok) {
+                    throw new Error("Falha ao se comunicar com o servidor Mercado Pago");
+                }
+
+                const data = await response.json();
+
+                if (data.sandbox_init_point) {
+                    // Redirect to safe MP sandbox checkout
+                    window.location.href = data.sandbox_init_point;
+                } else {
+                    throw new Error("Link não gerado");
+                }
+
+            } catch (err) {
+                console.error("Error creating preference:", err);
+                alert("Houve um erro ao processar o pagamento. Verifique se o servidor local está rodando (node server.js).");
+                resetStepsToCart();
+            }
+        });
+    }
+
+    /* CEP Auto-fill for Checkout Form */
+    const btnSearchCheckoutCEP = document.getElementById('btnSearchCheckoutCEP');
+    if (btnSearchCheckoutCEP) {
+        btnSearchCheckoutCEP.addEventListener('click', async () => {
+            const cepInput = document.getElementById('checkoutCEP');
+            const cep = cepInput.value.replace(/\D/g, '');
+            if (cep.length !== 8) return;
+
+            btnSearchCheckoutCEP.textContent = '...';
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
+                if (!data.erro) {
+                    document.getElementById('checkoutStreet').value = data.logradouro;
+                    document.getElementById('checkoutNeighborhood').value = data.bairro;
+                    document.getElementById('checkoutCity').value = data.localidade;
+                    document.getElementById('checkoutState').value = data.uf;
+                    // Move focus to number
+                    document.getElementById('checkoutNumber').focus();
+                } else {
+                    alert("CEP não encontrado.");
+                }
+            } catch (e) {
+                console.error("CEP error", e);
+            }
+            btnSearchCheckoutCEP.textContent = 'Buscar';
         });
     }
 
