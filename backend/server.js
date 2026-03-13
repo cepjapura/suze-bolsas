@@ -45,9 +45,9 @@ app.post('/api/create-preference', async (req, res) => {
         const bodyPayload = {
             items: mpItems,
             payer: {
-                name: payer.name || "Test",
-                surname: payer.surname || "Test",
-                email: payer.email || "test@test.com",
+                name: payer.name || "TestBuyer",
+                surname: payer.surname || "LastName",
+                email: "test_user_" + Math.floor(Math.random() * 100000) + "@testuser.com",
             }
         };
 
