@@ -1433,11 +1433,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        document.getElementById('pageBuyNowBtn').addEventListener('click', () => {
-            document.getElementById('pageAddToCartBtn').click();
-        });
-
-        // --- Shipping Calc ---
         const btnCalc = document.getElementById('pageCalcShippingBtn');
         if(btnCalc) {
             btnCalc.addEventListener('click', async () => {
