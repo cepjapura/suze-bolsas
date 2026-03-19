@@ -1,0 +1,530 @@
+/* ==========================================================================
+   SUZE BOLSAS - PRODUCT PAGE STYLES (Inspired by Use Alce)
+   ========================================================================== */
+
+/* Layout Split (Desktop) */
+.product-layout-split {
+    display: flex;
+    align-items: flex-start;
+    gap: 4rem;
+    margin-top: 2rem;
+    position: relative;
+}
+
+/* --- Left Column: Gallery --- */
+.product-gallery-col {
+    flex: 1.5; /* Takes up more space */
+    display: flex;
+    gap: 1.5rem;
+    position: sticky;
+    top: 100px;
+    align-self: flex-start;
+}
+
+/* Vertical Thumbnails */
+.page-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 80px;
+    flex-shrink: 0;
+}
+
+.page-thumb {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: var(--radius-sm, 8px);
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.7;
+    transition: var(--transition, all 0.3s ease);
+}
+
+.page-thumb:hover {
+    opacity: 1;
+}
+
+.page-thumb.active {
+    opacity: 1;
+    border-color: var(--primary, #c98a83);
+}
+
+/* Main Image */
+.main-img-container {
+    flex: 1;
+    background-color: var(--bg-light, #fafafa);
+    border-radius: var(--radius-md, 12px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-main-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    aspect-ratio: 1 / 1;
+}
+
+.page-video-container {
+    flex: 1;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-md, 12px);
+    overflow: hidden;
+}
+
+.page-video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- Right Column: Details --- */
+.product-details-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    font-size: 0.85rem;
+    color: var(--text-light, #777);
+    margin-bottom: -1rem; /* Pull up slightly */
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.breadcrumb a {
+    color: var(--text-color, #333);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.breadcrumb a:hover {
+    color: var(--primary, #c98a83);
+}
+
+/* Title & Rating */
+.page-title {
+    font-size: 2.2rem;
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    color: var(--text-dark, #222);
+    line-height: 1.2;
+    margin-top: 0.5rem;
+}
+
+.page-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    margin-top: -0.5rem;
+}
+.page-rating .stars {
+    color: #f5c518;
+    display: flex;
+    gap: 2px;
+}
+.page-rating .rating-count {
+    color: var(--text-light, #777);
+}
+
+/* Price Area */
+.page-price-area {
+    margin-top: 0.5rem;
+    border-bottom: 1px solid var(--border-color, #eee);
+    padding-bottom: 1.5rem;
+}
+.page-price {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-dark, #222);
+}
+.page-installments {
+    font-size: 0.95rem;
+    color: var(--primary, #c98a83);
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+/* Description Highlights */
+.page-short-desc {
+    font-size: 0.95rem;
+    color: var(--text-color, #555);
+    line-height: 1.6;
+}
+.rich-desc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.rich-desc-list li {
+    position: relative;
+    padding-left: 1.5rem;
+}
+.rich-desc-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--primary, #c98a83);
+    font-weight: bold;
+}
+
+/* Product Variations */
+.page-variation-group {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+.page-variation-label {
+    font-size: 0.95rem;
+    color: var(--text-dark, #222);
+    margin-bottom: 0.5rem;
+}
+.page-variation-label span {
+    color: var(--text-color, #555);
+}
+.page-variation-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.page-variation-box {
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--border-color, #ddd);
+    border-radius: var(--radius-sm, 6px);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+}
+.page-variation-box img {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.page-variation-box:hover {
+    border-color: #aaa;
+}
+.page-variation-box.active {
+    border-color: #00a8ff; /* Use Alce blue highlight */
+    box-shadow: 0 0 0 1px #00a8ff;
+}
+
+/* Customization Group */
+.customization-group {
+    background: var(--bg-color, #fff);
+    border: 1px solid var(--border-color, #eee);
+    padding: 1.25rem;
+    border-radius: var(--radius-sm, 8px);
+    margin-top: 0.5rem;
+}
+.customization-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+.customization-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color, #eee);
+    border-radius: var(--radius-sm, 4px);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+.customization-group input:focus {
+    outline: none;
+    border-color: var(--primary, #c98a83);
+}
+.customization-group small {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--text-light, #777);
+    font-size: 0.8rem;
+}
+
+/* Actions (Quantity + Buttons) */
+.page-actions-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color, #eee);
+    border-radius: var(--radius-sm, 4px);
+    height: 3.5rem;
+    background: #fff;
+}
+.quantity-selector .qty-btn {
+    background: none;
+    border: none;
+    width: 2.5rem;
+    height: 100%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color, #555);
+    transition: background 0.2s;
+}
+.quantity-selector .qty-btn:hover {
+    background: var(--bg-light, #fafafa);
+    color: var(--primary, #c98a83);
+}
+.quantity-selector input {
+    width: 3rem;
+    text-align: center;
+    border: none;
+    background: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-dark, #222);
+}
+.quantity-selector input:focus {
+    outline: none;
+}
+
+.btn-success {
+    background-color: #2ebc5b; /* Use Alce / Premium Green */
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-success:hover {
+    background-color: #25a04c;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(46, 188, 91, 0.3);
+}
+
+/* Buttons */
+.btn-large {
+    flex: 1;
+    height: 3.5rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.btn-block {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#pageBuyNowBtn {
+    height: 3.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.5rem;
+}
+
+/* Shipping Calc */
+.page-shipping-calc {
+    background: var(--bg-light, #fafafa);
+    padding: 1.25rem;
+    border-radius: var(--radius-sm, 8px);
+    margin-top: 1rem;
+}
+.page-shipping-calc label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--text-dark, #222);
+}
+.shipping-input-group {
+    display: flex;
+    gap: 0.5rem;
+}
+.shipping-input-group input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color, #eee);
+    border-radius: var(--radius-sm, 4px);
+    font-family: inherit;
+}
+.shipping-input-group button {
+    padding: 0 1.5rem;
+}
+
+/* Trust Badges */
+.trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color, #eee);
+}
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-light, #777);
+    font-weight: 500;
+}
+.trust-item i {
+    font-size: 1.5rem;
+    color: var(--primary, #c98a83);
+}
+
+/* ==========================================================================
+   Tabs Section
+   ========================================================================== */
+.product-tabs-section {
+    margin-top: 5rem;
+    border-top: 1px solid var(--border-color, #eee);
+    padding-top: 3rem;
+}
+.tabs-header {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color, #eee);
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+}
+.tabs-header::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 1rem 0;
+    font-size: 1.1rem;
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-weight: 600;
+    color: var(--text-light, #777);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s;
+    white-space: nowrap;
+}
+.tab-btn:hover {
+    color: var(--text-dark, #222);
+}
+.tab-btn.active {
+    color: var(--primary-dark, #a86c66);
+}
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary, #c98a83);
+}
+
+.tabs-content-area {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+}
+.tab-content.active {
+    display: block;
+}
+
+.long-description {
+    line-height: 1.8;
+    color: var(--text-color, #555);
+    font-size: 1.05rem;
+}
+.long-description h3, .long-description h4 {
+    color: var(--text-dark, #222);
+    margin: 1.5rem 0 0.5rem 0;
+    font-family: var(--font-heading, 'Playfair Display', serif);
+}
+.long-description p {
+    margin-bottom: 1rem;
+}
+
+.reviews-placeholder, .faq-placeholder {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: var(--bg-light, #fafafa);
+    border-radius: var(--radius-md, 12px);
+    color: var(--text-color, #555);
+}
+.reviews-placeholder i {
+    font-size: 3rem;
+    color: #f5c518;
+    margin-bottom: 1rem;
+}
+.reviews-placeholder h3 {
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark, #222);
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+@media (max-width: 991px) {
+    .product-layout-split {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .product-gallery-col {
+        position: static;
+        width: 100%;
+        flex-direction: column-reverse; /* Thumbnails below on mobile */
+        gap: 1rem;
+    }
+    .page-gallery {
+        flex-direction: row;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+    }
+    .page-thumb {
+        width: 80px;
+        flex-shrink: 0;
+    }
+    .product-details-col {
+        width: 100%;
+    }
+    .page-title {
+        font-size: 1.8rem;
+    }
+    .tabs-header {
+        justify-content: flex-start;
+        gap: 1.5rem;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

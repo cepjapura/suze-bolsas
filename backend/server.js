@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MercadoPagoConfig, Preference } = require('mercadopago');
+const { calcularPrecoPrazo } = require('correios-brasil');
 
 const app = express();
 
@@ -67,6 +68,38 @@ app.post('/api/create-preference', async (req, res) => {
     } catch (error) {
         console.error("Erro na API do Mercado Pago:", error);
         res.status(500).json({ error: "Falha ao gerar o Link de Pagamento. Verifique as credenciais." });
+    }
+});
+
+app.post('/api/shipping', async (req, res) => {
+    try {
+        const { cepDestino, pesoKg } = req.body;
+        
+        if (!cepDestino) {
+            return res.status(400).json({ error: "CEP Destino é obrigatório" });
+        }
+        
+        const pesoFormatado = String(Math.max(1, Math.ceil(pesoKg || 1)));
+        const cepFormatado = cepDestino.replace(/\D/g, '');
+
+        let args = {
+            sCepOrigem: '87209020', // CEP Suze Bolsas
+            sCepDestino: cepFormatado,
+            nVlPeso: pesoFormatado,
+            nCdFormato: '1',
+            nVlComprimento: '20',
+            nVlAltura: '20',
+            nVlLargura: '20',
+            nCdServico: ['04014', '04510'], // PAC, SEDEX
+            nVlDiametro: '0',
+        };
+
+        const result = await calcularPrecoPrazo(args);
+        res.status(200).json(result);
+
+    } catch (error) {
+        console.error("Erro ao calcular frete dos Correios:", error);
+        res.status(500).json({ error: "Falha na comunicação com os Correios." });
     }
 });
 
