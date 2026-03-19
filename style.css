@@ -1558,8 +1558,16 @@ h4 {
     }
 
     .hero {
-        min-height: 60vh;
-        padding: var(--space-lg) 0;
+        height: auto;
+        min-height: 80vh;
+        padding: var(--space-xl) 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-img {
+        object-fit: cover;
+        object-position: center 25%;
     }
 
     .hero-title {
