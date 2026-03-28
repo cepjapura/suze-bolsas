@@ -60,10 +60,7 @@ def process_image(input_path, bg_path, output_path):
     print("Saved", output_path)
 
 if __name__ == "__main__":
-    input_item = r"C:\Users\Claud\.gemini\antigravity\brain\bccf1496-b0d3-4ca3-942c-14339b1f0750\media__1772332010191.jpg"
-    bg_item = r"C:\Users\Claud\.gemini\antigravity\brain\bccf1496-b0d3-4ca3-942c-14339b1f0750\maternity_bg_2_1772333005915.png"
-    output_item1 = r"C:\Users\Claud\Desktop\TELA\SITE SUZE BOLSAS\images\kit_francisco_1.jpg"
-    output_item2 = r"C:\Users\Claud\Desktop\TELA\SITE SUZE BOLSAS\images\kit_francisco_2.jpg"
-    
-    process_image(input_item, bg_item, output_item1)
-    process_image(input_item, bg_item, output_item2)
+    if len(sys.argv) == 4:
+        process_image(sys.argv[1], sys.argv[2], sys.argv[3])
+    else:
+        print("Usage: python process_bg_v2.py <input> <bg> <output>")

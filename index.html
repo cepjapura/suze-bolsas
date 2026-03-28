@@ -486,8 +486,8 @@
             <div class="cart-footer">
                 <div class="cart-actions" style="display: flex; gap: 0.5rem; flex-direction: column;">
                     <button class="btn btn-primary btn-block btn-large" id="btnGoToStep3"
-                        style="font-size: 1.1rem; font-weight: 600;">
-                        Ir para Pagamento Seguro <i class="ph ph-lock-key"></i>
+                        style="font-size: 1.1rem; font-weight: 600; background-color: #25D366; border-color: #25D366;">
+                        Finalizar Pedido no WhatsApp <i class="ph-fill ph-whatsapp-logo"></i>
                     </button>
                     <button class="btn btn-outline btn-block" id="btnBackToStep1">
                         Voltar ao Carrinho
@@ -496,18 +496,16 @@
             </div>
         </div>
 
-        <!-- STEP 3: PAYMENT REDIRECT -->
+        <!-- STEP 3: WHATSAPP REDIRECT -->
         <div id="cartStep3" class="cart-step" style="display: none;">
             <div class="cart-body payment-loading"
                 style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; gap: 1rem;">
-                <div class="spinner"></div>
-                <h3>Gerando link de pagamento...</h3>
-                <p style="color: var(--text-light); font-size: 0.9rem;">Você será redirecionado para o ambiente seguro
-                    do Mercado Pago em instantes.</p>
+                <div class="spinner border-whatsapp" style="border-top-color: #25D366;"></div>
+                <h3>Gerando seu pedido...</h3>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Você será redirecionado para o nosso WhatsApp para finalizar a compra com atendimento personalizado.</p>
                 <div
-                    style="margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.8rem;">
-                    <i class="ph-fill ph-shield-check" style="color: var(--success); font-size: 1.2rem;"></i> Ambiente
-                    100% Seguro
+                    style="margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
+                    <i class="ph-fill ph-whatsapp-logo" style="color: #25D366; font-size: 1.4rem;"></i> Atendimento Humanizado
                 </div>
             </div>
         </div>
@@ -611,6 +609,6 @@
         <i class="ph-fill ph-whatsapp-logo"></i>
     </a>
     <!-- Application Scripts -->
-    <script src="script.js?v=2" defer></script>
+    <script src="script.js?v=4" defer></script>
 </body>
 </html>

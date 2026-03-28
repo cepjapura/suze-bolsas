@@ -24,14 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Organizador Necessaire Transparente Bebe Mala Bege Maternidade",
             price: 110.00,
             installments: 3,
-            images: ["images/kit_jade_luxury.png"],
+            images: ["images/necessaire_henrique.jpg"],
             badges: [{ text: "Prático", class: "badge-secondary" }],
             rating: 45,
             category: "Necessaires / Bolsas",
             stars: 5,
             weightKg: 0.2,
             description: "Necessaire transparente ideal para organizar itens da mala maternidade com visualização fácil e rápida.",
-            requiresCustomization: false,
+            requiresCustomization: true,
             variations: []
         },
         {
@@ -130,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         storedAdminProducts.includes("1771978094346.png") ||
         !storedAdminProducts.includes("kit_francisco_1.jpg") ||
         !storedAdminProducts.includes("necessaire_enrico_luxury.png") ||
+        !storedAdminProducts.includes("necessaire_henrique.jpg") ||
         !storedAdminProducts.includes("capa_mirela_luxury.png") ||
         !storedAdminProducts.includes("chaveiro_mirela_luxury.png") ||
         !storedAdminProducts.includes("kit_oliver_luxury.png")
@@ -832,8 +833,33 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sideCartOverlay) sideCartOverlay.addEventListener('click', closeCart);
 
     /* ==========================================================================
-       Shipping Calculator (Simulated API Proxy)
+       Shipping Calculator (Offline Fallback per UF)
        ========================================================================== */
+    function calculateOfflineShipping(uf, weightKg) {
+        let pacPrice = 35;
+        let sedexPrice = 55;
+        let pacPrazo = '8';
+        let sedexPrazo = '4';
+        
+        const sul = ['PR', 'SC', 'RS'];
+        const sudeste = ['SP', 'RJ', 'MG', 'ES'];
+        const centroOeste = ['MT', 'MS', 'GO', 'DF'];
+        const nordeste = ['BA', 'PE', 'CE', 'PB', 'RN', 'AL', 'SE', 'PI', 'MA'];
+        const norte = ['AM', 'PA', 'AC', 'RO', 'RR', 'AP', 'TO'];
+
+        if (sul.includes(uf)) { pacPrice = 25; sedexPrice = 45; pacPrazo = '5'; sedexPrazo = '2'; }
+        else if (sudeste.includes(uf)) { pacPrice = 30; sedexPrice = 50; pacPrazo = '6'; sedexPrazo = '3'; }
+        else if (centroOeste.includes(uf)) { pacPrice = 45; sedexPrice = 65; pacPrazo = '9'; sedexPrazo = '5'; }
+        else if (nordeste.includes(uf)) { pacPrice = 65; sedexPrice = 85; pacPrazo = '12'; sedexPrazo = '7'; }
+        else if (norte.includes(uf)) { pacPrice = 75; sedexPrice = 105; pacPrazo = '15'; sedexPrazo = '9'; }
+        
+        if (weightKg > 1) {
+            pacPrice += (weightKg - 1) * 3;
+            sedexPrice += (weightKg - 1) * 7;
+        }
+
+        return { pacPrice, sedexPrice, pacPrazo, sedexPrazo };
+    }
     const calcShippingBtn = document.getElementById('calcShippingBtn');
     const cepInput = document.getElementById('cepInput');
     const shippingResult = document.getElementById('shippingResult');
@@ -863,29 +889,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const uf = data.uf;
                 const totalWeightKg = cart.reduce((sum, item) => sum + (item.weightKg * item.quantity), 0) || 1;
 
-                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                const API_BASE_URL = isLocal ? 'http://localhost:3000' : 'https://suze-bolsas.onrender.com';
-                
-                const response = await fetch(`${API_BASE_URL}/api/shipping`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ cepDestino: cep, pesoKg: totalWeightKg })
-                });
-
-                if (!response.ok) throw new Error("Erro na API de Frete.");
-                const freteCorreios = await response.json();
-
-                let pacPrice = 25, sedexPrice = 45;
-                let pacPrazo = '7', sedexPrazo = '3';
-                
-                if (Array.isArray(freteCorreios)) {
-                    freteCorreios.forEach(servico => {
-                        const strVal = servico.Valor.replace('.', '').replace(',', '.');
-                        const valorNum = parseFloat(strVal);
-                        if (servico.Codigo === '04014') { pacPrice = valorNum; pacPrazo = servico.PrazoEntrega; }
-                        if (servico.Codigo === '04510') { sedexPrice = valorNum; sedexPrazo = servico.PrazoEntrega; }
-                    });
-                }
+                const { pacPrice, sedexPrice, pacPrazo, sedexPrazo } = calculateOfflineShipping(uf, totalWeightKg);
 
                 // Handle Free Shipping Rule (over R$ 499)
                 const subtotal = cart.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
@@ -1031,75 +1035,44 @@ document.addEventListener('DOMContentLoaded', () => {
             step2Indicator.classList.remove('active');
             step3Indicator.classList.add('active');
 
-            // Gather Payload
-            const orderPayload = {
-                items: cart.map(item => ({
-                    id: item.id.toString(),
-                    title: item.name + (item.customText ? ` (Bordado: ${item.customText})` : ''),
-                    quantity: item.quantity,
-                    unit_price: item.unitPrice,
-                    picture_url: item.image,
-                    description: item.variations.join(' | ')
-                })),
-                payer: {
-                    name: name.split(' ')[0],
-                    surname: name.split(' ').slice(1).join(' '),
-                    email: email,
-                    phone: { area_code: phone.substring(0, 2), number: phone.substring(2) },
-                    identification: { type: 'CPF', number: cpf.replace(/\D/g, '') },
-                    address: {
-                        zip_code: cep.replace(/\D/g, ''),
-                        street_name: street,
-                        street_number: number,
-                        neighborhood: neighborhood,
-                        city: city,
-                        federal_unit: state
-                    }
-                },
-                shipping: {
-                    cost: shippingCost,
-                    option: shippingOption
-                }
-            };
-
-            console.log("Order Payload to be sent to backend:", orderPayload);
-
-            try {
-                // Determine API URL based on current host (local vs live)
-                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                // Usando a URL de produção fornecida pelo usuário no Render
-                const API_BASE_URL = isLocal ? 'http://localhost:3000' : 'https://suze-bolsas.onrender.com';
+            // Build WhatsApp Message Payload
+            let itemsText = '';
+            let orderSubtotal = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.unitPrice * item.quantity;
+                orderSubtotal += itemTotal;
                 
-                const response = await fetch(`${API_BASE_URL}/api/create-preference`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(orderPayload)
-                });
-
-                if (!response.ok) {
-                    throw new Error("Falha ao se comunicar com o servidor de pagamentos");
+                itemsText += `*${index + 1}. ${item.name}*\n`;
+                itemsText += `   Qtd: ${item.quantity}x de R$ ${item.unitPrice.toFixed(2).replace('.', ',')} = R$ ${itemTotal.toFixed(2).replace('.', ',')}\n`;
+                if (item.variations && item.variations.length > 0) {
+                    itemsText += `   Detalhes: ${item.variations.join(' | ')}\n`;
                 }
-
-                const data = await response.json();
-
-                if (data.sandbox_init_point) {
-                    // Redirect to safe MP sandbox checkout
-                    window.location.href = data.sandbox_init_point;
-                } else {
-                    throw new Error("Link não gerado");
+                if (item.customText) {
+                    itemsText += `   Bordado: *${item.customText}*\n`;
                 }
+                itemsText += '\n';
+            });
 
-            } catch (err) {
-                console.error("Error creating preference:", err);
-                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                
-                if (isLocal) {
-                    alert("Houve um erro ao processar o pagamento. Verifique se o servidor local está rodando (node backend/server.js).");
-                } else {
-                    alert("Houve um erro: O servidor de pagamentos online ainda não foi publicado ou está indisponível.");
-                }
-                resetStepsToCart();
-            }
+            const finalTotal = orderSubtotal + shippingCost;
+            const complement = document.getElementById('checkoutComplement').value.trim();
+            const complementText = complement ? ` - ${complement}` : '';
+            
+            let message = `Olá Suze Bolsas! 👋\nGostaria de finalizar meu pedido.\n\n`;
+            message += `🛍️ *MEU PEDIDO*\n${itemsText}`;
+            message += `🚚 *FRETE*\n   Modalidade: ${shippingOption}\n   Valor: R$ ${shippingCost.toFixed(2).replace('.', ',')}\n\n`;
+            message += `💰 *TOTAL A PAGAR: R$ ${finalTotal.toFixed(2).replace('.', ',')}*\n\n`;
+            message += `👤 *MEUS DADOS*\n   Nome: ${name}\n   CPF: ${cpf}\n   E-mail: ${email}\n   Tel: ${phone}\n\n`;
+            message += `📍 *ENDEREÇO DE ENTREGA*\n   ${street}, ${number}${complementText}\n   Bairro: ${neighborhood}\n   ${city} - ${state}\n   CEP: ${cep}\n\n`;
+            message += `Aguardando código Pix para pagamento!`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappLink = `https://wa.me/5544920002854?text=${encodedMessage}`;
+
+            // Simulate loading display briefly, then redirect
+            setTimeout(() => {
+                window.location.href = whatsappLink;
+            }, 1800);
         });
     }
 
@@ -1245,8 +1218,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- Gallery ---
         const mainImg = document.getElementById('pageProductImage');
+        const mainImgContainer = document.getElementById('pageMainImgContainer');
         const galleryContainer = document.getElementById('pageGallery');
         const videoContainer = document.getElementById('pageVideoContainer');
+
+        // Lupa de Zoom Interativo na Página de Produto
+        if (mainImgContainer && mainImg) {
+            const handlePageZoom = (e) => {
+                if (window.innerWidth < 992) return;
+                e.preventDefault();
+                const rect = mainImgContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const xPercent = (x / rect.width) * 100;
+                const yPercent = (y / rect.height) * 100;
+                mainImg.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+                mainImg.style.transform = `scale(2.2)`; 
+            };
+            const resetPageZoom = () => {
+                if (window.innerWidth < 992) return;
+                mainImg.style.transformOrigin = 'center center';
+                mainImg.style.transform = `scale(1)`;
+            };
+            mainImgContainer.addEventListener("mousemove", handlePageZoom);
+            mainImgContainer.addEventListener("mouseenter", () => {
+                if (window.innerWidth >= 992) mainImg.style.transition = 'transform 0.1s ease-out';
+            });
+            mainImgContainer.addEventListener("mouseleave", () => {
+                mainImg.style.transition = 'transform 0.3s ease-out';
+                resetPageZoom();
+            });
+        }
         
         const allImages = product.images || [];
         if (allImages.length > 0) {
@@ -1451,27 +1453,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = await response.json();
                     
                     if (!data.erro) {
-                        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                        const API_BASE_URL = isLocal ? 'http://localhost:3000' : 'https://suze-bolsas.onrender.com';
-                        
-                        const shipRes = await fetch(`${API_BASE_URL}/api/shipping`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ cepDestino: cep, pesoKg: product.weightKg || 1 })
-                        });
-                        const freteCorreios = await shipRes.json();
-
-                        let pacPrice = 25, sedexPrice = 45;
-                        let pacPrazo = '7', sedexPrazo = '3';
-                        
-                        if (Array.isArray(freteCorreios)) {
-                            freteCorreios.forEach(servico => {
-                                const strVal = servico.Valor.replace('.', '').replace(',', '.');
-                                const valorNum = parseFloat(strVal);
-                                if (servico.Codigo === '04014') { pacPrice = valorNum; pacPrazo = servico.PrazoEntrega; }
-                                if (servico.Codigo === '04510') { sedexPrice = valorNum; sedexPrazo = servico.PrazoEntrega; }
-                            });
-                        }
+                        const { pacPrice, sedexPrice, pacPrazo, sedexPrazo } = calculateOfflineShipping(data.uf, product.weightKg || 1);
 
                         let pacCost = pacPrice;
                         if (product.price > 499) pacCost = 0; // Free shipping rule

@@ -180,13 +180,13 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Organizador Necessaire Transparente Bebe Mala Bege Maternidade",
             price: 110.00,
             installments: 3,
-            images: ["images/kit_jade_luxury.png"],
+            images: ["images/necessaire_henrique.jpg"],
             badges: [{ text: "Prático", class: "badge-secondary" }],
             rating: 45,
             stars: 5,
             weightKg: 0.2,
             description: "Necessaire transparente ideal para organizar itens da mala maternidade com visualização fácil e rápida.",
-            requiresCustomization: false,
+            requiresCustomization: true,
             variations: []
         },
         {
