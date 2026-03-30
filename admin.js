@@ -166,7 +166,13 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Capa para Caderneta de Vacina Linho Luxo / Porta Documentos",
             price: 149.90,
             installments: 3,
-            images: ["images/capa_heitor_luxury.png"],
+            images: [
+                "images/capa_vacinacao_thomas.jpg",
+                "images/capa_vacinacao_vicente.jpg",
+                "images/capa_vacinacao_heitor.jpg",
+                "images/capa_vacinacao_olivia.jpg",
+                "images/capa_vacinacao_benicio.jpg"
+            ],
             rating: 124,
             stars: 5,
             weightKg: 0.3,
