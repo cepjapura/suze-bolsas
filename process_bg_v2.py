@@ -35,8 +35,8 @@ def process_image(input_path, bg_path, output_path):
             bg = bg.crop((0, top, bg.width, top + new_h))
         bg = bg.resize((800, 1000), Image.Resampling.LANCZOS)
     
-    # Resize product to 55% of the background width to make it look further back and more naturally scaled
-    target_width = int(bg.width * 0.55)
+    # Resize product to 80% of the background width to make it fill the frame and look naturally placed
+    target_width = int(bg.width * 0.80)
     aspect_ratio = product_cropped.height / product_cropped.width
     target_height = int(target_width * aspect_ratio)
     
@@ -55,13 +55,13 @@ def process_image(input_path, bg_path, output_path):
     # Create composite canvas
     canvas = Image.new('RGBA', bg.size, (0,0,0,0))
     
-    # Position (Center horizontally, place closer to bottom but with some padding)
+    # Position (Center horizontally and vertically for flat perspective)
     paste_x = (bg.width - target_width) // 2
-    paste_y = bg.height - target_height - int(bg.height * 0.12)
+    paste_y = (bg.height - target_height) // 2 + 20
     
     # Offset shadow slightly down and right
-    shadow_x = paste_x + 10
-    shadow_y = paste_y + 20
+    shadow_x = paste_x + 15
+    shadow_y = paste_y + 15
     
     # Paste shadow then product
     canvas.paste(shadow_img, (shadow_x, shadow_y), shadow_img)
