@@ -167,11 +167,11 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 149.90,
             installments: 3,
             images: [
-                "images/capa_vacinacao_thomas.jpg?v=4",
-                "images/capa_vacinacao_vicente.jpg?v=4",
-                "images/capa_vacinacao_heitor.jpg?v=4",
-                "images/capa_vacinacao_olivia.jpg?v=4",
-                "images/capa_vacinacao_benicio.jpg?v=4"
+                "images/capa_vacinacao_thomas.jpg?v=5",
+                "images/capa_vacinacao_vicente.jpg?v=5",
+                "images/capa_vacinacao_heitor.jpg?v=5",
+                "images/capa_vacinacao_olivia.jpg?v=5",
+                "images/capa_vacinacao_benicio.jpg?v=5"
             ],
             rating: 124,
             stars: 5,
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Organizador Necessaire Transparente Bebe Mala Bege Maternidade",
             price: 110.00,
             installments: 3,
-            images: ["images/necessaire_henrique.jpg"],
+            images: ["images/necessaire_henrique.jpg?v=5"],
             badges: [{ text: "Prático", class: "badge-secondary" }],
             rating: 45,
             stars: 5,

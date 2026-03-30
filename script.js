@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 149.90,
             installments: 3,
             images: [
-                "images/capa_vacinacao_thomas.jpg?v=4",
-                "images/capa_vacinacao_vicente.jpg?v=4",
-                "images/capa_vacinacao_heitor.jpg?v=4",
-                "images/capa_vacinacao_olivia.jpg?v=4",
-                "images/capa_vacinacao_benicio.jpg?v=4"
+                "images/capa_vacinacao_thomas.jpg?v=5",
+                "images/capa_vacinacao_vicente.jpg?v=5",
+                "images/capa_vacinacao_heitor.jpg?v=5",
+                "images/capa_vacinacao_olivia.jpg?v=5",
+                "images/capa_vacinacao_benicio.jpg?v=5"
             ],
             rating: 124,
             category: "Capas",
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Organizador Necessaire Transparente Bebe Mala Bege Maternidade",
             price: 110.00,
             installments: 3,
-            images: ["images/necessaire_henrique.jpg"],
+            images: ["images/necessaire_henrique.jpg?v=5"],
             badges: [{ text: "Prático", class: "badge-secondary" }],
             rating: 45,
             category: "Necessaires / Bolsas",
@@ -136,8 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
         storedAdminProducts.includes("1771978094346.png") ||
         !storedAdminProducts.includes("kit_francisco_1.jpg") ||
         !storedAdminProducts.includes("necessaire_enrico_luxury.png") ||
-        !storedAdminProducts.includes("necessaire_henrique.jpg") ||
-        !storedAdminProducts.includes("capa_vacinacao_thomas.jpg?v=4") ||
+        !storedAdminProducts.includes("necessaire_henrique.jpg?v=5") ||
+        !storedAdminProducts.includes("capa_vacinacao_thomas.jpg?v=5") ||
         !storedAdminProducts.includes("capa_mirela_luxury.png") ||
         !storedAdminProducts.includes("chaveiro_mirela_luxury.png") ||
         !storedAdminProducts.includes("kit_oliver_luxury.png")
