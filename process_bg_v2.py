@@ -16,9 +16,11 @@ def process_image(input_path, bg_path, output_path):
         print("Empty bounding box")
         return
     product_cropped = product_rgba.crop(bbox)
-    
     # Load background
-    bg = Image.open(bg_path).convert("RGBA")
+    if bg_path.startswith("#"):
+        bg = Image.new('RGBA', (800, 1000), bg_path)
+    else:
+        bg = Image.open(bg_path).convert("RGBA")
     
     # Resize product to 55% of the background width to make it look further back and more naturally scaled
     target_width = int(bg.width * 0.55)
