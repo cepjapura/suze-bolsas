@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Kit Capa Vacinação / Trocador Portatil - Sintético ou Linho Luxo",
             price: 74.90,
             installments: 3,
-            images: ["images/kit_oliver_luxury.png"],
+            images: ["images/kit_noah_luxury.jpg?v=1"],
             rating: 210,
             stars: 5,
             weightKg: 0.5,
