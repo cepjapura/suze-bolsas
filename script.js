@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 149.90,
             installments: 3,
             images: [
-                "images/capa_vacinacao_thomas.jpg?v=2",
-                "images/capa_vacinacao_vicente.jpg?v=2",
-                "images/capa_vacinacao_heitor.jpg?v=2",
-                "images/capa_vacinacao_olivia.jpg?v=2",
-                "images/capa_vacinacao_benicio.jpg?v=2"
+                "images/capa_vacinacao_thomas.jpg?v=3",
+                "images/capa_vacinacao_vicente.jpg?v=3",
+                "images/capa_vacinacao_heitor.jpg?v=3",
+                "images/capa_vacinacao_olivia.jpg?v=3",
+                "images/capa_vacinacao_benicio.jpg?v=3"
             ],
             rating: 124,
             category: "Capas",
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         !storedAdminProducts.includes("kit_francisco_1.jpg") ||
         !storedAdminProducts.includes("necessaire_enrico_luxury.png") ||
         !storedAdminProducts.includes("necessaire_henrique.jpg") ||
-        !storedAdminProducts.includes("capa_vacinacao_thomas.jpg?v=2") ||
+        !storedAdminProducts.includes("capa_vacinacao_thomas.jpg?v=3") ||
         !storedAdminProducts.includes("capa_mirela_luxury.png") ||
         !storedAdminProducts.includes("chaveiro_mirela_luxury.png") ||
         !storedAdminProducts.includes("kit_oliver_luxury.png")
