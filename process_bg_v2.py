@@ -21,6 +21,19 @@ def process_image(input_path, bg_path, output_path):
         bg = Image.new('RGBA', (800, 1000), bg_path)
     else:
         bg = Image.open(bg_path).convert("RGBA")
+        
+    if bg.size != (800, 1000):
+        bg_ratio = bg.width / bg.height
+        target_ratio = 800 / 1000
+        if bg_ratio > target_ratio:
+            new_w = int(bg.height * target_ratio)
+            left = (bg.width - new_w) // 2
+            bg = bg.crop((left, 0, left + new_w, bg.height))
+        else:
+            new_h = int(bg.width / target_ratio)
+            top = (bg.height - new_h) // 2
+            bg = bg.crop((0, top, bg.width, top + new_h))
+        bg = bg.resize((800, 1000), Image.Resampling.LANCZOS)
     
     # Resize product to 55% of the background width to make it look further back and more naturally scaled
     target_width = int(bg.width * 0.55)
