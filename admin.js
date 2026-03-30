@@ -167,11 +167,11 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 149.90,
             installments: 3,
             images: [
-                "images/capa_vacinacao_thomas.jpg?v=5",
-                "images/capa_vacinacao_vicente.jpg?v=5",
-                "images/capa_vacinacao_heitor.jpg?v=5",
-                "images/capa_vacinacao_olivia.jpg?v=5",
-                "images/capa_vacinacao_benicio.jpg?v=5"
+                "images/capa_vacinacao_thomas.jpg?v=6",
+                "images/capa_vacinacao_vicente.jpg?v=6",
+                "images/capa_vacinacao_heitor.jpg?v=6",
+                "images/capa_vacinacao_olivia.jpg?v=6",
+                "images/capa_vacinacao_benicio.jpg?v=6"
             ],
             rating: 124,
             stars: 5,
