@@ -200,7 +200,13 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Capa Caderneta Vacina Porta Documentos Organização Linho",
             price: 124.90,
             installments: 3,
-            images: ["images/capa_mirela_luxury.png"],
+            images: [
+                "images/capa_linho_joaovinicius.jpg?v=1",
+                "images/capa_linho_eloa.jpg?v=1",
+                "images/capa_linho_ester.jpg?v=1",
+                "images/capa_linho_jorge.jpg?v=1",
+                "images/capa_linho_heitor.jpg?v=1"
+            ],
             rating: 89,
             stars: 5,
             weightKg: 0.3,
