@@ -30,7 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Organizador Necessaire Transparente Bebe Mala Bege Maternidade",
             price: 110.00,
             installments: 3,
-            images: ["images/necessaire_henrique.jpg?v=5"],
+            images: [
+                "images/necessaire_transparente_1.jpg?v=1",
+                "images/necessaire_transparente_2.jpg?v=1",
+                "images/necessaire_transparente_3.jpg?v=1",
+                "images/necessaire_transparente_4.jpg?v=1"
+            ],
             badges: [{ text: "Prático", class: "badge-secondary" }],
             rating: 45,
             category: "Necessaires / Bolsas",
@@ -142,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         storedAdminProducts.includes("1771978094346.png") ||
         !storedAdminProducts.includes("kit_francisco_1.jpg") ||
         !storedAdminProducts.includes("necessaire_enrico_luxury.png") ||
-        !storedAdminProducts.includes("necessaire_henrique.jpg?v=5") ||
+        !storedAdminProducts.includes("necessaire_transparente_1.jpg?v=1") ||
         !storedAdminProducts.includes("capa_vacinacao_thomas.jpg?v=8") ||
         !storedAdminProducts.includes("capa_linho_joaovinicius.jpg?v=1") ||
         !storedAdminProducts.includes("chaveiro_mirela_luxury.png") ||

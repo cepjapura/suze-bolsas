@@ -186,7 +186,12 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Organizador Necessaire Transparente Bebe Mala Bege Maternidade",
             price: 110.00,
             installments: 3,
-            images: ["images/necessaire_henrique.jpg?v=5"],
+            images: [
+                "images/necessaire_transparente_1.jpg?v=1",
+                "images/necessaire_transparente_2.jpg?v=1",
+                "images/necessaire_transparente_3.jpg?v=1",
+                "images/necessaire_transparente_4.jpg?v=1"
+            ],
             badges: [{ text: "Prático", class: "badge-secondary" }],
             rating: 45,
             stars: 5,
