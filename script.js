@@ -127,7 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Necessarie Box Baby Personalizada - Suze Bolsas",
             price: 109.99,
             installments: 3,
-            images: ["images/necessaire_enrico_luxury.png"],
+            images: [
+                "images/necessaire_box_baby_augusto.jpg?v=1",
+                "images/necessaire_box_baby_benicio.jpg?v=1"
+            ],
             rating: 56,
             category: "Necessaires / Bolsas",
             stars: 5,
@@ -146,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         storedAdminProducts.includes("cf.shopee.com.br") ||
         storedAdminProducts.includes("1771978094346.png") ||
         !storedAdminProducts.includes("kit_francisco_1.jpg") ||
-        !storedAdminProducts.includes("necessaire_enrico_luxury.png") ||
+        !storedAdminProducts.includes("necessaire_box_baby_augusto.jpg?v=1") ||
         !storedAdminProducts.includes("necessaire_transparente_1.jpg?v=1") ||
         !storedAdminProducts.includes("capa_vacinacao_thomas.jpg?v=8") ||
         !storedAdminProducts.includes("capa_linho_joaovinicius.jpg?v=1") ||

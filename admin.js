@@ -277,7 +277,10 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Necessarie Box Baby Personalizada - Suze Bolsas",
             price: 109.99,
             installments: 3,
-            images: ["images/necessaire_enrico_luxury.png"],
+            images: [
+                "images/necessaire_box_baby_augusto.jpg?v=1",
+                "images/necessaire_box_baby_benicio.jpg?v=1"
+            ],
             rating: 56,
             stars: 5,
             weightKg: 0.2,
