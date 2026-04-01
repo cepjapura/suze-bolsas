@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 149.90,
             installments: 3,
             images: [
+                "images/capa_vacinacao_heitor_luxo.jpg?v=1",
                 "images/capa_vacinacao_thomas.jpg?v=8",
                 "images/capa_vacinacao_vicente.jpg?v=8",
-                "images/capa_vacinacao_heitor.jpg?v=8",
                 "images/capa_vacinacao_olivia.jpg?v=8",
                 "images/capa_vacinacao_benicio.jpg?v=8"
             ],
@@ -151,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         !storedAdminProducts.includes("kit_francisco_1.jpg") ||
         !storedAdminProducts.includes("necessaire_box_baby_augusto.jpg?v=1") ||
         !storedAdminProducts.includes("necessaire_transparente_1.jpg?v=1") ||
+        !storedAdminProducts.includes("capa_vacinacao_heitor_luxo.jpg?v=1") ||
         !storedAdminProducts.includes("capa_vacinacao_thomas.jpg?v=8") ||
         !storedAdminProducts.includes("capa_linho_joaovinicius.jpg?v=1") ||
         !storedAdminProducts.includes("chaveiro_mirela_luxury.png") ||
