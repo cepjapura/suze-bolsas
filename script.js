@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             installments: 1,
             images: ["images/chaveiro_mirela_luxury.png"],
             rating: 320,
-            category: "Diversos / Toalhas",
+            category: "Capas",
             stars: 5,
             weightKg: 0.05,
             description: "Chaveiro de luxo personalizado feito com cuidado, ideal para identificar a bolsa de maternidade de forma elegante.",
@@ -138,14 +138,50 @@ document.addEventListener('DOMContentLoaded', () => {
             description: "Necessaire personalizada em formato Box, estruturada para proteger pequenos itens.",
             requiresCustomization: true,
             variations: []
+        },
+        {
+            id: 9,
+            name: "Kit Saquinho Maternidade Personalizado Organizador Luxo",
+            price: 79.99,
+            installments: 2,
+            images: [
+                "images/kit_saquinho_1.jpg?v=1",
+                "images/kit_saquinho_2.jpg?v=1",
+                "images/kit_saquinho_3.jpg?v=1",
+                "images/kit_saquinho_4.jpg?v=1",
+                "images/kit_saquinho_5.jpg?v=1",
+                "images/kit_saquinho_6.jpg?v=1",
+                "images/kit_saquinho_7.jpg?v=1",
+                "images/kit_saquinho_8.jpg?v=1"
+            ],
+            rating: 145,
+            category: "Saquinhos Maternidades",
+            stars: 5,
+            weightKg: 0.3,
+            description: "O Kit Saquinho Maternidade Personalizado Organizador Luxo Com Nome é a solução perfeita para organização e sofisticação na mala do bebê. Fechamento com zíper e acabamento impecável.",
+            requiresCustomization: true,
+            variations: [{ 
+                name: "Quantidade de saquinhos", 
+                options: [
+                    "1 Unidade", 
+                    "3 Unidades (R$ 189,99)", 
+                    "4 Unidades (R$ 239,99)", 
+                    "5 Unidades (R$ 279,99)", 
+                    "6 Unidades (R$ 309,99)"
+                ] 
+            }]
         }
     ];
 
     // Load from Admin Database if exists
     let storedAdminProducts = localStorage.getItem('suze_products');
 
-    // Purge bad cache containing broken Shopee links from prior mock iterations
+    const FORCE_UPDATE_VERSION = 'v14';
+    let storedVersion = localStorage.getItem('suze_products_version');
+
+    // Purge cache if version doesn't match or old images are detected
     if (storedAdminProducts && (
+        storedVersion !== FORCE_UPDATE_VERSION ||
         storedAdminProducts.includes("cf.shopee.com.br") ||
         storedAdminProducts.includes("1771978094346.png") ||
         !storedAdminProducts.includes("kit_francisco_1.jpg") ||
@@ -155,10 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
         !storedAdminProducts.includes("capa_vacinacao_thomas.jpg?v=8") ||
         !storedAdminProducts.includes("capa_linho_joaovinicius.jpg?v=1") ||
         !storedAdminProducts.includes("chaveiro_mirela_luxury.png") ||
-        !storedAdminProducts.includes("kit_noah_luxury.jpg?v=1")
+        !storedAdminProducts.includes("kit_noah_luxury.jpg?v=1") ||
+        !storedAdminProducts.includes("kit_saquinho_5.jpg")
     )) {
-        console.warn("Invalid/expired images detected in cache. Purging local storage.");
+        console.warn("Invalid/expired images or old version detected. Purging local storage.");
         localStorage.removeItem('suze_products');
+        localStorage.setItem('suze_products_version', FORCE_UPDATE_VERSION);
         storedAdminProducts = null;
     }
 
@@ -438,7 +476,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     siblings.forEach(s => s.classList.remove('active'));
                     e.currentTarget.classList.add('active');
 
-                    // Note: Here we could extract price differences from string like "04 Unidades (R$ 109,90)" and update modalProductPrice
+                    // Check for price overrides in all selected options (e.g. (+ R$ 109,90) or (R$ 109,90))
+                    let displayPrice = product.price;
+                    for (const vKey of Object.keys(selectedVariations)) {
+                        let optVal = selectedVariations[vKey];
+                        const match = typeof optVal === 'string' ? optVal.match(/R\$\s?(\d+,\d{2})/) : null;
+                        if (match) {
+                            displayPrice = parseFloat(match[1].replace(',', '.'));
+                        }
+                    }
+                    document.getElementById('modalProductPrice').innerHTML = `R$ ${displayPrice.toFixed(2).replace('.', ',')}`;
                 });
             });
         }
@@ -1404,6 +1451,18 @@ document.addEventListener('DOMContentLoaded', () => {
                             
                             labelDiv.querySelector('.var-value-display').textContent = opt;
                             window.pageSelectedVariations[groupTitle] = opt;
+
+                            // Update Page Price
+                            let displayPrice = product.price;
+                            for (const vKey of Object.keys(window.pageSelectedVariations)) {
+                                let optVal = window.pageSelectedVariations[vKey];
+                                const match = typeof optVal === 'string' ? optVal.match(/R\$\s?(\d+,\d{2})/) : null;
+                                if (match) {
+                                    displayPrice = parseFloat(match[1].replace(',', '.'));
+                                }
+                            }
+                            const priceEl = document.getElementById('pageProductPrice');
+                            if (priceEl) priceEl.textContent = `R$ ${displayPrice.toFixed(2).replace('.', ',')}`;
 
                             // Swap main image
                             if(fallbackImg){

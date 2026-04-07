@@ -287,11 +287,43 @@ document.addEventListener('DOMContentLoaded', () => {
             description: "Necessaire personalizada em formato Box, estruturada para proteger pequenos itens.",
             requiresCustomization: true,
             variations: []
+        },
+        {
+            id: 9,
+            name: "Kit Saquinho Maternidade Personalizado Organizador Luxo",
+            price: 79.99,
+            installments: 2,
+            images: [
+                "images/kit_saquinho_1.jpg?v=1",
+                "images/kit_saquinho_2.jpg?v=1",
+                "images/kit_saquinho_3.jpg?v=1",
+                "images/kit_saquinho_4.jpg?v=1",
+                "images/kit_saquinho_5.jpg?v=1",
+                "images/kit_saquinho_6.jpg?v=1",
+                "images/kit_saquinho_7.jpg?v=1",
+                "images/kit_saquinho_8.jpg?v=1"
+            ],
+            rating: 145,
+            stars: 5,
+            weightKg: 0.3,
+            description: "O Kit Saquinho Maternidade Personalizado Organizador Luxo Com Nome é a solução perfeita para organização e sofisticação na mala do bebê. Fechamento com zíper e acabamento impecável.",
+            requiresCustomization: true,
+            variations: [{ 
+                name: "Quantidade de saquinhos", 
+                options: [
+                    "1 Unidade", 
+                    "3 Unidades (R$ 189,99)", 
+                    "4 Unidades (R$ 239,99)", 
+                    "5 Unidades (R$ 279,99)", 
+                    "6 Unidades (R$ 309,99)"
+                ] 
+            }]
         }
     ];
 
     let dbProducts = [];
     let currentProductImages = []; // Holds current edit/create session images
+
 
     function renderImagePreviews() {
         const container = document.getElementById('imagePreviewContainer');
