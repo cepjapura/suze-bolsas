@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como Cuidar do Meu Produto | Suze Bolsas</title>
+    <meta name="description"
+        content="Aprenda como cuidar das suas bolsas, necessaires e kits maternidade da Suze Bolsas. Dicas para tecidos sintético premium e linho.">
+    <link rel="stylesheet" href="style.css?v=5">
+
+    <!-- Google Fonts: Outfit (modern, readable, elegant) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Phosphor Icons (Minimalist icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        .care-hero {
+            background-color: var(--secondary-light);
+            padding: var(--space-xl) 0 var(--space-lg);
+            text-align: center;
+        }
+
+        .care-hero .section-title {
+            margin-bottom: var(--space-sm);
+        }
+
+        .care-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+            margin-top: -3rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .care-intro {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-lg);
+        }
+
+        .material-section {
+            margin-bottom: var(--space-md);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .material-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .material-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .care-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .care-list li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .care-list li i {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .care-list li strong {
+            color: var(--text-main);
+        }
+        
+        .care-bonus {
+            background-color: var(--bg-main);
+            padding: var(--space-md);
+            border-radius: var(--radius-sm);
+            margin-top: var(--space-md);
+            text-align: center;
+            border: 1px dashed var(--primary-light);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <p>Frete grátis para todo o Brasil em compras acima de R$ 499 ✨ Personalize sua peça!</p>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header" id="header">
+        <div class="container header-container">
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+                <i class="ph ph-list"></i>
+            </button>
+
+            <!-- Menu Desktop -->
+            <nav class="desktop-nav">
+                <ul class="nav-list">
+                    <li><a href="index.html#lancamentos">Lançamentos</a></li>
+                    <li><a href="index.html#maternidade">Maternidade</a></li>
+                    <li><a href="index.html#personalizados">Personalizados</a></li>
+                    <li><a href="cuidados.html">Cuidados com a Peça</a></li>
+                    <li><a href="index.html#sobre">Nossa História</a></li>
+                </ul>
+            </nav>
+
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="Suze Bolsas" class="logo-img">
+            </a>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <button class="action-btn" aria-label="Buscar" title="Buscar">
+                    <i class="ph ph-magnifying-glass"></i>
+                </button>
+                <button class="action-btn user-btn" aria-label="Minha Conta" title="Minha Conta">
+                    <i class="ph ph-user"></i>
+                </button>
+                <button class="action-btn cart-btn" aria-label="Carrinho" title="Carrinho">
+                    <i class="ph ph-handbag"></i>
+                    <span class="cart-count">2</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu Mobile (Hidden by default) -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-header">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="Suze Bolsas" class="logo-img">
+                </a>
+                <button class="close-menu-btn" id="closeMenuBtn" aria-label="Fechar menu">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+            <ul class="mobile-nav-list">
+                <li><a href="index.html#lancamentos">Lançamentos</a></li>
+                <li><a href="index.html#maternidade">Maternidade</a></li>
+                <li><a href="index.html#personalizados">Personalizados</a></li>
+                <li><a href="index.html#capas">Capas de Caderneta</a></li>
+                <li><a href="cuidados.html">Cuidados com a Peça</a></li>
+                <li><a href="index.html#sobre">Nossa História</a></li>
+                <li><a href="index.html#faq">Dúvidas Frequentes</a></li>
+            </ul>
+        </div>
+        <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+    </header>
+
+    <main style="background-color: var(--bg-main); padding-bottom: var(--space-xl);">
+        
+        <section class="care-hero">
+            <div class="container">
+                <h1 class="section-title">Como Cuidar do Meu Produto</h1>
+                <p class="section-desc">Prolongue a beleza e a durabilidade da sua peça Suze Bolsas</p>
+            </div>
+        </section>
+
+        <section class="care-details">
+            <div class="container">
+                <div class="care-content">
+                    <p class="care-intro">
+                        Nossas peças são confeccionadas com materiais de altíssima qualidade, utilizando materiais <strong>Sintéticos Premium</strong> e <strong>Linho</strong> que trazem sofisticação e resistência. Para garantir que sua bolsa, necessaire ou kit continue sempre impecável, siga as orientações de cuidado abaixo:
+                    </p>
+
+                    <div class="material-section">
+                        <h2 class="material-title"><i class="ph ph-sparkle"></i> Sintético Premium</h2>
+                        <ul class="care-list">
+                            <li><i class="ph-fill ph-check-circle"></i> <strong>Limpeza fácil:</strong> Utilize apenas um pano macio e levemente umedecido com água e sabão neutro.</li>
+                            <li><i class="ph-fill ph-x-circle" style="color: #d9534f;"></i> <strong>Evite produtos químicos:</strong> Nunca use álcool, alvejantes ou esponjas abrasivas, pois podem danificar, ressecar ou manchar o material.</li>
+                            <li><i class="ph-fill ph-sun"></i> <strong>Secagem correta:</strong> Após a limpeza, seque com um pano seco e macio e deixe em local arejado, sempre secando à sombra.</li>
+                            <li><i class="ph-fill ph-hand-heart"></i> <strong>Guarde com carinho:</strong> Evite dobrar de forma excessiva ou colocar muito peso sobre a bolsa vazia para que ela não perca a sua estrutura e formato original.</li>
+                        </ul>
+                    </div>
+
+                    <div class="material-section">
+                        <h2 class="material-title"><i class="ph ph-flower-lotus"></i> Tecido em Linho</h2>
+                        <ul class="care-list">
+                            <li><i class="ph-fill ph-check-circle"></i> <strong>Delicadeza na limpeza:</strong> O linho é um tecido nobre e natural. Caso haja pequenas sujeiras ou manchas superficiais, use um pano levemente umedecido e friccione com muito cuidado.</li>
+                            <li><i class="ph-fill ph-x-circle" style="color: #d9534f;"></i> <strong>Não molhe a estrutura:</strong> A estrutura firme interna das bolsas exige que elas não sejam mergulhadas em água ou lavadas em máquinas de forma alguma.</li>
+                            <li><i class="ph-fill ph-sun"></i> <strong>Secagem à sombra:</strong> Mantenha longe do sol direto prolongado para não desbotar a cor original e proteger a fibra natural do fio.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="care-bonus">
+                        <i class="ph-fill ph-star" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                        <p><strong>Dica de ouro:</strong> Mantenha sempre suas bolsas em locais ventilados e longe de umidade constante. O amor e o cuidado que você tem com a sua maior riqueza também refletem no cuidado com os itens que a acompanham na maternidade!</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col brand-col">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="Suze Bolsas" class="logo-img">
+                </a>
+                <p>Onde o amor encontra a elegância. Bolsas maternidade e acessórios premium para o momento mais
+                    especial da sua vida.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="ph ph-pinterest-logo"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Venda Online</h3>
+                <ul>
+                    <li><a href="#">Todas as Bolsas</a></li>
+                    <li><a href="#">Kits Maternidade</a></li>
+                    <li><a href="#">Capas de Caderneta</a></li>
+                    <li><a href="#">Personalização</a></li>
+                    <li><a href="#">Lançamentos</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Ajuda & Suporte</h3>
+                <ul>
+                    <li><a href="#">Dúvidas Frequentes (FAQ)</a></li>
+                    <li><a href="cuidados.html">Cuidados com a Peça</a></li>
+                    <li><a href="#">Rastrear Pedido</a></li>
+                    <li><a href="#">Política de Frete</a></li>
+                    <li><a href="#">Trocas e Devoluções</a></li>
+                    <li><a href="#">Garantia</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Segurança & Pagamento</h3>
+                <div class="payment-methods">
+                    <i class="ph ph-credit-card"></i>
+                    <i class="ph ph-bank"></i>
+                    <i class="ph ph-pix-logo"></i>
+                </div>
+                <div class="security-badges mt-2">
+                    <span><i class="ph ph-lock-key"></i> Compra 100% Segura</span>
+                    <span><i class="ph ph-shield-check"></i> SSL Criptografado</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container footer-bottom-inner">
+                <p>&copy; 2026 Suze Bolsas. Todos os direitos reservados. CNPJ: 00.000.000/0001-00.</p>
+                <div class="dev-credits">
+                    Desenvolvido com <i class="ph-fill ph-heart" style="color:var(--primary)"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Side Cart -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="side-cart" id="sideCart">
+        <!-- Step Indicator -->
+        <div class="cart-steps-header" id="cartStepsHeader">
+            <div class="step active" id="step1Indicator">1. Carrinho</div>
+            <div class="step-divider"></div>
+            <div class="step" id="step2Indicator">2. Entrega</div>
+            <div class="step-divider"></div>
+            <div class="step" id="step3Indicator">3. Pagamento</div>
+        </div>
+
+        <div class="cart-header">
+            <h2 id="cartTitle"><i class="ph ph-handbag"></i> Seu Carrinho</h2>
+            <button class="close-cart-btn" id="closeCartBtn" aria-label="Fechar carrinho">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+
+        <!-- STEP 1: CART ITEMS -->
+        <div id="cartStep1" class="cart-step active">
+            <div class="cart-body" id="cartItemsContainer">
+                <!-- Cart items will be injected here -->
+                <div class="empty-cart-msg">
+                    <i class="ph ph-shopping-bag"></i>
+                    <p>Seu carrinho está vazio.</p>
+                    <button class="btn btn-outline" id="continueShoppingBtn">Continuar Comprando</button>
+                </div>
+            </div>
+            <div class="cart-footer">
+                 <div class="cart-actions">
+                    <button class="btn btn-primary btn-block btn-large mt-1" id="btnGoToStep2"
+                        style="font-size: 1.1rem; font-weight: 600;">
+                        Continuar para Entrega <i class="ph ph-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/5544920002854?text=%5BD%C3%9AVIDA%20SITE%5D%20Ol%C3%A1%21%20Gostaria%20de%20saber%20mais%20sobre%20os%20produtos%20da%20Suze%20Bolsas."
+        target="_blank" class="float-whatsapp" aria-label="Falar conosco no WhatsApp">
+        <i class="ph-fill ph-whatsapp-logo"></i>
+    </a>
+    
+    <script src="script.js?v=4" defer></script>
+</body>
+
+</html>
