@@ -23,13 +23,23 @@
 
     <!-- Phosphor Icons (Minimalist icons) -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Google Analytics 4 — G-L8VN6YMJD8 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L8VN6YMJD8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L8VN6YMJD8');
+    </script>
 </head>
 
 <body>
 
     <!-- Top Banner -->
+    <!-- Top Banner — Dia das Mães (restaurar após 31/05/2026) -->
     <div class="top-banner">
-        <p>Frete grátis para todo o Brasil em compras acima de R$ 499 ✨ Personalize sua peça!</p>
+        <p>🌸 <strong style="color:var(--primary-dark)">Mês das Mães!</strong> &nbsp; Presentes personalizados para a mamãe mais especial — <span style="background:rgba(195,122,131,.15);color:var(--primary-dark);padding:2px 12px;border-radius:50px;font-weight:700;font-size:.82rem;">Frete Grátis acima de R$ 299</span> &nbsp; <a href="#maternidade" style="color:var(--primary-dark);font-weight:700;text-decoration:underline;text-underline-offset:3px;">Ver presentes →</a></p>
     </div>
 
     <!-- Header -->
@@ -95,12 +105,40 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
+        <!-- ============================================================
+             Hero — Dia das Mães (Maio 2026)
+             Para restaurar o hero original após 31/05/2026,
+             remova esta section e descomente a section abaixo.
+        ============================================================ -->
+        <section class="hero-maes-section">
+            <div class="container hero-maes-container">
+                <div class="hero-maes-content" data-animate>
+                    <span class="hero-maes-badge">🌸 Dia das Mães — 11 de Maio</span>
+                    <h1 class="hero-maes-title">Para a mamãe que<br>merece <em>o mais bonito</em></h1>
+                    <p class="hero-maes-desc">Peças personalizadas com amor artesanal. Feitas para eternizar os momentos mais especiais da maternidade.</p>
+                    <div class="hero-ctas">
+                        <a href="#maternidade" class="btn btn-primary"><i class="ph-fill ph-gift"></i> Ver Presentes</a>
+                        <a href="#maternidade" class="btn btn-secondary">Personalizar agora →</a>
+                    </div>
+                </div>
+                <div class="hero-maes-img" aria-hidden="true">
+                    <span class="hero-maes-sec-icon">🌸</span>
+                    <span class="hero-maes-main-icon">👜</span>
+                </div>
+            </div>
+            <div class="hero-maes-foot">
+                <i class="ph ph-clock"></i>
+                Garanta a tempo! Peças personalizadas têm prazo de
+                <strong id="diasRestantesMaes"></strong> dias úteis de produção.
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Hero Original — Coleção Jade
+             Descomentar após 31/05/2026 e remover o hero-maes-section acima.
         <section class="hero">
             <div class="hero-bg">
-                <!-- Using an actual store product image as hero background -->
-                <img src="images/hero_banner_1771978019735.png" alt="Mãe segurando bebê com bolsa maternidade"
-                    class="hero-img">
+                <img src="images/hero_banner_1771978019735.png" alt="Mãe segurando bebê com bolsa maternidade" class="hero-img">
                 <div class="hero-overlay"></div>
             </div>
             <div class="container hero-content">
@@ -113,6 +151,7 @@
                 </div>
             </div>
         </section>
+        ============================================================ -->
 
         <!-- Best Sellers Moved Up -->
         <section class="products section-padding bg-light" id="maternidade" style="padding-top: 3rem;">
@@ -618,5 +657,14 @@
     </a>
     <!-- Application Scripts -->
     <script src="script.js?v=4" defer></script>
+    <!-- Contagem regressiva — Dia das Mães 11/05/2026 -->
+    <script>
+        (function() {
+            var target = new Date('2026-05-11T00:00:00');
+            var days = Math.max(0, Math.ceil((target - new Date()) / (1000 * 60 * 60 * 24)));
+            var el = document.getElementById('diasRestantesMaes');
+            if (el) el.textContent = days;
+        })();
+    </script>
 </body>
 </html>

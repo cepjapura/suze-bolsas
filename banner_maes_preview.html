@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview — Banner Dia das Mães</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        /* ── Tokens idênticos ao site ── */
+        :root {
+            --primary:        #c37a83;
+            --primary-light:  #e0acb2;
+            --primary-dark:   #a8646d;
+            --secondary:      #d4c1b3;
+            --secondary-light:#e5dacd;
+            --text-main:      #3d3b3c;
+            --text-muted:     #736b6d;
+            --bg-main:        #faf7f5;
+            --bg-light:       #ffffff;
+            --border:         #ece1dd;
+            --font-sans:      'Outfit', sans-serif;
+            --font-serif:     'Playfair Display', serif;
+            --radius-sm:      8px;
+            --radius-md:      16px;
+            --shadow-md:      0 8px 24px rgba(61,59,60,.08);
+            --shadow-hover:   0 12px 32px rgba(214,152,154,.18);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 48px;
+            padding: 40px 20px 60px;
+        }
+
+        .label {
+            font-size: 0.78rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: -38px;
+            font-family: var(--font-sans);
+            font-weight: 500;
+        }
+
+        /* ─── Botões igual ao site ─── */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: .5rem; padding: .85rem 2rem; border-radius: 50px;
+            font-weight: 500; font-size: .95rem; font-family: var(--font-sans);
+            transition: all .3s ease; text-decoration: none; cursor: pointer; border: none;
+        }
+        .btn-primary  { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+        .btn-secondary { background: var(--bg-light); color: var(--text-main); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+
+        /* ════════════════════════════════════════════
+           OPÇÃO 1 — Top Banner Strip
+           Substitui o strip atual durante o mês das mães
+        ════════════════════════════════════════════ */
+        .top-banner-maes {
+            width: 100%;
+            max-width: 1280px;
+            background: var(--secondary);   /* champagne — igual ao top-banner do site */
+            color: var(--text-main);
+            text-align: center;
+            padding: .55rem 1rem;
+            font-size: .88rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        .top-banner-maes span.highlight {
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+        .top-banner-maes span.pill {
+            display: inline-block;
+            background: rgba(195,122,131,.15);
+            color: var(--primary-dark);
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: .82rem;
+            margin: 0 4px;
+        }
+        .top-banner-maes a {
+            color: var(--primary-dark);
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+        }
+
+        /* ════════════════════════════════════════════
+           OPÇÃO 2 — Hero Banner Claro (substitui o hero atual)
+           Estilo: fundo creme, texto escuro, toque rosa suave
+        ════════════════════════════════════════════ */
+        .hero-maes {
+            width: 100%;
+            max-width: 1280px;
+            min-height: 380px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(110deg, var(--bg-main) 55%, #f0e2e4 100%);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* pétala decorativa direita */
+        .hero-maes::after {
+            content: '';
+            position: absolute;
+            right: -40px; top: -60px;
+            width: 340px; height: 340px;
+            background: radial-gradient(circle, rgba(195,122,131,.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-maes-content {
+            padding: 52px 60px;
+            max-width: 580px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-maes .badge {
+            display: inline-block;
+            background: rgba(195,122,131,.12);
+            color: var(--primary-dark);
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 5px 16px;
+            border-radius: 50px;
+            margin-bottom: 18px;
+        }
+
+        .hero-maes h2 {
+            font-family: var(--font-serif);
+            font-size: clamp(1.9rem, 3.2vw, 2.9rem);
+            color: var(--text-main);
+            line-height: 1.2;
+            margin-bottom: 14px;
+        }
+        .hero-maes h2 em {
+            font-style: italic;
+            color: var(--primary);
+        }
+        .hero-maes p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin-bottom: 28px;
+            max-width: 420px;
+        }
+        .hero-maes .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+
+        /* countdown faixa inferior */
+        .hero-maes-foot {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(255,255,255,.65);
+            backdrop-filter: blur(6px);
+            border-top: 1px solid var(--border);
+            padding: 9px 20px;
+            text-align: center;
+            font-size: .82rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .hero-maes-foot strong { color: var(--primary-dark); }
+
+        /* imagem direita */
+        .hero-maes-img {
+            width: 340px;
+            min-width: 240px;
+            height: 380px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+        .hero-maes-img .main-icon {
+            font-size: 9rem;
+            filter: drop-shadow(0 8px 20px rgba(195,122,131,.25));
+            animation: floatIcon 4s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        .hero-maes-img .sec-icon {
+            position: absolute;
+            font-size: 4rem;
+            top: 30px; right: 50px;
+            animation: floatIcon 4s ease-in-out infinite;
+            animation-delay: 2s;
+            opacity: .7;
+        }
+        @keyframes floatIcon {
+            0%,100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+
+        /* ════════════════════════════════════════════
+           OPÇÃO 3 — Banner Horizontal Elegante
+           Estilo: bege escuro / nude profundo com texto leve
+        ════════════════════════════════════════════ */
+        .banner-elegante {
+            width: 100%;
+            max-width: 1280px;
+            min-height: 240px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(120deg, #2e2220 0%, #4a2e2a 50%, #3d2825 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 16px 48px rgba(46,34,32,.35);
+        }
+
+        /* pontos sutis */
+        .banner-elegante::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(195,122,131,.18) 1px, transparent 1px);
+            background-size: 28px 28px;
+            opacity: .5;
+            pointer-events: none;
+        }
+        /* blur glow */
+        .banner-elegante::after {
+            content: '';
+            position: absolute;
+            right: -30px; top: -60px;
+            width: 320px; height: 320px;
+            background: radial-gradient(circle, rgba(195,122,131,.18) 0%, transparent 65%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .banner-elegante-content {
+            padding: 48px 60px;
+            position: relative;
+            z-index: 1;
+            max-width: 560px;
+        }
+        .banner-elegante .badge {
+            display: inline-block;
+            background: rgba(195,122,131,.2);
+            color: var(--primary-light);
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 5px 16px;
+            border-radius: 50px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(195,122,131,.3);
+        }
+        .banner-elegante h2 {
+            font-family: var(--font-serif);
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            color: var(--secondary-light);
+            line-height: 1.2;
+            margin-bottom: 14px;
+        }
+        .banner-elegante h2 em {
+            font-style: italic;
+            color: var(--primary-light);
+        }
+        .banner-elegante p {
+            font-size: .97rem;
+            color: rgba(229, 218, 205, .75);
+            line-height: 1.65;
+            margin-bottom: 28px;
+            max-width: 420px;
+        }
+        .banner-elegante .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+
+        .banner-elegante .btn-primary  { background: var(--primary); color: #fff; }
+        .banner-elegante .btn-primary:hover { background: var(--primary-dark); }
+        .banner-elegante .btn-ghost {
+            background: transparent;
+            color: var(--secondary-light);
+            border: 1px solid rgba(229,218,205,.35);
+            padding: .82rem 1.8rem;
+            border-radius: 50px;
+            font-size: .93rem; font-weight: 500;
+            font-family: var(--font-sans);
+            display: inline-flex; align-items: center; gap: .5rem;
+            transition: all .3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .banner-elegante .btn-ghost:hover {
+            background: rgba(229,218,205,.08);
+            transform: translateY(-2px);
+        }
+
+        .banner-elegante-visual {
+            position: relative;
+            z-index: 1;
+            width: 320px;
+            min-width: 200px;
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* anel decorativo igual ao produto.html mas na paleta do site */
+        .elegante-ring {
+            width: 170px; height: 170px;
+            border-radius: 50%;
+            border: 1px solid rgba(195,122,131,.25);
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            animation: spinSlow 18s linear infinite;
+        }
+        .elegante-ring::before {
+            content: '';
+            position: absolute;
+            inset: -14px;
+            border-radius: 50%;
+            border: 1px dashed rgba(195,122,131,.15);
+        }
+        .elegante-inner {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(195,122,131,.15), rgba(168,100,109,.08));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 5.5rem;
+            animation: spinSlow 18s linear infinite reverse;
+            border: 1px solid rgba(195,122,131,.18);
+        }
+        @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* orbit dots com a cor primária do site */
+        .o-dot {
+            position: absolute;
+            width: 7px; height: 7px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(195,122,131,.7);
+        }
+        .o-dot:nth-child(1) { top: 8px; left: 50%; transform: translateX(-50%); }
+        .o-dot:nth-child(2) { bottom: 8px; left: 50%; transform: translateX(-50%); background: var(--primary-light); }
+        .o-dot:nth-child(3) { left: 8px; top: 50%; transform: translateY(-50%); width: 5px; height: 5px; }
+        .o-dot:nth-child(4) { right: 8px; top: 50%; transform: translateY(-50%); width: 5px; height: 5px; background: var(--secondary); }
+
+        /* ─── responsive ─── */
+        @media (max-width: 760px) {
+            .hero-maes, .banner-elegante { flex-direction: column; }
+            .hero-maes-content, .banner-elegante-content { padding: 32px 24px; }
+            .hero-maes-img, .banner-elegante-visual { width: 100%; height: 160px; }
+            .hero-maes-img .main-icon { font-size: 6rem; margin-bottom: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── OPÇÃO 1 ─── -->
+    <p class="label">Opção 1 — Top Banner Strip (substitui o strip atual)</p>
+    <div class="top-banner-maes" style="max-width:1280px">
+        🌸 <span class="highlight">Mês das Mães!</span>
+        <span class="pill">Frete Grátis acima de R$ 299</span>
+        &nbsp;Presentes personalizados para a mamãe mais especial ✨
+        &nbsp;<a href="#">Ver presentes →</a>
+    </div>
+
+    <!-- ─── OPÇÃO 2 ─── -->
+    <p class="label">Opção 2 — Hero Banner (tom creme suave — estilo do site)</p>
+    <div class="hero-maes">
+        <div class="hero-maes-content">
+            <span class="badge">🌸 Dia das Mães — 11 de Maio</span>
+            <h2>Para a mamãe que<br>merece <em>o mais bonito</em></h2>
+            <p>Peças personalizadas com amor artesanal. Feitas para eternizar os momentos mais especiais da maternidade.</p>
+            <div class="btn-group">
+                <a href="#" class="btn btn-primary"><i class="ph-fill ph-gift"></i> Ver Presentes</a>
+                <a href="#" class="btn btn-secondary">Personalizar agora →</a>
+            </div>
+        </div>
+        <div class="hero-maes-img">
+            <span class="sec-icon">🌸</span>
+            <span class="main-icon">👜</span>
+        </div>
+        <div class="hero-maes-foot">
+            <i class="ph ph-clock" style="color:var(--primary)"></i>
+            Garanta a tempo! Peças personalizadas têm prazo de
+            <strong id="diasRestantes">—</strong> dias úteis de produção.
+        </div>
+    </div>
+
+    <!-- ─── OPÇÃO 3 ─── -->
+    <p class="label">Opção 3 — Banner Elegante Escuro (nude profundo + rosa do site)</p>
+    <div class="banner-elegante">
+        <div class="banner-elegante-content">
+            <span class="badge">✦ Coleção Dia das Mães 2026</span>
+            <h2>Um presente à altura<br>de uma <em>mãe incrível</em></h2>
+            <p>Bolsas e acessórios premium personalizados com o nome do seu bebê. Exclusividade em cada detalhe.</p>
+            <div class="btn-group">
+                <a href="#" class="btn btn-primary"><i class="ph-fill ph-heart"></i> Presentear Agora</a>
+                <a href="#" class="btn-ghost">Ver Coleção →</a>
+            </div>
+        </div>
+        <div class="banner-elegante-visual">
+            <div class="elegante-ring">
+                <div class="o-dot"></div>
+                <div class="o-dot"></div>
+                <div class="o-dot"></div>
+                <div class="o-dot"></div>
+                <div class="elegante-inner">🌹</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Contagem regressiva para 11/05/2026
+        const target = new Date('2026-05-11T00:00:00');
+        const dias = Math.max(0, Math.ceil((target - new Date()) / (1000*60*60*24)));
+        const el = document.getElementById('diasRestantes');
+        if (el) el.textContent = dias;
+    </script>
+</body>
+</html>

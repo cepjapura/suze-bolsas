@@ -506,6 +506,153 @@ h4 {
 }
 
 /* ==========================================================================
+   Hero Section — Dia das Mães (Maio 2026)
+   Remover após 31/05/2026
+   ========================================================================== */
+.hero-maes-section {
+    background: linear-gradient(110deg, var(--bg-main) 52%, #f0e2e4 100%);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-maes-section::after {
+    content: '';
+    position: absolute;
+    right: -50px;
+    top: -70px;
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgba(195, 122, 131, .1) 0%, transparent 68%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.hero-maes-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 420px;
+    padding-top: var(--space-lg);
+    padding-bottom: 56px; /* espaço para o rodapé de contagem */
+}
+
+.hero-maes-content {
+    max-width: 560px;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp .9s ease forwards;
+}
+
+.hero-maes-badge {
+    display: inline-block;
+    background: rgba(195, 122, 131, .12);
+    color: var(--primary-dark);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 50px;
+    margin-bottom: 18px;
+}
+
+.hero-maes-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    color: var(--text-main);
+    line-height: 1.2;
+    margin-bottom: 14px;
+}
+
+.hero-maes-title em {
+    font-style: italic;
+    color: var(--primary);
+}
+
+.hero-maes-desc {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-bottom: 28px;
+    max-width: 440px;
+}
+
+.hero-maes-img {
+    position: relative;
+    z-index: 1;
+    width: 340px;
+    min-width: 220px;
+    height: 420px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.hero-maes-main-icon {
+    font-size: 9rem;
+    line-height: 1;
+    filter: drop-shadow(0 8px 20px rgba(195, 122, 131, .22));
+    animation: maesFloat 4s ease-in-out infinite;
+    margin-bottom: 24px;
+}
+
+.hero-maes-sec-icon {
+    position: absolute;
+    font-size: 4rem;
+    top: 40px;
+    right: 40px;
+    animation: maesFloat 4s ease-in-out infinite;
+    animation-delay: 2s;
+    opacity: .75;
+}
+
+@keyframes maesFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50%       { transform: translateY(-12px) rotate(2deg); }
+}
+
+.hero-maes-foot {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, .65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-top: 1px solid var(--border);
+    padding: 10px 20px;
+    text-align: center;
+    font-size: .83rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.hero-maes-foot i      { color: var(--primary); }
+.hero-maes-foot strong { color: var(--primary-dark); }
+
+@media (max-width: 768px) {
+    .hero-maes-container {
+        flex-direction: column;
+        padding-top: var(--space-md);
+        min-height: auto;
+        padding-bottom: 60px;
+    }
+    .hero-maes-content { max-width: 100%; }
+    .hero-maes-img {
+        width: 100%;
+        height: 160px;
+        justify-content: center;
+    }
+    .hero-maes-main-icon { font-size: 6rem; margin-bottom: 10px; }
+    .hero-maes-sec-icon { right: 20px; top: 10px; }
+}
+
+/* ==========================================================================
    Differentials Section
    ========================================================================== */
 .differentials {
