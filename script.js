@@ -1589,8 +1589,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const imgContainer = document.createElement('div');
                 imgContainer.className = 'product-image';
                 const mainImgNode = document.createElement('img');
-                mainImgNode.src = relProduct.image;
-                mainImgNode.alt = relProduct.title;
+                mainImgNode.src = (relProduct.images && relProduct.images.length > 0) ? relProduct.images[0] : '';
+                mainImgNode.alt = relProduct.name;
                 mainImgNode.loading = 'lazy';
                 imgContainer.appendChild(mainImgNode);
                 
@@ -1615,7 +1615,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const titleNode = document.createElement('h3');
                 titleNode.className = 'product-title';
-                titleNode.textContent = relProduct.title;
+                titleNode.textContent = relProduct.name;
                 infoContainer.appendChild(titleNode);
 
                 const priceDivNode = document.createElement('div');
