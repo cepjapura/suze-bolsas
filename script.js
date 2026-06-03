@@ -1730,4 +1730,302 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    /* ==========================================================================
+       BADGES NOS PRODUTOS (upgrade)
+       ========================================================================== */
+    // Adiciona badge visual especial nos cards de destaque
+    const PRODUCT_BADGES = {
+        1: { text: '🔥 Mais Vendido', cls: 'badge-hot' },
+        3: { text: '✨ Destaque',     cls: 'badge-destaque' },
+        4: { text: '🔥 Mais Vendido', cls: 'badge-hot' },
+        7: { text: '🔥 Mais Vendido', cls: 'badge-hot' },
+        9: { text: '⭐ Novo',          cls: 'badge-new' },
+    };
+
+    const _origRenderProducts = renderProducts;
+    // Patch: After renderProducts, inject visual badges
+    const _patchBadges = () => {
+        document.querySelectorAll('.product-card').forEach(card => {
+            const link = card.querySelector('a[href*="produto.html?id="]');
+            if (!link) return;
+            const match = link.href.match(/id=(\d+)/);
+            if (!match) return;
+            const pid = parseInt(match[1]);
+            const badgeDef = PRODUCT_BADGES[pid];
+            if (badgeDef && !card.querySelector('.product-badge')) {
+                const wrapper = card.querySelector('.product-img-wrapper');
+                if (wrapper) {
+                    const badge = document.createElement('span');
+                    badge.className = `product-badge ${badgeDef.cls}`;
+                    badge.textContent = badgeDef.text;
+                    wrapper.appendChild(badge);
+                }
+            }
+        });
+    };
+
+    // Override renderProducts to also add badges
+    const origRender = renderProducts;
+    window.renderProducts = function(cat) {
+        origRender(cat);
+        setTimeout(_patchBadges, 50);
+    };
+    setTimeout(_patchBadges, 200);
+
+    /* ==========================================================================
+       BUSCA FUNCIONAL
+       ========================================================================== */
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchInput   = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const searchCloseBtn = document.getElementById('searchCloseBtn');
+
+    // Open search when clicking the search icon in header
+    document.querySelectorAll('.search-btn, [aria-label="Buscar"]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openSearch();
+        });
+    });
+
+    function openSearch() {
+        if (!searchOverlay) return;
+        searchOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => searchInput && searchInput.focus(), 100);
+    }
+
+    function closeSearch() {
+        if (!searchOverlay) return;
+        searchOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        if (searchInput) searchInput.value = '';
+        if (searchResults) searchResults.innerHTML = '';
+    }
+
+    if (searchCloseBtn) searchCloseBtn.addEventListener('click', closeSearch);
+
+    if (searchOverlay) {
+        searchOverlay.addEventListener('click', (e) => {
+            if (e.target === searchOverlay) closeSearch();
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const q = searchInput.value.trim().toLowerCase();
+            if (!searchResults) return;
+            if (q.length < 2) {
+                searchResults.innerHTML = '';
+                return;
+            }
+
+            const matched = products.filter(p =>
+                p.name.toLowerCase().includes(q) ||
+                (p.category && p.category.toLowerCase().includes(q))
+            );
+
+            if (matched.length === 0) {
+                searchResults.innerHTML = `<div class="search-empty">Nenhum produto encontrado para "<strong>${q}</strong>"</div>`;
+                return;
+            }
+
+            searchResults.innerHTML = matched.map(p => {
+                const img = (p.images && p.images.length > 0) ? p.images[0] : '';
+                const price = `R$ ${p.price.toFixed(2).replace('.', ',')}`;
+                return `
+                    <div class="search-result-item" data-id="${p.id}">
+                        <img src="${img}" alt="${p.name}">
+                        <div class="search-result-info">
+                            <strong>${p.name}</strong>
+                            <span>${price}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            searchResults.querySelectorAll('.search-result-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const pid = item.getAttribute('data-id');
+                    window.location.href = `produto.html?id=${pid}`;
+                    closeSearch();
+                });
+            });
+        });
+    }
+
+    // ESC to close search
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchOverlay && searchOverlay.classList.contains('active')) {
+            closeSearch();
+        }
+    });
+
+    /* ==========================================================================
+       CARROSSEL DE DEPOIMENTOS
+       ========================================================================== */
+    (function initTestimonialsCarousel() {
+        const track = document.getElementById('testimonialsTrack');
+        const prevBtn = document.getElementById('testPrev');
+        const nextBtn = document.getElementById('testNext');
+        const dotsContainer = document.getElementById('testDots');
+        if (!track) return;
+
+        const cards = track.querySelectorAll('.testimonial-card');
+        if (cards.length === 0) return;
+
+        let cardsVisible = () => window.innerWidth > 900 ? 3 : window.innerWidth > 600 ? 2 : 1;
+        let currentIndex = 0;
+
+        function buildDots() {
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            const total = Math.ceil(cards.length / cardsVisible());
+            for (let i = 0; i < total; i++) {
+                const dot = document.createElement('span');
+                dot.className = `test-dot${i === 0 ? ' active' : ''}`;
+                dot.addEventListener('click', () => goTo(i));
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateDots() {
+            if (!dotsContainer) return;
+            dotsContainer.querySelectorAll('.test-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        function goTo(index) {
+            const visible = cardsVisible();
+            const maxIndex = Math.max(0, Math.ceil(cards.length / visible) - 1);
+            currentIndex = Math.max(0, Math.min(index, maxIndex));
+
+            // Calculate card width with gap
+            const cardWidth = cards[0].offsetWidth + 24; // 24 = gap 1.5rem
+            track.style.transform = `translateX(-${currentIndex * visible * cardWidth}px)`;
+            updateDots();
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
+
+        // Auto-advance
+        let autoPlay = setInterval(() => goTo(currentIndex + 1 > Math.ceil(cards.length / cardsVisible()) - 1 ? 0 : currentIndex + 1), 5000);
+        track.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlay));
+        track.parentElement.addEventListener('mouseleave', () => {
+            autoPlay = setInterval(() => goTo(currentIndex + 1 > Math.ceil(cards.length / cardsVisible()) - 1 ? 0 : currentIndex + 1), 5000);
+        });
+
+        window.addEventListener('resize', () => { buildDots(); goTo(0); });
+        buildDots();
+    })();
+
+    /* ==========================================================================
+       CONTADORES ANIMADOS DE ESTATÍSTICAS
+       ========================================================================== */
+    function animateCounter(el) {
+        const target = parseInt(el.getAttribute('data-target')) || 0;
+        const duration = 1800;
+        const step = target / (duration / 16);
+        let current = 0;
+
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            el.textContent = Math.floor(current).toLocaleString('pt-BR');
+        }, 16);
+    }
+
+    /* ==========================================================================
+       SCROLL REVEAL + CONTADORES (IntersectionObserver)
+       ========================================================================== */
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('revealed');
+                    // If stat counter
+                    const counter = entry.target.querySelector('.stat-number');
+                    if (counter) animateCounter(counter);
+                }, i * 120);
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('[data-reveal], .stat-item, .testimonial-card').forEach(el => {
+        revealObserver.observe(el);
+    });
+
+    /* ==========================================================================
+       FEED DO INSTAGRAM (usando imagens dos produtos)
+       ========================================================================== */
+    (function buildInstagramGrid() {
+        const grid = document.getElementById('instagramGrid');
+        if (!grid) return;
+
+        // Use product images as Instagram-style grid
+        const instaImages = [
+            { src: 'images/capa_vacinacao_heitor_luxo.jpg?v=1',  caption: 'Capa Caderneta Luxo ✨' },
+            { src: 'images/kit_saquinho_1.jpg?v=1',              caption: 'Kit Saquinho Maternidade 🌸' },
+            { src: 'images/necessaire_transparente_1.jpg?v=1',   caption: 'Necessaire Transparente 💛' },
+            { src: 'images/capa_linho_joaovinicius.jpg?v=1',     caption: 'Capa Linho Personalizada ⭐' },
+            { src: 'images/kit_noah_luxury.jpg?v=1',             caption: 'Kit Trocador + Capa 💕' },
+            { src: 'images/kit_francisco_1.jpg',                 caption: 'Kit Necessaire Luxo 🎀' },
+            { src: 'images/necessaire_box_baby_augusto.jpg?v=1', caption: 'Necessaire Box Baby 🍃' },
+            { src: 'images/mochila_sarah_luxury_v2.png',         caption: 'Mochila Térmica Maternidade 🌿' },
+        ];
+
+        grid.innerHTML = instaImages.map(item => `
+            <a class="insta-item" href="https://www.instagram.com/suzemodacriativa" target="_blank" rel="noopener" aria-label="${item.caption}">
+                <img src="${item.src}" alt="${item.caption}" loading="lazy">
+                <div class="insta-overlay">
+                    <i class="ph ph-instagram-logo"></i> ${item.caption}
+                </div>
+            </a>
+        `).join('');
+    })();
+
+    /* ==========================================================================
+       BARRA DE FRETE GRÁTIS (R$ 399)
+       ========================================================================== */
+    const FREE_SHIPPING_THRESHOLD = 399;
+
+    function updateFreeShippingBar() {
+        const fsbFill   = document.getElementById('fsbFill');
+        const fsbText   = document.getElementById('fsbText');
+        const fsbAmount = document.getElementById('fsbAmount');
+        if (!fsbFill || !fsbText || !fsbAmount) return;
+
+        const subtotal = cart.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+        const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
+        const pct = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
+
+        fsbFill.style.width = pct + '%';
+
+        if (remaining === 0) {
+            fsbText.innerHTML = '🎉 Você ganhou <span>frete grátis!</span> Parabéns!';
+        } else {
+            fsbAmount.textContent = `R$ ${remaining.toFixed(2).replace('.', ',')}`;
+            fsbText.innerHTML = `Faltam <strong id="fsbAmount">R$ ${remaining.toFixed(2).replace('.', ',')}</strong> para <span>frete grátis!</span> 🚚`;
+        }
+    }
+
+    // Hook into updateCartUI to also update the bar
+    const _origUpdateCartUI = updateCartUI;
+
+    /* ==========================================================================
+       INIT CALLS (frete grátis no cart)
+       ========================================================================== */
+    // Run free shipping bar on cart open
+    document.querySelectorAll('.cart-btn').forEach(b => {
+        b.addEventListener('click', () => setTimeout(updateFreeShippingBar, 50));
+    });
+
 });
+

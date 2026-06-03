@@ -113,6 +113,37 @@
         <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
     </header>
 
+<!-- ===== BUSCA OVERLAY ===== -->
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-inner">
+        <div class="search-box">
+            <i class="ph ph-magnifying-glass search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Buscar produto..." autocomplete="off">
+            <button class="search-close" id="searchCloseBtn" aria-label="Fechar busca"><i class="ph ph-x"></i></button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+</div>
+
+<!-- ===== TICKER PROVA SOCIAL ===== -->
+<div class="social-ticker" id="socialTicker">
+    <div class="ticker-track">
+        <span>🌸 <strong>Naninha</strong> acabou de comprar o Kit Saquinho Maternidade &nbsp;•&nbsp;</span>
+        <span>⭐ <strong>Jaina</strong> avaliou 5 estrelas na Capa Caderneta Oliver &nbsp;•&nbsp;</span>
+        <span>🎀 <strong>Milena</strong> recebeu o Kit Saquinho e adorou o bordado &nbsp;•&nbsp;</span>
+        <span>💛 <strong>Nathalia</strong> comprou o Organizador Necessaire Personalizado &nbsp;•&nbsp;</span>
+        <span>🌸 <strong>Nayanne</strong> está apaixonada no Kit Saquinho &nbsp;•&nbsp;</span>
+        <span>✨ <strong>cgat22f6qm</strong> recomendou a loja: "Recomendadíssima!" &nbsp;•&nbsp;</span>
+        <span>💗 <strong>mellinepinto</strong> elogiou: "Trabalho impecável" &nbsp;•&nbsp;</span>
+        <span>🎀 <strong>joaocasagrande</strong> — "Melhor compra que já fiz na Shopee" &nbsp;•&nbsp;</span>
+        <!-- Repeat for seamless loop -->
+        <span>🌸 <strong>Naninha</strong> acabou de comprar o Kit Saquinho Maternidade &nbsp;•&nbsp;</span>
+        <span>⭐ <strong>Jaina</strong> avaliou 5 estrelas na Capa Caderneta Oliver &nbsp;•&nbsp;</span>
+        <span>🎀 <strong>Milena</strong> recebeu o Kit Saquinho e adorou o bordado &nbsp;•&nbsp;</span>
+        <span>💛 <strong>Nathalia</strong> comprou o Organizador Necessaire Personalizado &nbsp;•&nbsp;</span>
+    </div>
+</div>
+
     <main>
         <!-- ============================================================
              Hero — Dia das Mães (Maio 2026)
@@ -215,6 +246,28 @@
             </div>
         </section>
 
+        <!-- ===== ESTATÍSTICAS ANIMADAS ===== -->
+        <section class="stats-section" id="statsSection">
+            <div class="container stats-container">
+                <div class="stat-item" data-reveal>
+                    <span class="stat-number" data-target="10">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Anos de mercado</span>
+                </div>
+                <div class="stat-item" data-reveal>
+                    <span class="stat-number" data-target="1200">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Mamães atendidas</span>
+                </div>
+                <div class="stat-item" data-reveal>
+                    <span class="stat-number" data-target="99">0</span><span class="stat-suffix">%</span>
+                    <span class="stat-label">Avaliações positivas</span>
+                </div>
+                <div class="stat-item" data-reveal>
+                    <span class="stat-number" data-target="100">0</span><span class="stat-suffix">%</span>
+                    <span class="stat-label">Feito artesanalmente</span>
+                </div>
+            </div>
+        </section>
+
         <!-- Collections -->
         <section class="collections section-padding" id="colecoes">
             <div class="container">
@@ -282,6 +335,133 @@
             </div>
         </section>
 
+        <!-- ===== DEPOIMENTOS ===== -->
+        <section class="testimonials section-padding" id="depoimentos">
+            <div class="container">
+                <div class="section-header text-center" data-reveal>
+                    <span class="tag">O que dizem nossas clientes</span>
+                    <h2 class="section-title">Amor em cada avaliação</h2>
+                    <p class="section-desc">Depoimentos reais de mamães que receberam suas peças com carinho 💛</p>
+                </div>
+
+                <div class="testimonials-track-wrapper">
+                    <div class="testimonials-track" id="testimonialsTrack">
+
+                        <div class="testimonial-card" data-reveal>
+                            <div class="test-header">
+                                <div class="test-avatar">N</div>
+                                <div class="test-info">
+                                    <strong>Naninha89</strong>
+                                    <span>Kit Saquinho Maternidade</span>
+                                </div>
+                                <div class="test-stars">★★★★★</div>
+                            </div>
+                            <p class="test-text">"Material perfeito, excelente acabamento, do jeitinho que pedi. Vendedor super atencioso, fez a arte e me enviou, acabei escolhendo outra depois rsrs! Super indico! Só comprem!"</p>
+                            <span class="test-date">Shopee · Jun 2026</span>
+                        </div>
+
+                        <div class="testimonial-card" data-reveal>
+                            <div class="test-header">
+                                <div class="test-avatar">J</div>
+                                <div class="test-info">
+                                    <strong>jaina.pereira</strong>
+                                    <span>Capa para Caderneta Oliver</span>
+                                </div>
+                                <div class="test-stars">★★★★★</div>
+                            </div>
+                            <p class="test-text">"Qualidade maravilhosa, material de qualidade. Acabamento perfeito, toda parte envolvendo costura muito bem feita, o zíper, o chaveiro — todo material é de alta qualidade. Me surpreendi, super indico!"</p>
+                            <span class="test-date">Shopee · Mai 2026</span>
+                        </div>
+
+                        <div class="testimonial-card" data-reveal>
+                            <div class="test-header">
+                                <div class="test-avatar">M</div>
+                                <div class="test-info">
+                                    <strong>milenaborges278</strong>
+                                    <span>Kit Saquinho Maternidade</span>
+                                </div>
+                                <div class="test-stars">★★★★★</div>
+                            </div>
+                            <p class="test-text">"Vale a pena cada centavo. Só comprem! O produto é muito bom e de muita qualidade. São muito atenciosos e gentis, falam com vc e explicam tudo. O material é muito bom, o bordado bem feito, os acabamentos são perfeitos!"</p>
+                            <span class="test-date">Shopee · Mai 2026</span>
+                        </div>
+
+                        <div class="testimonial-card" data-reveal>
+                            <div class="test-header">
+                                <div class="test-avatar">A</div>
+                                <div class="test-info">
+                                    <strong>aimgqmgwrsm</strong>
+                                    <span>Kit Saquinho Maternidade</span>
+                                </div>
+                                <div class="test-stars">★★★★★</div>
+                            </div>
+                            <p class="test-text">"Comprem sem medo! Não acreditei que seria tão perfeito e me surpreendi em todos os aspectos: tamanho, qualidade, material, atendimento desde o primeiro momento, acabamento. Tudo pensando e feito com muito carinho!"</p>
+                            <span class="test-date">Shopee · Mai 2026</span>
+                        </div>
+
+                        <div class="testimonial-card" data-reveal>
+                            <div class="test-header">
+                                <div class="test-avatar">N</div>
+                                <div class="test-info">
+                                    <strong>nathaliaccorrea</strong>
+                                    <span>Kit Saquinho + Necessaire</span>
+                                </div>
+                                <div class="test-stars">★★★★★</div>
+                            </div>
+                            <p class="test-text">"Gente, sem palavras para esse produto! Maravilhoso, acabamento impecável. Peças lindaaaas e muito bem feitas!!! Recomendo muito"</p>
+                            <span class="test-date">Shopee · Abr 2026</span>
+                        </div>
+
+                        <div class="testimonial-card" data-reveal>
+                            <div class="test-header">
+                                <div class="test-avatar">C</div>
+                                <div class="test-info">
+                                    <strong>cgat22f6qm</strong>
+                                    <span>Kit Saquinho Maternidade</span>
+                                </div>
+                                <div class="test-stars">★★★★★</div>
+                            </div>
+                            <p class="test-text">"Simplesmente perfeitos! Excelente acabamento! Vendedor muito atencioso, fez do jeitinho que solicitei! Muito satisfeita com a compra! Recomendadíssima a loja e o produto! Parabéns!"</p>
+                            <span class="test-date">Shopee · Mai 2026</span>
+                        </div>
+
+                        <div class="testimonial-card" data-reveal>
+                            <div class="test-header">
+                                <div class="test-avatar">J</div>
+                                <div class="test-info">
+                                    <strong>joaocasagrande_</strong>
+                                    <span>Capa Caderneta Noah</span>
+                                </div>
+                                <div class="test-stars">★★★★★</div>
+                            </div>
+                            <p class="test-text">"Melhor compra que eu já fiz aqui na Shopee. A qualidade é surreal e tem o acabamento muito bonito. Estou totalmente satisfeita com a compra!"</p>
+                            <span class="test-date">Shopee · Mai 2026</span>
+                        </div>
+
+                        <div class="testimonial-card" data-reveal>
+                            <div class="test-header">
+                                <div class="test-avatar">F</div>
+                                <div class="test-info">
+                                    <strong>fb43qoh13d</strong>
+                                    <span>Capa Caderneta Miguel</span>
+                                </div>
+                                <div class="test-stars">★★★★★</div>
+                            </div>
+                            <p class="test-text">"Eu amei, principalmente a qualidade do produto. Fizeram exatamente como eu pedi! Vale muito a pena! Parabéns pelo trabalho!"</p>
+                            <span class="test-date">Shopee · Mai 2026</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="testimonials-nav">
+                    <button class="test-nav-btn" id="testPrev" aria-label="Anterior"><i class="ph ph-caret-left"></i></button>
+                    <div class="test-dots" id="testDots"></div>
+                    <button class="test-nav-btn" id="testNext" aria-label="Próximo"><i class="ph ph-caret-right"></i></button>
+                </div>
+            </div>
+        </section>
+
         <!-- FAQ Section -->
         <section class="faq section-padding bg-light" id="faq">
             <div class="container faq-container">
@@ -340,6 +520,25 @@
                 </div>
             </div>
         </section> <!-- Closing FAQ Section correctly-->
+
+        <!-- ===== INSTAGRAM FEED ===== -->
+        <section class="instagram-section section-padding bg-light">
+            <div class="container">
+                <div class="section-header text-center" data-reveal>
+                    <span class="tag">Nos siga</span>
+                    <h2 class="section-title">@suzemodacriativa</h2>
+                    <p class="section-desc">Veja os bastidores, novidades e clientes felizes no nosso Instagram</p>
+                </div>
+                <div class="instagram-grid" id="instagramGrid">
+                    <!-- Populated by JS with product images -->
+                </div>
+                <div class="text-center" style="margin-top: 2rem;" data-reveal>
+                    <a href="https://www.instagram.com/suzemodacriativa" target="_blank" rel="noopener" class="btn btn-outline">
+                        <i class="ph ph-instagram-logo"></i> Ver mais no Instagram
+                    </a>
+                </div>
+            </div>
+        </section>
 
         <!-- Contact/Newsletter -->
         <section class="contact-cta section-padding">
@@ -451,6 +650,11 @@
                 </div>
             </div>
             <div class="cart-footer">
+                <!-- Barra de frete grátis -->
+                <div class="free-shipping-bar" id="freeShippingBar">
+                    <div class="fsb-text" id="fsbText">Faltam <strong id="fsbAmount">R$ 399,00</strong> para <span>frete grátis!</span> 🚚</div>
+                    <div class="fsb-track"><div class="fsb-fill" id="fsbFill" style="width:0%"></div></div>
+                </div>
                 <div class="cart-shipping">
                     <label for="cepInput">Calcular Frete</label>
                     <div class="shipping-calc">
