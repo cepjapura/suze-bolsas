@@ -1,4 +1,97 @@
+/* ==========================================================================
+   HERO SLIDER — Suze Bolsas
+   Auto-play 6s, Ken Burns, Touch swipe, Progress bar
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', function() {
+(function initHeroSlider() {
+    const SLIDE_DURATION = 6000; // ms between slides
+    const slides    = document.querySelectorAll('.hero-slide');
+    const dots      = document.querySelectorAll('.hero-dot');
+    const prevBtn   = document.getElementById('heroPrev');
+    const nextBtn   = document.getElementById('heroNext');
+    const fillEl    = document.getElementById('heroProgressFill');
+
+    if (!slides.length) return;
+
+    let current  = 0;
+    let timer    = null;
+    let progress = 0;
+    let progressTimer = null;
+    let touchStartX = 0;
+
+    function goTo(index) {
+        slides[current].classList.remove('active');
+        dots[current]?.classList.remove('active');
+
+        current = (index + slides.length) % slides.length;
+
+        slides[current].classList.add('active');
+        dots[current]?.classList.add('active');
+
+        // Reset progress
+        progress = 0;
+        if (fillEl) fillEl.style.width = '0%';
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    function startAutoPlay() {
+        clearInterval(timer);
+        clearInterval(progressTimer);
+        progress = 0;
+        if (fillEl) fillEl.style.width = '0%';
+
+        // Smooth progress bar
+        progressTimer = setInterval(() => {
+            progress += 100 / (SLIDE_DURATION / 100);
+            if (fillEl) fillEl.style.width = Math.min(progress, 100) + '%';
+        }, 100);
+
+        timer = setInterval(next, SLIDE_DURATION);
+    }
+
+    function pauseAutoPlay() {
+        clearInterval(timer);
+        clearInterval(progressTimer);
+    }
+
+    function resumeAutoPlay() { startAutoPlay(); }
+
+    // Controls
+    if (prevBtn) prevBtn.addEventListener('click', () => { prev(); startAutoPlay(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => { next(); startAutoPlay(); });
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => { goTo(i); startAutoPlay(); });
+    });
+
+    // Touch / swipe support
+    const sliderEl = document.querySelector('.hero-slider');
+    if (sliderEl) {
+        sliderEl.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+        sliderEl.addEventListener('touchend', e => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) { diff > 0 ? next() : prev(); startAutoPlay(); }
+        }, { passive: true });
+
+        sliderEl.addEventListener('mouseenter', pauseAutoPlay);
+        sliderEl.addEventListener('mouseleave', resumeAutoPlay);
+    }
+
+    // Keyboard arrows
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  { prev(); startAutoPlay(); }
+        if (e.key === 'ArrowRight') { next(); startAutoPlay(); }
+    });
+
+    // Initialize
+    startAutoPlay();
+})();
+}); // end DOMContentLoaded for hero slider
+
 document.addEventListener('DOMContentLoaded', () => {
+
 
     /* ==========================================================================
        Product Database & State

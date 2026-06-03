@@ -506,150 +506,335 @@ h4 {
 }
 
 /* ==========================================================================
-   Hero Section — Dia das Mães (Maio 2026)
-   Remover após 31/05/2026
+   HERO SLIDER PROFISSIONAL
    ========================================================================== */
-.hero-maes-section {
-    background: linear-gradient(110deg, var(--bg-main) 52%, #f0e2e4 100%);
-    border-bottom: 1px solid var(--border);
+.hero-slider {
     position: relative;
+    width: 100%;
+    height: 88vh;
+    min-height: 560px;
+    max-height: 780px;
     overflow: hidden;
+    background: #1a1214;
 }
 
-.hero-maes-section::after {
-    content: '';
+.hero-slide {
     position: absolute;
-    right: -50px;
-    top: -70px;
-    width: 380px;
-    height: 380px;
-    background: radial-gradient(circle, rgba(195, 122, 131, .1) 0%, transparent 68%);
-    border-radius: 50%;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
 }
 
-.hero-maes-container {
+.hero-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+.hero-slide-bg {
+    position: absolute;
+    inset: 0;
+}
+
+.hero-slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    transform: scale(1.06);
+    transition: transform 7s ease-out;
+}
+
+.hero-slide.active .hero-slide-img {
+    transform: scale(1);
+}
+
+.hero-slide-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        105deg,
+        rgba(250,247,245,0.82) 0%,
+        rgba(250,247,245,0.55) 45%,
+        rgba(250,247,245,0.08) 100%
+    );
+}
+
+.hero-slide-overlay--dark {
+    background: linear-gradient(
+        255deg,
+        rgba(26,18,20,0.88) 0%,
+        rgba(26,18,20,0.55) 50%,
+        rgba(26,18,20,0.05) 100%
+    );
+}
+
+.hero-slide-overlay--gradient {
+    background: linear-gradient(
+        to right,
+        rgba(26,18,20,0.78) 0%,
+        rgba(26,18,20,0.42) 60%,
+        rgba(26,18,20,0.0) 100%
+    );
+}
+
+.hero-slide-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    min-height: 420px;
-    padding-top: var(--space-lg);
-    padding-bottom: 56px; /* espaço para o rodapé de contagem */
+    padding-top: 2rem;
+    padding-bottom: 5rem;
 }
 
-.hero-maes-content {
-    max-width: 560px;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp .9s ease forwards;
+.hero-slide-content--right {
+    justify-content: flex-end;
 }
 
-.hero-maes-badge {
+.hero-text-block {
+    max-width: 580px;
+    animation: heroTextIn 0.9s 0.2s both;
+}
+
+.hero-text-block--right { text-align: right; }
+.hero-text-block--center { margin: 0 auto; text-align: center; }
+
+@keyframes heroTextIn {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-kicker {
     display: inline-block;
-    background: rgba(195, 122, 131, .12);
-    color: var(--primary-dark);
-    font-size: .78rem;
+    font-size: 0.82rem;
     font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    color: var(--primary-dark);
+    background: rgba(195,122,131,0.12);
     padding: 5px 16px;
     border-radius: 50px;
-    margin-bottom: 18px;
+    margin-bottom: 1rem;
 }
 
-.hero-maes-title {
+.hero-kicker--light {
+    color: rgba(255,255,255,0.92);
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(4px);
+}
+
+.hero-headline {
     font-family: var(--font-serif);
-    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    line-height: 1.12;
     color: var(--text-main);
-    line-height: 1.2;
-    margin-bottom: 14px;
+    margin-bottom: 1.1rem;
+    font-weight: 600;
 }
 
-.hero-maes-title em {
+.hero-text-block--right .hero-headline,
+.hero-text-block--center .hero-headline {
+    color: white;
+}
+
+.hero-headline em {
     font-style: italic;
     color: var(--primary);
 }
 
-.hero-maes-desc {
+.hero-text-block--right .hero-headline em,
+.hero-text-block--center .hero-headline em {
+    color: #ffd4b8;
+}
+
+.hero-sub {
     font-size: 1.05rem;
+    line-height: 1.7;
     color: var(--text-muted);
-    line-height: 1.65;
-    margin-bottom: 28px;
-    max-width: 440px;
+    margin-bottom: 2rem;
+    max-width: 480px;
 }
 
-.hero-maes-img {
-    position: relative;
-    z-index: 1;
-    width: 340px;
-    min-width: 220px;
-    height: 420px;
+.hero-text-block--right .hero-sub,
+.hero-text-block--center .hero-sub {
+    color: rgba(255,255,255,0.82);
+    margin-left: auto;
+}
+
+.hero-ctas {
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    flex-shrink: 0;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
-.hero-maes-main-icon {
-    font-size: 9rem;
-    line-height: 1;
-    filter: drop-shadow(0 8px 20px rgba(195, 122, 131, .22));
-    animation: maesFloat 4s ease-in-out infinite;
-    margin-bottom: 24px;
+.hero-text-block--right .hero-ctas { justify-content: flex-end; }
+.hero-text-block--center .hero-ctas { justify-content: center; }
+
+.btn-hero {
+    padding: 1rem 2.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    letter-spacing: 0.3px;
 }
 
-.hero-maes-sec-icon {
+.btn-hero-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.95rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    background: rgba(255,255,255,0.12);
+    color: white;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    backdrop-filter: blur(6px);
+    transition: all var(--transition-normal);
+    text-decoration: none;
+}
+
+.btn-hero-outline:hover {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.6);
+    transform: translateY(-2px);
+}
+
+.hero-price-tag {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 50px;
+    padding: 0.6rem 1.4rem;
+    color: white;
+    font-size: 0.92rem;
+}
+
+.hero-price-tag strong {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffd4a8;
+    margin-left: 0.3rem;
+}
+
+.hero-trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.6rem;
+}
+
+.hero-trust-badges span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(4px);
+    padding: 4px 12px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+}
+
+.hero-trust-badges i { color: var(--primary); font-size: 1rem; }
+
+/* Arrows */
+.hero-nav {
     position: absolute;
-    font-size: 4rem;
-    top: 40px;
-    right: 40px;
-    animation: maesFloat 4s ease-in-out infinite;
-    animation-delay: 2s;
-    opacity: .75;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(8px);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
-@keyframes maesFloat {
-    0%, 100% { transform: translateY(0) rotate(-2deg); }
-    50%       { transform: translateY(-12px) rotate(2deg); }
+.hero-nav:hover {
+    background: white;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.22);
+    transform: translateY(-50%) scale(1.08);
 }
 
-.hero-maes-foot {
+.hero-nav--prev { left: 2rem; }
+.hero-nav--next { right: 2rem; }
+
+/* Dots */
+.hero-indicators {
+    position: absolute;
+    bottom: 2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+}
+
+.hero-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    padding: 0;
+}
+
+.hero-dot.active, .hero-dot:hover {
+    background: white;
+    width: 28px;
+    border-radius: 5px;
+}
+
+/* Progress bar */
+.hero-progress-bar {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, .65);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border-top: 1px solid var(--border);
-    padding: 10px 20px;
-    text-align: center;
-    font-size: .83rem;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+    height: 3px;
+    background: rgba(255,255,255,0.2);
+    z-index: 10;
 }
 
-.hero-maes-foot i      { color: var(--primary); }
-.hero-maes-foot strong { color: var(--primary-dark); }
+.hero-progress-fill {
+    height: 100%;
+    background: var(--primary-light, #d4939d);
+    border-radius: 2px;
+    transition: width 0.1s linear;
+}
 
+/* Responsive */
 @media (max-width: 768px) {
-    .hero-maes-container {
-        flex-direction: column;
-        padding-top: var(--space-md);
-        min-height: auto;
-        padding-bottom: 60px;
+    .hero-slider { height: 92vh; min-height: 500px; }
+    .hero-text-block { max-width: 100%; }
+    .hero-text-block--right { text-align: left; }
+    .hero-slide-content--right { justify-content: flex-start; }
+    .hero-nav { display: none; }
+    .hero-headline { font-size: clamp(1.8rem, 7vw, 2.6rem); }
+    .hero-slide-overlay {
+        background: linear-gradient(to bottom, rgba(250,247,245,0.2), rgba(250,247,245,0.92));
     }
-    .hero-maes-content { max-width: 100%; }
-    .hero-maes-img {
-        width: 100%;
-        height: 160px;
-        justify-content: center;
-    }
-    .hero-maes-main-icon { font-size: 6rem; margin-bottom: 10px; }
-    .hero-maes-sec-icon { right: 20px; top: 10px; }
+    .hero-slide-overlay--dark,
+    .hero-slide-overlay--gradient { background: rgba(26,18,20,0.65); }
 }
 
 /* ==========================================================================
