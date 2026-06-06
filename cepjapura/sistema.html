@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Controle Financeiro — Suze Bolsas</title>
+
+<!-- Firebase CDN (compat version - exposes globals) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
 <style>
 
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
@@ -831,7 +836,7 @@
         <button class="btn btn-danger" onclick="limparTudo()">🗑 Apagar Tudo</button>
       </div>
       <div style="margin-top:1rem;font-size:0.8rem;color:var(--text-muted);">
-        Os dados ficam salvos na nuvem (Firebase). Use o backup JSON como segurança extra.
+        Os dados ficam salvos no seu navegador (localStorage). Use o backup JSON para não perder ao limpar o cache.
       </div>
     </div>
   </div>
@@ -847,15 +852,24 @@ const ANO = new Date().getFullYear();
 document.getElementById('headerYear').textContent = ANO;
 let mensalAno = ANO;
 
-let lancamentos = [];
-let categorias = ['Insumos','Embalagem','Frete','Marketing','Aviamentos','Outros'];
+function load(k, def) {
+  try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch { return def; }
+}
+function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
 
-function salvarTudo() { salvarFirebase(); }
+let lancamentos = load('lancamentos', []);
+let categorias = load('categorias', ['Insumos','Embalagem','Frete','Marketing','Aviamentos','Outros']);
+
+// Migra dados antigos se não tiverem id
+lancamentos.forEach((l,i) => { if(!l.id) l.id = Date.now()+i; });
+
+function salvarTudo() {
+  save('lancamentos', lancamentos);
+  save('categorias', categorias);
+}
 
 // ─── INIT ────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', async () => {
-  await carregarFirebase();
-  lancamentos.forEach((l,i) => { if(!l.id) l.id = Date.now()+i; });
+window.addEventListener('DOMContentLoaded', () => {
   const hoje = new Date();
   document.getElementById('f_data').value = hoje.toISOString().split('T')[0];
   buildCatSelect();
@@ -1332,19 +1346,13 @@ function toast(msg, type='success') {
 }
 </script>
 
-<script type="module">
-// ═══════════════════════════════════════════════
-// FIREBASE — tudo em um único module script
-// ═══════════════════════════════════════════════
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-// ─── AUTH CHECK ───────────────────────────────
+<script>
+// ─── AUTH CHECK ───────────────────────────────────────────
 if (sessionStorage.getItem('suze_auth') !== 'ok') {
   window.location.replace('./');
 }
 
-// ─── FIREBASE INIT ────────────────────────────
+// ─── FIREBASE INIT ────────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyBF1VTk-g3PC0gwagGJHqOyaReCn1EkMvM",
   authDomain: "suze-bolsas.firebaseapp.com",
@@ -1354,13 +1362,14 @@ const firebaseConfig = {
   appId: "1:391895865141:web:e47b8cd804860fc60c1e7c"
 };
 
-const fbApp = initializeApp(firebaseConfig);
-const db = getFirestore(fbApp);
-const DOC_REF = doc(db, "dados", "principal");
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const DOC_REF = db.collection("dados").doc("principal");
 
 async function salvarFirebase() {
   try {
-    await setDoc(DOC_REF, { lancamentos, categorias });
+    await DOC_REF.set({ lancamentos, categorias });
+    console.log("✅ Salvo no Firebase!");
   } catch(e) {
     console.error("Erro ao salvar:", e);
     toast("❌ Erro ao salvar na nuvem.", "error");
@@ -1369,29 +1378,36 @@ async function salvarFirebase() {
 
 async function carregarFirebase() {
   try {
-    const snap = await getDoc(DOC_REF);
-    if (snap.exists()) {
+    const snap = await DOC_REF.get();
+    if (snap.exists) {
       const d = snap.data();
       lancamentos = d.lancamentos || [];
-      categorias = d.categorias || ["Insumos","Embalagem","Frete","Marketing","Aviamentos","Outros"];
+      categorias = d.categorias || ['Insumos','Embalagem','Frete','Marketing','Aviamentos','Outros'];
+      console.log("✅ Dados carregados!", lancamentos.length, "lançamentos");
+    } else {
+      console.log("Nenhum dado no Firebase ainda.");
     }
   } catch(e) {
     console.error("Erro ao carregar:", e);
   }
 }
 
-// ═══════════════════════════════════════════════
-// SISTEMA FINANCEIRO
-// ═══════════════════════════════════════════════
+// ─── SISTEMA FINANCEIRO ───────────────────────────────────
 
 // ─── STATE ──────────────────────────────────────────────
-const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const ANO = new Date().getFullYear();
+// MONTHS já declarado
+let __dummy_MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+// ANO já declarado
+let __dummy_ANO = new Date().getFullYear();
 document.getElementById('headerYear').textContent = ANO;
 let mensalAno = ANO;
 
+// Firebase handles persistence
+
 let lancamentos = [];
-let categorias = ["Insumos","Embalagem","Frete","Marketing","Aviamentos","Outros"];
+let categorias = ['Insumos','Embalagem','Frete','Marketing','Aviamentos','Outros'];
+
+
 
 function salvarTudo() { salvarFirebase(); }
 
