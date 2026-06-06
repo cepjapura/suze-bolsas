@@ -6,174 +6,80 @@
 <title>Suze Bolsas — Acesso</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
-
   :root {
-    --bg: #0a0e1a;
-    --surface: #111827;
-    --border: #1e2d4a;
-    --accent: #00d4ff;
-    --danger: #ef4444;
-    --text: #e2e8f0;
-    --text-muted: #64748b;
+    --bg: #0a0e1a; --surface: #111827; --border: #1e2d4a;
+    --accent: #00d4ff; --danger: #ef4444;
+    --text: #e2e8f0; --text-muted: #64748b;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: 'Space Grotesk', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
   }
-
   body::before {
-    content: '';
-    position: fixed;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background:
-      radial-gradient(ellipse at 20% 30%, rgba(0,212,255,0.07) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 70%, rgba(255,107,53,0.05) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 20% 30%, rgba(0,212,255,0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255,107,53,0.05) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
   }
-
   #login-box {
-    position: relative;
-    z-index: 1;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem 2rem;
-    width: 100%;
-    max-width: 380px;
+    position: relative; z-index: 1;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2.5rem 2rem;
+    width: 100%; max-width: 380px;
     box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 40px rgba(0,212,255,0.04);
     animation: fadeUp 0.4s ease;
   }
-
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-
-  .logo {
-    display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem;
-  }
-
+  .logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem; }
   .logo-icon {
     width: 46px; height: 46px;
     background: linear-gradient(135deg, var(--accent), #0066ff);
-    border-radius: 13px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
+    border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 24px;
   }
-
   .logo-text { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; }
   .logo-text span { color: var(--accent); }
-
-  .sub {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-    margin-top: 0.3rem;
-  }
-
-  label {
-    display: block;
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.4rem;
-  }
-
+  .sub { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 2rem; margin-top: 0.3rem; }
+  label { display: block; font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
   .input-wrap { position: relative; margin-bottom: 1.25rem; }
-
-  input[type=password], input[type=text] {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.8rem 3rem 0.8rem 1rem;
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.05rem;
-    outline: none;
-    letter-spacing: 0.12em;
-    transition: border-color 0.2s;
+  input {
+    width: 100%; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 0.8rem 3rem 0.8rem 1rem;
+    color: var(--text); font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem; outline: none; letter-spacing: 0.12em; transition: border-color 0.2s;
   }
-
   input:focus { border-color: var(--accent); }
-
-  input.erro {
-    border-color: var(--danger);
-    animation: shake 0.35s ease;
-  }
-
+  input.erro { border-color: var(--danger); animation: shake 0.35s ease; }
   @keyframes shake {
-    0%,100% { transform: translateX(0); }
-    20% { transform: translateX(-8px); }
-    40% { transform: translateX(8px); }
-    60% { transform: translateX(-5px); }
-    80% { transform: translateX(5px); }
+    0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); }
   }
-
   .eye {
-    position: absolute; right: 1rem; top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer; color: var(--text-muted);
-    font-size: 1.1rem; user-select: none;
-    transition: color 0.2s;
+    position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+    cursor: pointer; color: var(--text-muted); font-size: 1.1rem; user-select: none; transition: color 0.2s;
   }
   .eye:hover { color: var(--accent); }
-
   button {
-    width: 100%;
-    padding: 0.85rem;
-    background: var(--accent);
-    color: #000;
-    border: none;
-    border-radius: 10px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-bottom: 0.75rem;
+    width: 100%; padding: 0.85rem; background: var(--accent); color: #000;
+    border: none; border-radius: 10px; font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-bottom: 0.75rem;
   }
-
   button:hover { background: #00b8d9; transform: translateY(-1px); }
-  button:active { transform: translateY(0); }
-
-  .erro-msg {
-    font-size: 0.8rem;
-    color: var(--danger);
-    text-align: center;
-    min-height: 1.1rem;
-  }
-
-  .footer {
-    margin-top: 1.75rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border);
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    text-align: center;
-  }
+  .erro-msg { font-size: 0.8rem; color: var(--danger); text-align: center; min-height: 1.1rem; }
+  .footer { margin-top: 1.75rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.7rem; color: var(--text-muted); text-align: center; }
 </style>
 </head>
 <body>
-
 <div id="login-box">
   <div class="logo">
     <div class="logo-icon">👜</div>
     <div class="logo-text">Suze <span>Bolsas</span></div>
   </div>
   <div class="sub">Área restrita — Controle Financeiro</div>
-
   <label for="senha">Senha de acesso</label>
   <div class="input-wrap">
     <input type="password" id="senha" placeholder="••••••••"
@@ -181,10 +87,8 @@
            onkeydown="if(event.key==='Enter') entrar()">
     <span class="eye" id="eyeIcon" onclick="toggleSenha()">👁</span>
   </div>
-
   <button onclick="entrar()">Entrar →</button>
   <div class="erro-msg" id="erroMsg"></div>
-
   <div class="footer">🔒 Acesso privado · suzebolsas.com.br</div>
 </div>
 
@@ -197,14 +101,17 @@ async function sha256(str) {
 let hashCorreto = null;
 (async () => { hashCorreto = await sha256('SuzE2505*'); })();
 
+// Se já fez login nessa sessão, pula direto
+if (sessionStorage.getItem('suze_auth') === 'ok') {
+  window.location.replace('./sistema.html');
+}
+
 let tentativas = 0;
 
 async function entrar() {
   const val = document.getElementById('senha').value;
   if (!val) return;
-
   const hash = await sha256(val);
-
   if (hash === hashCorreto) {
     sessionStorage.setItem('suze_auth', 'ok');
     window.location.replace('./sistema.html');
@@ -213,9 +120,7 @@ async function entrar() {
     const inp = document.getElementById('senha');
     inp.classList.add('erro');
     document.getElementById('erroMsg').textContent =
-      tentativas >= 3
-        ? `Senha incorreta. (${tentativas} tentativas)`
-        : 'Senha incorreta. Tente novamente.';
+      tentativas >= 3 ? `Senha incorreta. (${tentativas} tentativas)` : 'Senha incorreta. Tente novamente.';
     setTimeout(() => inp.classList.remove('erro'), 400);
     inp.value = '';
     inp.focus();
@@ -229,6 +134,5 @@ function toggleSenha() {
   eye.textContent = inp.type === 'password' ? '👁' : '🙈';
 }
 </script>
-
 </body>
 </html>
