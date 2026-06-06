@@ -831,7 +831,7 @@
         <button class="btn btn-danger" onclick="limparTudo()">🗑 Apagar Tudo</button>
       </div>
       <div style="margin-top:1rem;font-size:0.8rem;color:var(--text-muted);">
-        Os dados ficam salvos no seu navegador (localStorage). Use o backup JSON para não perder ao limpar o cache.
+        Os dados ficam salvos na nuvem (Firebase). Use o backup JSON como segurança extra.
       </div>
     </div>
   </div>
@@ -847,24 +847,15 @@ const ANO = new Date().getFullYear();
 document.getElementById('headerYear').textContent = ANO;
 let mensalAno = ANO;
 
-function load(k, def) {
-  try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch { return def; }
-}
-function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+let lancamentos = [];
+let categorias = ['Insumos','Embalagem','Frete','Marketing','Aviamentos','Outros'];
 
-let lancamentos = load('lancamentos', []);
-let categorias = load('categorias', ['Insumos','Embalagem','Frete','Marketing','Aviamentos','Outros']);
-
-// Migra dados antigos se não tiverem id
-lancamentos.forEach((l,i) => { if(!l.id) l.id = Date.now()+i; });
-
-function salvarTudo() {
-  save('lancamentos', lancamentos);
-  save('categorias', categorias);
-}
+function salvarTudo() { salvarFirebase(); }
 
 // ─── INIT ────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
+  await carregarFirebase();
+  lancamentos.forEach((l,i) => { if(!l.id) l.id = Date.now()+i; });
   const hoje = new Date();
   document.getElementById('f_data').value = hoje.toISOString().split('T')[0];
   buildCatSelect();
