@@ -1342,10 +1342,18 @@ function toast(msg, type='success') {
 </script>
 
 <script type="module">
-// ─── FIREBASE ─────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// FIREBASE — tudo em um único module script
+// ═══════════════════════════════════════════════
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// ─── AUTH CHECK ───────────────────────────────
+if (sessionStorage.getItem('suze_auth') !== 'ok') {
+  window.location.replace('./');
+}
+
+// ─── FIREBASE INIT ────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyBF1VTk-g3PC0gwagGJHqOyaReCn1EkMvM",
   authDomain: "suze-bolsas.firebaseapp.com",
@@ -1362,7 +1370,10 @@ const DOC_REF = doc(db, "dados", "principal");
 async function salvarFirebase() {
   try {
     await setDoc(DOC_REF, { lancamentos, categorias });
-  } catch(e) { console.error("Erro ao salvar:", e); toast("Erro ao salvar na nuvem.", "error"); }
+  } catch(e) {
+    console.error("Erro ao salvar:", e);
+    toast("❌ Erro ao salvar na nuvem.", "error");
+  }
 }
 
 async function carregarFirebase() {
@@ -1373,15 +1384,14 @@ async function carregarFirebase() {
       lancamentos = d.lancamentos || [];
       categorias = d.categorias || ["Insumos","Embalagem","Frete","Marketing","Aviamentos","Outros"];
     }
-  } catch(e) { console.error("Erro ao carregar:", e); }
+  } catch(e) {
+    console.error("Erro ao carregar:", e);
+  }
 }
 
-// ─── AUTH CHECK ───────────────────────────────────────────
-if (sessionStorage.getItem('suze_auth') !== 'ok') {
-  window.location.replace('./');
-}
-
-// ─── SISTEMA ─────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// SISTEMA FINANCEIRO
+// ═══════════════════════════════════════════════
 
 // ─── STATE ──────────────────────────────────────────────
 const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -1396,7 +1406,7 @@ function salvarTudo() { salvarFirebase(); }
 
 // ─── INIT ────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
-  document.body.style.opacity = '0.5';
+  document.body.style.opacity = '0.4';
   await carregarFirebase();
   lancamentos.forEach((l,i) => { if(!l.id) l.id = Date.now()+i; });
   document.body.style.opacity = '1';
