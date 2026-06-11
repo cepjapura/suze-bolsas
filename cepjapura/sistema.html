@@ -610,7 +610,7 @@
       <div class="card-sub">entradas − gastos</div>
     </div>
     <div class="card">
-      <div class="card-label">📆 Mês Atual</div>
+      <div class="card-label">📆 Saldo do Mês</div>
       <div class="card-value" id="sumMesAtual">—</div>
       <div class="card-sub" id="subMesAtual">gastos do mês</div>
     </div>
@@ -1058,7 +1058,11 @@ function renderSummary() {
   const mesAtual = MONTHS[now.getMonth()];
   const prefix = `${ANO}-${String(now.getMonth()+1).padStart(2,'0')}`;
   const gastosM = lancamentos.filter(l=>l.data.startsWith(prefix)&&l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
-  document.getElementById('sumMesAtual').textContent = fmt(gastosM);
+  const entM = lancamentos.filter(l=>l.data.startsWith(prefix)&&(l.tipo==='entrada'||l.tipo==='retirada')).reduce((a,b)=>a+b.valor,0);
+  const saldoM = entM - gastosM;
+  const smEl = document.getElementById('sumMesAtual');
+  smEl.textContent = (saldoM>=0?'+':'') + fmt(saldoM);
+  smEl.className = 'card-value ' + (saldoM>=0?'green':'red');
   document.getElementById('subMesAtual').textContent = mesAtual + ' — gastos';
 }
 
@@ -1119,23 +1123,55 @@ function renderDashboard() {
   const ano = ANO.toString();
   const ls = lancamentos.filter(l => l.data.startsWith(ano));
 
-  // Month grid
-  const grid = document.getElementById('monthGrid');
-  grid.innerHTML = MONTHS.map((m,i) => {
+  const gastos     = ls.filter(l=>l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
+  const investTotal= ls.filter(l=>l.tipo==='investimento').reduce((a,b)=>a+b.valor,0);
+  const entradas   = ls.filter(l=>l.tipo==='entrada').reduce((a,b)=>a+b.valor,0);
+  const retiradas  = ls.filter(l=>l.tipo==='retirada').reduce((a,b)=>a+b.valor,0);
+  const saldoOp    = entradas + retiradas - gastos;
+
+  document.getElementById('dash-ano-label').textContent = ano;
+
+  // KPIs
+  document.getElementById('dash-gastos').textContent = fmt(gastos);
+  document.getElementById('dash-gastos-sub').textContent = ls.filter(l=>l.tipo==='gasto').length + ' lançamentos';
+  document.getElementById('dash-invest').textContent = fmt(investTotal);
+  document.getElementById('dash-invest-sub').textContent = ls.filter(l=>l.tipo==='investimento').length + ' lançamentos';
+  document.getElementById('dash-entradas').textContent = fmt(entradas + retiradas);
+  document.getElementById('dash-entradas-sub').textContent = ls.filter(l=>l.tipo==='entrada'||l.tipo==='retirada').length + ' lançamentos';
+  const sEl = document.getElementById('dash-saldo');
+  sEl.textContent = (saldoOp >= 0 ? '+' : '') + fmt(saldoOp);
+  sEl.className = 'card-value ' + (saldoOp >= 0 ? 'green' : 'red');
+
+  // Gráfico de barras mensal
+  const mesData = MONTHS.map((m,i) => {
     const prefix = `${ano}-${String(i+1).padStart(2,'0')}`;
-    const gastos = ls.filter(l=>l.data.startsWith(prefix)&&l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
-    const ent = ls.filter(l=>l.data.startsWith(prefix)&&l.tipo!=='gasto').reduce((a,b)=>a+b.valor,0);
-    const saldo = ent - gastos;
-    const isAtual = i === new Date().getMonth();
-    return `<div class="month-card${isAtual?' selected':''}">
-      <div class="month-name">${m}${isAtual?' 🔵':''}</div>
-      <div class="month-value" style="color:var(--danger)">${gastos>0?fmt(gastos):'—'}</div>
-      <div class="month-saldo" style="color:${saldo>=0?'var(--accent3)':'var(--danger)'}">${gastos>0||ent>0?'saldo '+fmt(saldo):''}</div>
+    const g = ls.filter(l=>l.data.startsWith(prefix)&&l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
+    const inv = ls.filter(l=>l.data.startsWith(prefix)&&l.tipo==='investimento').reduce((a,b)=>a+b.valor,0);
+    const e = ls.filter(l=>l.data.startsWith(prefix)&&(l.tipo==='entrada'||l.tipo==='retirada')).reduce((a,b)=>a+b.valor,0);
+    return { m: m.slice(0,3), g, inv, e };
+  });
+  const maxVal = Math.max(...mesData.map(d => Math.max(d.g+d.inv, d.e)), 1);
+  const chartH = 140;
+  const mesAtual = new Date().getMonth();
+
+  document.getElementById('dash-chart').innerHTML = mesData.map((d,i) => {
+    const gPx  = Math.round((d.g / maxVal) * chartH);
+    const iPx  = Math.round((d.inv / maxVal) * chartH);
+    const ePx  = Math.round((d.e / maxVal) * chartH);
+    const isAt = i === mesAtual;
+    const temDados = d.g > 0 || d.inv > 0 || d.e > 0;
+    return `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:28px;opacity:${temDados?1:0.25}">
+      <div style="display:flex;align-items:flex-end;gap:2px;height:${chartH}px">
+        <div title="Entradas: ${fmt(d.e)}" style="width:10px;height:${ePx}px;background:var(--accent3);border-radius:3px 3px 0 0;transition:height .4s"></div>
+        <div title="Gastos: ${fmt(d.g)}" style="width:10px;height:${gPx}px;background:var(--danger);border-radius:3px 3px 0 0;transition:height .4s"></div>
+        <div title="Investimento: ${fmt(d.inv)}" style="width:10px;height:${iPx}px;background:#a855f7;border-radius:3px 3px 0 0;transition:height .4s"></div>
+      </div>
+      <div style="font-size:.6rem;color:${isAt?'var(--accent)':'var(--text-muted)'};font-weight:${isAt?700:400};white-space:nowrap">${d.m}${isAt?' ●':''}</div>
     </div>`;
   }).join('');
 
-  // Top fornecedores
-  const totalGastos = ls.filter(l=>l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
+  // Top fornecedores (só gastos operacionais)
+  const totalGastos = gastos;
   const map = {};
   ls.filter(l=>l.tipo==='gasto').forEach(l => { map[l.desc] = (map[l.desc]||0)+l.valor; });
   const top = Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,8);
@@ -1147,11 +1183,11 @@ function renderDashboard() {
         return `<tr>
           <td>${esc(d)}</td>
           <td class="td-mono" style="text-align:right;color:var(--danger)">${fmt(v)}</td>
-          <td style="min-width:80px"><div style="font-size:.75rem;color:var(--text-muted)">${pct}%</div><div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div></td>
+          <td style="min-width:100px"><div style="font-size:.7rem;color:var(--text-muted);margin-bottom:2px">${pct}%</div><div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div></td>
         </tr>`;
       }).join('');
 
-  // Por categoria
+  // Por categoria (só gastos operacionais)
   const mapCat = {};
   ls.filter(l=>l.tipo==='gasto').forEach(l => { const c=l.cat||'Sem categoria'; mapCat[c]=(mapCat[c]||0)+l.valor; });
   const topCat = Object.entries(mapCat).sort((a,b)=>b[1]-a[1]);
@@ -1162,9 +1198,20 @@ function renderDashboard() {
         return `<tr>
           <td>${esc(c)}</td>
           <td class="td-mono" style="text-align:right;color:var(--danger)">${fmt(v)}</td>
-          <td style="min-width:80px"><div style="font-size:.75rem;color:var(--text-muted)">${pct}%</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div></td>
+          <td style="min-width:100px"><div style="font-size:.7rem;color:var(--text-muted);margin-bottom:2px">${pct}%</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div></td>
         </tr>`;
       }).join('');
+
+  // Tabela de investimentos
+  const invs = ls.filter(l=>l.tipo==='investimento').sort((a,b)=>b.data.localeCompare(a.data));
+  document.getElementById('tbody-invest').innerHTML = invs.length === 0
+    ? `<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:2rem">Nenhum investimento registrado</td></tr>`
+    : invs.map(l => `<tr>
+        <td class="td-mono">${l.data}</td>
+        <td>${esc(l.desc||'—')}</td>
+        <td>${esc(l.cat||'—')}</td>
+        <td class="td-mono" style="text-align:right;color:#a855f7">− ${fmt(l.valor)}</td>
+      </tr>`).join('');
 }
 
 // ─── CATEGORIES ──────────────────────────────────────────
