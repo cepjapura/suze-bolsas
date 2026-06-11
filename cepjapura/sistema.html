@@ -402,6 +402,7 @@
   .badge-gasto { background: rgba(239,68,68,0.12); color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
   .badge-entrada { background: rgba(34,197,94,0.12); color: var(--accent3); border: 1px solid rgba(34,197,94,0.2); }
   .badge-retirada { background: rgba(245,158,11,0.12); color: var(--warning); border: 1px solid rgba(245,158,11,0.2); }
+  .badge-investimento { background: rgba(168,85,247,0.12); color: #a855f7; border: 1px solid rgba(168,85,247,0.2); }
 
   .empty-state {
     text-align: center;
@@ -641,6 +642,7 @@
           <label>Tipo</label>
           <select id="f_tipo" onchange="updateTipo()">
             <option value="gasto">💸 Gasto / Compra</option>
+            <option value="investimento">🏭 Investimento</option>
             <option value="entrada">📥 Entrada</option>
             <option value="retirada">🏪 Retirada Shopee</option>
           </select>
@@ -941,7 +943,7 @@ function calcParcela() {
   const v = parseFloat(document.getElementById('f_valor').value) || 0;
   const info = document.getElementById('parcela-info');
   const tipo = document.getElementById('f_tipo').value;
-  if(tipo !== 'gasto' || n <= 1 || v === 0) { info.classList.remove('show'); return; }
+  if((tipo !== 'gasto' && tipo !== 'investimento') || n <= 1 || v === 0) { info.classList.remove('show'); return; }
   const vp = (v/n).toFixed(2);
   const data = new Date(document.getElementById('f_data').value + 'T12:00:00');
   const meses = [];
@@ -968,7 +970,7 @@ function lancar() {
 
   const baseId = Date.now();
 
-  if(tipo === 'gasto' && n > 1) {
+  if((tipo === 'gasto' || tipo === 'investimento') && n > 1) {
     const vp = parseFloat((valor/n).toFixed(2));
     const d0 = new Date(data + 'T12:00:00');
     for(let i=0; i<n; i++) {
@@ -1034,12 +1036,15 @@ function renderSummary() {
   const ano = ANO.toString();
   const ls = lancamentos.filter(l => l.data.startsWith(ano));
   const gastos = ls.filter(l=>l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
+  const investimentos = ls.filter(l=>l.tipo==='investimento').reduce((a,b)=>a+b.valor,0);
   const entradas = ls.filter(l=>l.tipo==='entrada').reduce((a,b)=>a+b.valor,0);
   const retiradas = ls.filter(l=>l.tipo==='retirada').reduce((a,b)=>a+b.valor,0);
-  const saldo = entradas + retiradas - gastos;
+  const saldo = entradas + retiradas - gastos - investimentos;
 
   document.getElementById('sumGastos').textContent = fmt(gastos);
   document.getElementById('subGastos').textContent = ls.filter(l=>l.tipo==='gasto').length + ' lançamentos';
+  document.getElementById('sumInvest').textContent = fmt(investimentos);
+  document.getElementById('subInvest').textContent = ls.filter(l=>l.tipo==='investimento').length + ' lançamentos';
   document.getElementById('sumEntradas').textContent = fmt(entradas);
   document.getElementById('subEntradas').textContent = ls.filter(l=>l.tipo==='entrada').length + ' lançamentos';
   document.getElementById('sumRetiradas').textContent = fmt(retiradas);
@@ -1086,6 +1091,7 @@ function renderTabela() {
 function rowHtml(l, full=false) {
   const tipoBadge = {
     gasto: '<span class="badge-tipo badge-gasto">Gasto</span>',
+    investimento: '<span class="badge-tipo badge-investimento">Investimento</span>',
     entrada: '<span class="badge-tipo badge-entrada">Entrada</span>',
     retirada: '<span class="badge-tipo badge-retirada">Retirada</span>',
   }[l.tipo] || '';
@@ -1093,7 +1099,7 @@ function rowHtml(l, full=false) {
   const parcBadge = l.totalParcelas > 1
     ? `<span class="badge-parcela">${l.numParcela}/${l.totalParcelas}</span>` : '—';
 
-  const valorColor = l.tipo==='gasto' ? 'color:var(--danger)' : 'color:var(--accent3)';
+  const valorColor = (l.tipo==='gasto'||l.tipo==='investimento') ? 'color:var(--danger)' : 'color:var(--accent3)';
 
   return `<tr>
     <td class="td-mono">${fmtData(l.data)}</td>
@@ -1102,7 +1108,7 @@ function rowHtml(l, full=false) {
     <td style="color:var(--text-dim)">${esc(l.cat||'')}</td>
     <td>${parcBadge}</td>
     ${full ? `<td style="color:var(--text-dim)">${l.forma||'—'}</td>` : ''}
-    <td class="td-mono" style="text-align:right;${valorColor}">${l.tipo==='gasto'?'-':'+'} ${fmt(l.valor)}</td>
+    <td class="td-mono" style="text-align:right;${valorColor}">${(l.tipo==='gasto'||l.tipo==='investimento')?'-':'+'} ${fmt(l.valor)}</td>
     ${full ? `<td style="color:var(--text-muted);font-size:.75rem">${esc(l.obs||'')}</td>` : ''}
     <td><button class="btn btn-danger" onclick="deletar(${l.id},${l.grupoId||'null'})">✕</button></td>
   </tr>`;
