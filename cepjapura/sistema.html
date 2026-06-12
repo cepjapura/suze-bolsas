@@ -605,6 +605,11 @@
       <div class="card-sub" id="subRetiradas">0 lançamentos</div>
     </div>
     <div class="card">
+      <div class="card-label">🏭 Investimentos</div>
+      <div class="card-value" style="color:#a855f7" id="sumInvest">R$ 0,00</div>
+      <div class="card-sub" id="subInvest">0 lançamentos</div>
+    </div>
+    <div class="card">
       <div class="card-label">📊 Saldo Anual</div>
       <div class="card-value blue" id="sumSaldo">R$ 0,00</div>
       <div class="card-sub">entradas − gastos</div>
@@ -791,27 +796,74 @@
 
   <!-- ═══════ TAB: DASHBOARD ═══════ -->
   <div class="section" id="sec-dashboard">
-    <div style="margin-bottom:1.5rem">
-      <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:.08em">Gastos por Mês</div>
-      <div class="month-grid" id="monthGrid"></div>
+
+    <!-- KPIs do dashboard -->
+    <div class="summary-grid" style="margin-bottom:1.5rem">
+      <div class="card">
+        <div class="card-label">💸 Gastos Operacionais</div>
+        <div class="card-value red" id="dash-gastos">R$ 0,00</div>
+        <div class="card-sub" id="dash-gastos-sub">0 lançamentos</div>
+      </div>
+      <div class="card">
+        <div class="card-label">🏭 Investimentos</div>
+        <div class="card-value" style="color:#a855f7" id="dash-invest">R$ 0,00</div>
+        <div class="card-sub" id="dash-invest-sub">0 lançamentos</div>
+      </div>
+      <div class="card">
+        <div class="card-label">📥 Total Entradas</div>
+        <div class="card-value green" id="dash-entradas">R$ 0,00</div>
+        <div class="card-sub" id="dash-entradas-sub">0 lançamentos</div>
+      </div>
+      <div class="card">
+        <div class="card-label">📊 Saldo Operacional</div>
+        <div class="card-value" id="dash-saldo">R$ 0,00</div>
+        <div class="card-sub">entradas − gastos</div>
+      </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;" id="dashBottom">
+    <!-- Gráfico mensal -->
+    <div class="table-wrap" style="margin-bottom:1.5rem">
+      <div class="table-header" style="display:flex;justify-content:space-between;align-items:center">
+        <div class="table-header-title">📅 Fluxo Mensal <span id="dash-ano-label" style="color:var(--accent)"></span></div>
+        <div style="font-size:.7rem;color:var(--text-muted);display:flex;gap:12px">
+          <span><span style="display:inline-block;width:10px;height:10px;background:var(--accent3);border-radius:2px;margin-right:4px"></span>Entradas</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:var(--danger);border-radius:2px;margin-right:4px"></span>Gastos</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#a855f7;border-radius:2px;margin-right:4px"></span>Invest.</span>
+        </div>
+      </div>
+      <div style="padding:1rem 1rem 0.25rem">
+        <div id="dash-chart" style="display:flex;align-items:flex-end;gap:3px;height:150px"></div>
+        <div id="dash-labels" style="display:flex;gap:3px;margin-top:6px"></div>
+      </div>
+    </div>
+
+    <!-- Tabelas -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
       <div class="table-wrap">
-        <div class="table-header"><div class="table-header-title">Top Fornecedores (Gastos)</div></div>
+        <div class="table-header"><div class="table-header-title">🏆 Top Fornecedores</div></div>
         <table>
           <thead><tr><th>Fornecedor</th><th style="text-align:right">Total</th><th>%</th></tr></thead>
           <tbody id="tbody-top"></tbody>
         </table>
       </div>
       <div class="table-wrap">
-        <div class="table-header"><div class="table-header-title">Por Categoria</div></div>
+        <div class="table-header"><div class="table-header-title">🏷 Por Categoria</div></div>
         <table>
           <thead><tr><th>Categoria</th><th style="text-align:right">Total</th><th>%</th></tr></thead>
           <tbody id="tbody-cat"></tbody>
         </table>
       </div>
     </div>
+
+    <!-- Investimentos -->
+    <div class="table-wrap">
+      <div class="table-header"><div class="table-header-title">🏭 Investimentos Realizados</div></div>
+      <table>
+        <thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th style="text-align:right">Valor</th></tr></thead>
+        <tbody id="tbody-invest"></tbody>
+      </table>
+    </div>
+
   </div>
 
   <!-- ═══════ TAB: CONFIG ═══════ -->
@@ -1043,6 +1095,10 @@ function renderSummary() {
 
   document.getElementById('sumGastos').textContent = fmt(gastos);
   document.getElementById('subGastos').textContent = ls.filter(l=>l.tipo==='gasto').length + ' lançamentos';
+  if(document.getElementById('sumInvest')) {
+    document.getElementById('sumInvest').textContent = fmt(investimentos);
+    document.getElementById('subInvest').textContent = ls.filter(l=>l.tipo==='investimento').length + ' lançamentos';
+  }
   document.getElementById('sumInvest').textContent = fmt(investimentos);
   document.getElementById('subInvest').textContent = ls.filter(l=>l.tipo==='investimento').length + ' lançamentos';
   document.getElementById('sumEntradas').textContent = fmt(entradas);
@@ -1123,11 +1179,11 @@ function renderDashboard() {
   const ano = ANO.toString();
   const ls = lancamentos.filter(l => l.data.startsWith(ano));
 
-  const gastos     = ls.filter(l=>l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
-  const investTotal= ls.filter(l=>l.tipo==='investimento').reduce((a,b)=>a+b.valor,0);
-  const entradas   = ls.filter(l=>l.tipo==='entrada').reduce((a,b)=>a+b.valor,0);
-  const retiradas  = ls.filter(l=>l.tipo==='retirada').reduce((a,b)=>a+b.valor,0);
-  const saldoOp    = entradas + retiradas - gastos;
+  const gastos      = ls.filter(l=>l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
+  const investTotal = ls.filter(l=>l.tipo==='investimento').reduce((a,b)=>a+b.valor,0);
+  const entradas    = ls.filter(l=>l.tipo==='entrada').reduce((a,b)=>a+b.valor,0);
+  const retiradas   = ls.filter(l=>l.tipo==='retirada').reduce((a,b)=>a+b.valor,0);
+  const saldoOp     = entradas + retiradas - gastos;
 
   document.getElementById('dash-ano-label').textContent = ano;
 
@@ -1143,69 +1199,79 @@ function renderDashboard() {
   sEl.className = 'card-value ' + (saldoOp >= 0 ? 'green' : 'red');
 
   // Gráfico de barras mensal
-  const mesData = MONTHS.map((m,i) => {
+  const mesData = MONTHS.map((m, i) => {
     const prefix = `${ano}-${String(i+1).padStart(2,'0')}`;
-    const g = ls.filter(l=>l.data.startsWith(prefix)&&l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
+    const g   = ls.filter(l=>l.data.startsWith(prefix)&&l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
     const inv = ls.filter(l=>l.data.startsWith(prefix)&&l.tipo==='investimento').reduce((a,b)=>a+b.valor,0);
-    const e = ls.filter(l=>l.data.startsWith(prefix)&&(l.tipo==='entrada'||l.tipo==='retirada')).reduce((a,b)=>a+b.valor,0);
+    const e   = ls.filter(l=>l.data.startsWith(prefix)&&(l.tipo==='entrada'||l.tipo==='retirada')).reduce((a,b)=>a+b.valor,0);
     return { m: m.slice(0,3), g, inv, e };
   });
-  const maxVal = Math.max(...mesData.map(d => Math.max(d.g+d.inv, d.e)), 1);
+
+  const maxVal = Math.max(...mesData.map(d => Math.max(d.g + d.inv, d.e)), 1);
   const chartH = 140;
   const mesAtual = new Date().getMonth();
 
-  document.getElementById('dash-chart').innerHTML = mesData.map((d,i) => {
-    const gPx  = Math.round((d.g / maxVal) * chartH);
-    const iPx  = Math.round((d.inv / maxVal) * chartH);
-    const ePx  = Math.round((d.e / maxVal) * chartH);
-    const isAt = i === mesAtual;
+  document.getElementById('dash-chart').innerHTML = mesData.map((d, i) => {
+    const gPx   = Math.max(Math.round((d.g   / maxVal) * chartH), d.g   > 0 ? 2 : 0);
+    const iPx   = Math.max(Math.round((d.inv / maxVal) * chartH), d.inv > 0 ? 2 : 0);
+    const ePx   = Math.max(Math.round((d.e   / maxVal) * chartH), d.e   > 0 ? 2 : 0);
     const temDados = d.g > 0 || d.inv > 0 || d.e > 0;
-    return `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:28px;opacity:${temDados?1:0.25}">
+    const isAt  = i === mesAtual;
+    return `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:30px;opacity:${temDados?1:0.2}">
       <div style="display:flex;align-items:flex-end;gap:2px;height:${chartH}px">
-        <div title="Entradas: ${fmt(d.e)}" style="width:10px;height:${ePx}px;background:var(--accent3);border-radius:3px 3px 0 0;transition:height .4s"></div>
-        <div title="Gastos: ${fmt(d.g)}" style="width:10px;height:${gPx}px;background:var(--danger);border-radius:3px 3px 0 0;transition:height .4s"></div>
-        <div title="Investimento: ${fmt(d.inv)}" style="width:10px;height:${iPx}px;background:#a855f7;border-radius:3px 3px 0 0;transition:height .4s"></div>
+        <div title="Entradas: ${fmt(d.e)}" style="width:9px;height:${ePx}px;background:var(--accent3);border-radius:3px 3px 0 0;cursor:pointer"></div>
+        <div title="Gastos: ${fmt(d.g)}" style="width:9px;height:${gPx}px;background:var(--danger);border-radius:3px 3px 0 0;cursor:pointer"></div>
+        <div title="Invest: ${fmt(d.inv)}" style="width:9px;height:${iPx}px;background:#a855f7;border-radius:3px 3px 0 0;cursor:pointer"></div>
       </div>
-      <div style="font-size:.6rem;color:${isAt?'var(--accent)':'var(--text-muted)'};font-weight:${isAt?700:400};white-space:nowrap">${d.m}${isAt?' ●':''}</div>
     </div>`;
   }).join('');
 
+  document.getElementById('dash-labels').innerHTML = mesData.map((d, i) => {
+    const isAt = i === mesAtual;
+    return `<div style="flex:1;min-width:30px;text-align:center;font-size:.6rem;color:${isAt?'var(--accent)':'var(--text-muted)'};font-weight:${isAt?700:400}">${d.m}${isAt?'●':''}</div>`;
+  }).join('');
+
   // Top fornecedores (só gastos operacionais)
-  const totalGastos = gastos;
   const map = {};
-  ls.filter(l=>l.tipo==='gasto').forEach(l => { map[l.desc] = (map[l.desc]||0)+l.valor; });
+  ls.filter(l=>l.tipo==='gasto'&&l.desc).forEach(l => { map[l.desc] = (map[l.desc]||0)+l.valor; });
   const top = Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,8);
   document.getElementById('tbody-top').innerHTML = top.length === 0
     ? `<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:2rem">Sem dados</td></tr>`
     : top.map(([d,v]) => {
-        const pct = totalGastos > 0 ? (v/totalGastos*100).toFixed(1) : 0;
+        const pct = gastos > 0 ? (v/gastos*100).toFixed(1) : 0;
         const cls = pct > 40 ? 'danger' : pct > 20 ? 'warning' : '';
         return `<tr>
           <td>${esc(d)}</td>
           <td class="td-mono" style="text-align:right;color:var(--danger)">${fmt(v)}</td>
-          <td style="min-width:100px"><div style="font-size:.7rem;color:var(--text-muted);margin-bottom:2px">${pct}%</div><div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div></td>
+          <td style="min-width:100px">
+            <div style="font-size:.7rem;color:var(--text-muted);margin-bottom:2px">${pct}%</div>
+            <div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div>
+          </td>
         </tr>`;
       }).join('');
 
-  // Por categoria (só gastos operacionais)
+  // Por categoria
   const mapCat = {};
   ls.filter(l=>l.tipo==='gasto').forEach(l => { const c=l.cat||'Sem categoria'; mapCat[c]=(mapCat[c]||0)+l.valor; });
   const topCat = Object.entries(mapCat).sort((a,b)=>b[1]-a[1]);
   document.getElementById('tbody-cat').innerHTML = topCat.length === 0
     ? `<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:2rem">Sem dados</td></tr>`
     : topCat.map(([c,v]) => {
-        const pct = totalGastos > 0 ? (v/totalGastos*100).toFixed(1) : 0;
+        const pct = gastos > 0 ? (v/gastos*100).toFixed(1) : 0;
         return `<tr>
           <td>${esc(c)}</td>
           <td class="td-mono" style="text-align:right;color:var(--danger)">${fmt(v)}</td>
-          <td style="min-width:100px"><div style="font-size:.7rem;color:var(--text-muted);margin-bottom:2px">${pct}%</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div></td>
+          <td style="min-width:100px">
+            <div style="font-size:.7rem;color:var(--text-muted);margin-bottom:2px">${pct}%</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+          </td>
         </tr>`;
       }).join('');
 
-  // Tabela de investimentos
+  // Investimentos
   const invs = ls.filter(l=>l.tipo==='investimento').sort((a,b)=>b.data.localeCompare(a.data));
   document.getElementById('tbody-invest').innerHTML = invs.length === 0
-    ? `<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:2rem">Nenhum investimento registrado</td></tr>`
+    ? `<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:2rem">Nenhum investimento registrado este ano</td></tr>`
     : invs.map(l => `<tr>
         <td class="td-mono">${l.data}</td>
         <td>${esc(l.desc||'—')}</td>
@@ -1214,7 +1280,7 @@ function renderDashboard() {
       </tr>`).join('');
 }
 
-// ─── CATEGORIES ──────────────────────────────────────────
+
 function buildCatSelect() {
   const sel = document.getElementById('f_cat');
   sel.innerHTML = `<option value="">— sem categoria —</option>`;
