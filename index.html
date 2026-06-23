@@ -48,7 +48,7 @@
     <!-- Top Banner -->
     <!-- Top Banner — Dia das Mães (restaurar após 31/05/2026) -->
     <div class="top-banner">
-        <p>🌸 <strong style="color:var(--primary-dark)">Mês das Mães!</strong> &nbsp; Presentes personalizados para a mamãe mais especial — <span style="background:rgba(195,122,131,.15);color:var(--primary-dark);padding:2px 12px;border-radius:50px;font-weight:700;font-size:.82rem;">Frete Grátis acima de R$ 299</span> &nbsp; <a href="#maternidade" style="color:var(--primary-dark);font-weight:700;text-decoration:underline;text-underline-offset:3px;">Ver presentes →</a></p>
+        <p>🌸 <strong style="color:var(--primary-dark)">Mês das Mães!</strong> &nbsp; Presentes personalizados para a mamãe mais especial — <span style="background:rgba(195,122,131,.15);color:var(--primary-dark);padding:2px 12px;border-radius:50px;font-weight:700;font-size:.82rem;">Frete Grátis acima de R$ 499</span> &nbsp; <a href="#maternidade" style="color:var(--primary-dark);font-weight:700;text-decoration:underline;text-underline-offset:3px;">Ver presentes →</a></p>
     </div>
 
     <!-- Header -->
@@ -85,7 +85,7 @@
                 </button>
                 <button class="action-btn cart-btn" aria-label="Carrinho" title="Carrinho">
                     <i class="ph ph-handbag"></i>
-                    <span class="cart-count">2</span>
+                    <span class="cart-count">0</span>
                 </button>
             </div>
         </div>
@@ -165,14 +165,14 @@
                             <a href="#maternidade" class="btn btn-primary btn-hero">
                                 <i class="ph-fill ph-sparkle"></i> Ver Coleção
                             </a>
-                            <a href="https://wa.me/5511999999999" target="_blank" class="btn btn-hero-outline">
+                            <a href="https://wa.me/5544920002854?text=Ol%C3%A1!%20Vi%20o%20site%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20produtos%20da%20Suze%20Bolsas." target="_blank" class="btn btn-hero-outline">
                                 <i class="ph-fill ph-whatsapp-logo"></i> Falar com a Suze
                             </a>
                         </div>
                         <div class="hero-trust-badges" data-reveal>
                             <span><i class="ph-fill ph-seal-check"></i> +1.200 mamães atendidas</span>
                             <span><i class="ph-fill ph-star"></i> 5 estrelas na Shopee</span>
-                            <span><i class="ph-fill ph-truck"></i> Frete grátis acima de R$399</span>
+                            <span><i class="ph-fill ph-truck"></i> Frete grátis acima de R$499</span>
                         </div>
                     </div>
                 </div>
@@ -723,7 +723,7 @@
                         <span id="cartSubtotalValue">R$ 0,00</span>
                     </div>
                     <div class="cart-total">
-                        <span>Total Total</span>
+                        <span>Total</span>
                         <span id="cartTotalValue">R$ 0,00</span>
                     </div>
                 </div>
@@ -915,11 +915,51 @@
         </button>
     </div>
 
-    <!-- Floating WhatsApp -->
+    <!-- Floating WhatsApp (repositioned for chat widget) -->
     <a href="https://wa.me/5544920002854?text=%5BD%C3%9AVIDA%20SITE%5D%20Ol%C3%A1%21%20Gostaria%20de%20saber%20mais%20sobre%20os%20produtos%20da%20Suze%20Bolsas."
         target="_blank" class="float-whatsapp" aria-label="Falar conosco no WhatsApp">
         <i class="ph-fill ph-whatsapp-logo"></i>
     </a>
+
+    <!-- Suze Chat — Atendimento Automático -->
+    <div class="suze-chat" id="suzeChat">
+        <button class="suze-chat-toggle" id="suzeChatToggle" aria-label="Abrir atendimento">
+            <i class="ph-fill ph-chat-circle-dots suze-chat-icon-open"></i>
+            <i class="ph ph-x suze-chat-icon-close"></i>
+            <span class="suze-chat-notif" id="suzeChatNotif">1</span>
+        </button>
+        <div class="suze-chat-window" id="suzeChatWindow">
+            <div class="suze-chat-header">
+                <div class="suze-chat-header-left">
+                    <div class="suze-chat-avatar">
+                        <img src="logo.png" alt="Suze Bolsas">
+                        <span class="suze-chat-online-dot"></span>
+                    </div>
+                    <div class="suze-chat-header-info">
+                        <strong>Suze Bolsas</strong>
+                        <span>● Online agora</span>
+                    </div>
+                </div>
+                <button class="suze-chat-header-close" id="suzeChatCloseBtn" aria-label="Minimizar">
+                    <i class="ph ph-minus"></i>
+                </button>
+            </div>
+            <div class="suze-chat-body" id="suzeChatBody"></div>
+            <div class="suze-chat-chips" id="suzeChatChips">
+                <button class="suze-chip" data-msg="Quais produtos vocês têm?">🛍️ Produtos</button>
+                <button class="suze-chip" data-msg="Como funciona a personalização?">✨ Personalizar</button>
+                <button class="suze-chip" data-msg="Qual o valor do frete?">🚚 Frete</button>
+                <button class="suze-chip" data-msg="Formas de pagamento?">💳 Pagamento</button>
+                <button class="suze-chip" data-msg="Qual o prazo de produção?">⏰ Prazos</button>
+            </div>
+            <div class="suze-chat-footer">
+                <input type="text" id="suzeChatInput" placeholder="Digite sua dúvida..." autocomplete="off">
+                <button class="suze-chat-send" id="suzeChatSend" aria-label="Enviar">
+                    <i class="ph-fill ph-paper-plane-tilt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
     <!-- Application Scripts -->
     <script src="script.js?v=5" defer></script>
 </body>

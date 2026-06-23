@@ -311,6 +311,45 @@ document.addEventListener('DOMContentLoaded', () => {
     let shippingCost = 0;
     let shippingOption = '';
 
+    /* === Cart Persistence (localStorage) === */
+    function saveCart() {
+        try {
+            const cartData = cart.map(item => ({
+                hash: item.hash,
+                id: item.id,
+                name: item.name,
+                unitPrice: item.unitPrice,
+                image: item.image,
+                weightKg: item.weightKg,
+                quantity: item.quantity,
+                variations: item.variations,
+                customText: item.customText
+            }));
+            localStorage.setItem('suze_cart', JSON.stringify(cartData));
+        } catch (e) { console.warn('Erro ao salvar carrinho', e); }
+    }
+
+    function loadCart() {
+        try {
+            const saved = localStorage.getItem('suze_cart');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    cart = parsed.map(item => {
+                        const product = products.find(p => p.id === item.id);
+                        return {
+                            ...item,
+                            product: product || { id: item.id, name: item.name, price: item.unitPrice, images: [item.image], weightKg: item.weightKg }
+                        };
+                    });
+                }
+            }
+        } catch (e) { console.warn('Erro ao carregar carrinho', e); }
+    }
+
+    // Load saved cart immediately
+    loadCart();
+
     // Modal State
     let currentModalProduct = null;
     let selectedVariations = {};
@@ -836,12 +875,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         updateCartUI();
+        saveCart();
         openCart(); // Automatically open cart sidebar when adding items
     }
 
     function removeFromCartByHash(hash) {
         cart = cart.filter(item => item.hash !== hash);
         updateCartUI();
+        saveCart();
     }
 
     function updateQuantityByHash(hash, newQuantity) {
@@ -850,6 +891,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (item) {
             item.quantity = newQuantity;
             updateCartUI();
+            saveCart();
         }
     }
 
@@ -1055,7 +1097,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Handle Free Shipping Rule (over R$ 499)
                 const subtotal = cart.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
-                const isFreeShipping = subtotal > 499;
+                const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
 
                 let html = '';
 
@@ -2087,7 +2129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ==========================================================================
        BARRA DE FRETE GRÁTIS (R$ 399)
        ========================================================================== */
-    const FREE_SHIPPING_THRESHOLD = 399;
+    const FREE_SHIPPING_THRESHOLD = 499;
 
     function updateFreeShippingBar() {
         const fsbFill   = document.getElementById('fsbFill');
@@ -2113,12 +2155,258 @@ document.addEventListener('DOMContentLoaded', () => {
     const _origUpdateCartUI = updateCartUI;
 
     /* ==========================================================================
-       INIT CALLS (frete grátis no cart)
+       INIT CALLS (frete grátis no cart + restaurar carrinho salvo)
        ========================================================================== */
+    // Initialize cart UI from localStorage on page load
+    updateCartUI();
+    updateFreeShippingBar();
+
     // Run free shipping bar on cart open
     document.querySelectorAll('.cart-btn').forEach(b => {
         b.addEventListener('click', () => setTimeout(updateFreeShippingBar, 50));
     });
+
+    /* ==========================================================================
+       SUZE CHAT — Atendimento Automático (Chatbot)
+       ========================================================================== */
+    (function initSuzeChat() {
+        const chatWidget   = document.getElementById('suzeChat');
+        const chatToggle   = document.getElementById('suzeChatToggle');
+        const chatWindow   = document.getElementById('suzeChatWindow');
+        const chatClose    = document.getElementById('suzeChatCloseBtn');
+        const chatBody     = document.getElementById('suzeChatBody');
+        const chatInput    = document.getElementById('suzeChatInput');
+        const chatSendBtn  = document.getElementById('suzeChatSend');
+        const chatChips    = document.getElementById('suzeChatChips');
+        const chatNotif    = document.getElementById('suzeChatNotif');
+
+        if (!chatWidget || !chatToggle || !chatBody || !chatInput) return;
+
+        let chatOpen = false;
+        let welcomed = false;
+
+        // -------- Toggle Chat --------
+        function toggleChat() {
+            chatOpen = !chatOpen;
+            chatWidget.classList.toggle('open', chatOpen);
+            if (chatOpen) {
+                if (!welcomed) {
+                    welcomed = true;
+                    if (chatNotif) chatNotif.style.display = 'none';
+                    addBotMessage('Olá! 💗 Bem-vinda à **Suze Bolsas**!\n\nSou a assistente virtual e posso te ajudar com informações sobre produtos, personalização, frete e muito mais.\n\nSobre o que você gostaria de saber?');
+                }
+                setTimeout(() => chatInput.focus(), 400);
+            }
+        }
+
+        chatToggle.addEventListener('click', toggleChat);
+        if (chatClose) chatClose.addEventListener('click', () => {
+            chatOpen = false;
+            chatWidget.classList.remove('open');
+        });
+
+        // -------- Message Rendering --------
+        function addUserMessage(text) {
+            const el = document.createElement('div');
+            el.className = 'suze-msg user';
+            el.textContent = text;
+            chatBody.appendChild(el);
+            scrollChat();
+        }
+
+        function addBotMessage(text, html) {
+            const el = document.createElement('div');
+            el.className = 'suze-msg bot';
+            if (html) {
+                el.innerHTML = html;
+            } else {
+                el.innerHTML = formatBotText(text);
+            }
+            chatBody.appendChild(el);
+            scrollChat();
+        }
+
+        function formatBotText(text) {
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+        }
+
+        function showTyping() {
+            const el = document.createElement('div');
+            el.className = 'suze-typing';
+            el.id = 'suzeChatTyping';
+            el.innerHTML = '<span class="suze-typing-dot"></span><span class="suze-typing-dot"></span><span class="suze-typing-dot"></span>';
+            chatBody.appendChild(el);
+            scrollChat();
+        }
+
+        function hideTyping() {
+            const t = document.getElementById('suzeChatTyping');
+            if (t) t.remove();
+        }
+
+        function scrollChat() {
+            setTimeout(() => { chatBody.scrollTop = chatBody.scrollHeight; }, 50);
+        }
+
+        // -------- Send Message --------
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            chatInput.value = '';
+            addUserMessage(text);
+
+            showTyping();
+            const delay = 500 + Math.random() * 600;
+            setTimeout(() => {
+                hideTyping();
+                processInput(text);
+            }, delay);
+        }
+
+        chatSendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); sendMessage(); }
+        });
+
+        // -------- Quick Chips --------
+        if (chatChips) {
+            chatChips.querySelectorAll('.suze-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const msg = chip.getAttribute('data-msg');
+                    if (msg) {
+                        chatInput.value = msg;
+                        sendMessage();
+                    }
+                });
+            });
+        }
+
+        // -------- Product Cards Helper --------
+        function buildProductCards(prodList) {
+            let html = '';
+            prodList.forEach(p => {
+                const price = parseFloat(p.price).toFixed(2).replace('.', ',');
+                const img = (p.images && p.images.length > 0) ? p.images[0] : '';
+                html += `<a class="suze-chat-product" href="produto.html?id=${p.id}">
+                    <img src="${img}" alt="${p.name}">
+                    <div class="suze-chat-product-info">
+                        <strong>${p.name}</strong>
+                        <span>R$ ${price}</span>
+                    </div>
+                </a>`;
+            });
+            return html;
+        }
+
+        function whatsAppButton(msg) {
+            const encoded = encodeURIComponent(msg || 'Olá! Vim pelo chat do site e gostaria de mais informações.');
+            return `<a class="suze-wa-btn" href="https://wa.me/5544920002854?text=${encoded}" target="_blank"><i class="ph-fill ph-whatsapp-logo"></i> Falar com a Suze no WhatsApp</a>`;
+        }
+
+        // -------- Keyword Matching Engine --------
+        function processInput(text) {
+            const lower = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+            // Greeting
+            if (/^(oi|ola|hey|bom dia|boa tarde|boa noite|opa|eai|e ai|hello|hi|oie)\b/.test(lower)) {
+                addBotMessage('Olá! 💗 Que bom te ver por aqui!\n\nComo posso te ajudar? Pode me perguntar sobre nossos **produtos**, **personalização**, **frete**, **pagamento** ou **prazos**.');
+                return;
+            }
+
+            // Products
+            if (/produto|catalogo|o que (voc|tem)|quais|bolsa|capa|necessaire|kit|saquinho|mochila|chaveiro|colecao/.test(lower)) {
+                let text = 'Temos produtos lindos feitos com carinho! 🛍️ Aqui estão nossos destaques:';
+                const topProducts = products.slice(0, 5);
+                const cards = buildProductCards(topProducts);
+                addBotMessage(null, formatBotText(text) + cards + '<br><br>' + formatBotText('Clique em qualquer produto para ver detalhes! 💗\n\nQuer ver **todos**? Acesse nossa <a href="index.html#maternidade">coleção completa</a>.'));
+                return;
+            }
+
+            // Personalization
+            if (/personaliz|bordar|bordado|nome|letra|fonte|monograma/.test(lower)) {
+                addBotMessage('✨ **Personalização Exclusiva**\n\nTodas as nossas peças podem ser personalizadas com o **nome do bebê** bordado!\n\n• No momento da compra, basta digitar o nome desejado\n• A primeira letra é sempre maiúscula\n• Bordado de alta definição e durabilidade\n• O bordado é feito combinando com as cores da peça\n\n📍 Prazo de produção: **10 a 15 dias úteis** para peças personalizadas.\n\nQuer personalizar uma peça? ' + whatsAppButton('Olá! Gostaria de personalizar uma peça com bordado.'));
+                return;
+            }
+
+            // Shipping / Freight
+            if (/frete|entrega|envio|correio|sedex|pac|cep|regiao|regiones/.test(lower)) {
+                addBotMessage(null, formatBotText('🚚 **Tabela de Frete por Região:**\n\n') +
+                    '<table style="width:100%;font-size:0.8rem;border-collapse:collapse;margin:8px 0;">' +
+                    '<tr style="background:#faf8f7;"><td style="padding:6px;border:1px solid #eee;"><strong>Sul</strong></td><td style="padding:6px;border:1px solid #eee;">PAC R$25 | SEDEX R$45</td></tr>' +
+                    '<tr><td style="padding:6px;border:1px solid #eee;"><strong>Sudeste</strong></td><td style="padding:6px;border:1px solid #eee;">PAC R$30 | SEDEX R$50</td></tr>' +
+                    '<tr style="background:#faf8f7;"><td style="padding:6px;border:1px solid #eee;"><strong>Centro-Oeste</strong></td><td style="padding:6px;border:1px solid #eee;">PAC R$45 | SEDEX R$65</td></tr>' +
+                    '<tr><td style="padding:6px;border:1px solid #eee;"><strong>Nordeste</strong></td><td style="padding:6px;border:1px solid #eee;">PAC R$65 | SEDEX R$85</td></tr>' +
+                    '<tr style="background:#faf8f7;"><td style="padding:6px;border:1px solid #eee;"><strong>Norte</strong></td><td style="padding:6px;border:1px solid #eee;">PAC R$75 | SEDEX R$105</td></tr>' +
+                    '</table>' +
+                    formatBotText('🎉 **Frete Grátis** (PAC) em compras acima de **R$ 499,00**!\n\n💡 Você também pode calcular o frete exato pelo CEP direto no carrinho.'));
+                return;
+            }
+
+            // Price / Payment
+            if (/preco|valor|quanto custa|pagamento|parcela|pix|desconto|cartao|boleto|pagar/.test(lower)) {
+                addBotMessage('💳 **Formas de Pagamento:**\n\n• **PIX** — 5% de desconto! 🎉\n• **Cartão de Crédito** — até 6x sem juros ou 12x com juros\n• **Boleto Bancário**\n\n💰 Nossos preços variam de **R$ 34,90** (chaveiros) a **R$ 210,00** (mochila térmica).\n\nQuer saber o preço de um produto específico? Me diz o nome que eu te ajudo! 😊');
+                return;
+            }
+
+            // Production time / delivery time
+            if (/prazo|producao|fabricacao|quanto tempo|demora|dias|quando chega|previsao/.test(lower)) {
+                addBotMessage('⏰ **Prazos:**\n\n📦 **Peças personalizadas:** 10 a 15 dias úteis para confecção + prazo dos Correios\n\n📦 **Pronta entrega:** Enviamos em até 2 dias úteis\n\n🚚 **Prazo dos Correios** (após envio):\n• Sul: PAC 5 dias | SEDEX 2 dias\n• Sudeste: PAC 6 dias | SEDEX 3 dias\n• Centro-Oeste: PAC 9 dias | SEDEX 5 dias\n• Nordeste: PAC 12 dias | SEDEX 7 dias\n• Norte: PAC 15 dias | SEDEX 9 dias');
+                return;
+            }
+
+            // Care instructions
+            if (/cuidado|limpar|lavar|mancha|limpe|conserv|manter/.test(lower)) {
+                addBotMessage('🧼 **Cuidados com sua peça:**\n\n• Use pano macio e levemente umedecido com água e sabão neutro\n• **Nunca** lave na máquina ou use alvejantes\n• Seque sempre à sombra\n• Guarde em local ventilado\n\n📖 Temos um guia completo! <a href="cuidados.html">Ver página de cuidados</a>');
+                return;
+            }
+
+            // Returns / Exchanges
+            if (/troca|devolu|garantia|arrepend|defeito|errado/.test(lower)) {
+                addBotMessage('🔄 **Trocas e Devoluções:**\n\n• **1ª troca grátis** em todas as peças\n• Prazo de 7 dias após recebimento para solicitar troca\n• Produto deve estar em perfeito estado, sem uso\n• Para peças personalizadas, entre em contato para avaliarmos\n\nPrecisa trocar? ' + whatsAppButton('Olá! Preciso fazer uma troca/devolução.'));
+                return;
+            }
+
+            // Specific product questions by name
+            if (/caderneta|vacinacao|vacina/.test(lower)) {
+                const capas = products.filter(p => p.category === 'Capas' || p.name.toLowerCase().includes('caderneta'));
+                const cards = buildProductCards(capas.slice(0, 3));
+                addBotMessage(null, formatBotText('📒 Nossas **Capas para Caderneta de Vacinação**:') + cards);
+                return;
+            }
+
+            if (/kit.*saquinho|saquinho.*maternidade|saquinho/.test(lower)) {
+                const saquinhos = products.filter(p => p.category === 'Saquinhos Maternidades');
+                const cards = buildProductCards(saquinhos);
+                addBotMessage(null, formatBotText('👶 Nosso **Kit Saquinho Maternidade Personalizado**:\n\nDisponível em pacotes de 1 a 6 unidades!') + cards);
+                return;
+            }
+
+            // Thank you
+            if (/obrigad|valeu|brigad|thanks/.test(lower)) {
+                addBotMessage('De nada! 💗 Foi um prazer ajudar!\n\nSe precisar de mais alguma coisa, é só mandar mensagem. Estou aqui! 🌸');
+                return;
+            }
+
+            // Goodbye
+            if (/tchau|bye|ate mais|ate logo|falou|fui/.test(lower)) {
+                addBotMessage('Até mais! 🌸 Volte sempre!\n\nSe precisar de ajuda, estou por aqui. 💗');
+                return;
+            }
+
+            // Fallback — redirect to WhatsApp
+            addBotMessage(null, formatBotText('Hmm, não tenho certeza sobre isso... 🤔\n\nMas não se preocupe! Nossa equipe pode te ajudar pessoalmente:') + '<br>' + whatsAppButton(`Olá! Vim pelo chat e tenho uma dúvida: "${text}"`) + '<br><br>' + formatBotText('Ou tente me perguntar sobre:\n• **Produtos** e preços\n• **Personalização** e bordado\n• **Frete** e prazos\n• **Pagamento** e parcelamento'));
+        }
+
+        // Auto-show notification after 3 seconds
+        setTimeout(() => {
+            if (!chatOpen && chatNotif) {
+                chatNotif.style.display = 'flex';
+            }
+        }, 3000);
+
+    })(); // end initSuzeChat
 
 });
 

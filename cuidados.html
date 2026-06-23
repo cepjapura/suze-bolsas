@@ -170,7 +170,7 @@
                 </button>
                 <button class="action-btn cart-btn" aria-label="Carrinho" title="Carrinho">
                     <i class="ph ph-handbag"></i>
-                    <span class="cart-count">2</span>
+                    <span class="cart-count">0</span>
                 </button>
             </div>
         </div>
@@ -348,11 +348,51 @@
         </div>
     </div>
 
-    <!-- Floating WhatsApp -->
+    <!-- Floating WhatsApp (repositioned for chat widget) -->
     <a href="https://wa.me/5544920002854?text=%5BD%C3%9AVIDA%20SITE%5D%20Ol%C3%A1%21%20Gostaria%20de%20saber%20mais%20sobre%20os%20produtos%20da%20Suze%20Bolsas."
         target="_blank" class="float-whatsapp" aria-label="Falar conosco no WhatsApp">
         <i class="ph-fill ph-whatsapp-logo"></i>
     </a>
+
+    <!-- Suze Chat — Atendimento Automático -->
+    <div class="suze-chat" id="suzeChat">
+        <button class="suze-chat-toggle" id="suzeChatToggle" aria-label="Abrir atendimento">
+            <i class="ph-fill ph-chat-circle-dots suze-chat-icon-open"></i>
+            <i class="ph ph-x suze-chat-icon-close"></i>
+            <span class="suze-chat-notif" id="suzeChatNotif">1</span>
+        </button>
+        <div class="suze-chat-window" id="suzeChatWindow">
+            <div class="suze-chat-header">
+                <div class="suze-chat-header-left">
+                    <div class="suze-chat-avatar">
+                        <img src="logo.png" alt="Suze Bolsas">
+                        <span class="suze-chat-online-dot"></span>
+                    </div>
+                    <div class="suze-chat-header-info">
+                        <strong>Suze Bolsas</strong>
+                        <span>● Online agora</span>
+                    </div>
+                </div>
+                <button class="suze-chat-header-close" id="suzeChatCloseBtn" aria-label="Minimizar">
+                    <i class="ph ph-minus"></i>
+                </button>
+            </div>
+            <div class="suze-chat-body" id="suzeChatBody"></div>
+            <div class="suze-chat-chips" id="suzeChatChips">
+                <button class="suze-chip" data-msg="Quais produtos vocês têm?">🛍️ Produtos</button>
+                <button class="suze-chip" data-msg="Como funciona a personalização?">✨ Personalizar</button>
+                <button class="suze-chip" data-msg="Qual o valor do frete?">🚚 Frete</button>
+                <button class="suze-chip" data-msg="Formas de pagamento?">💳 Pagamento</button>
+                <button class="suze-chip" data-msg="Qual o prazo de produção?">⏰ Prazos</button>
+            </div>
+            <div class="suze-chat-footer">
+                <input type="text" id="suzeChatInput" placeholder="Digite sua dúvida..." autocomplete="off">
+                <button class="suze-chat-send" id="suzeChatSend" aria-label="Enviar">
+                    <i class="ph-fill ph-paper-plane-tilt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
     
     <script src="script.js?v=4" defer></script>
 </body>
