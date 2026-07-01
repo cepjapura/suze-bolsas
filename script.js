@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
             weightKg: 0.5,
             description: "Kit trocador e capa para vacinação em opções de sintético ou linho luxo. Conforto e praticidade.",
             requiresCustomization: true,
-            variations: [{ name: "Material", options: ["Sintético", "Linho Luxo"] }]
+            variations: [{ name: "Material", options: ["Sintético", "Linho Luxo (R$ 149,90)", "Somente Trocador"] }]
         },
         {
             id: 5,
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load from Admin Database if exists
     let storedAdminProducts = localStorage.getItem('suze_products');
 
-    const FORCE_UPDATE_VERSION = 'v14';
+    const FORCE_UPDATE_VERSION = 'v15';
     let storedVersion = localStorage.getItem('suze_products_version');
 
     // Purge cache if version doesn't match or old images are detected
@@ -310,6 +310,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let cart = [];
     let shippingCost = 0;
     let shippingOption = '';
+
+    /* === Helper: Check if a product has multiple price tiers === */
+    function productHasMultiplePrices(product) {
+        if (!product.variations || product.variations.length === 0) return false;
+        for (const variation of product.variations) {
+            if (!variation.options || variation.options.length <= 1) continue;
+            // Check if any option has an embedded price (R$ X,XX)
+            for (const opt of variation.options) {
+                if (typeof opt === 'string' && opt.match(/R\$\s?\d+[.,]\d{2}/)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /* === Cart Persistence (localStorage) === */
     function saveCart() {
@@ -422,6 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span>(${product.rating || 0})</span>
                         </div>
                         <div class="product-price">
+                            ${productHasMultiplePrices(product) ? '<span class="price-prefix">a partir de</span>' : ''}
                             <span class="price">R$ ${formattedPrice}</span>
                             <span class="installments">ou ${installmentsVal}x de R$ ${installmentValue}</span>
                         </div>
@@ -478,7 +494,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         mainImgEl.src = product.images[0];
         document.getElementById('modalProductTitle').textContent = product.name;
-        document.getElementById('modalProductPrice').textContent = `R$ ${product.price.toFixed(2).replace('.', ',')}`;
+        const modalPricePrefix = productHasMultiplePrices(product) ? 'a partir de ' : '';
+        document.getElementById('modalProductPrice').textContent = `${modalPricePrefix}R$ ${product.price.toFixed(2).replace('.', ',')}`;
         document.getElementById('modalProductInstallments').textContent = `em até ${product.installments}x sem juros`;
         document.getElementById('modalRatingCount').textContent = `(${product.rating} avaliações)`;
 
@@ -1404,7 +1421,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Price
-        document.getElementById('pageProductPrice').textContent = `R$ ${product.price.toFixed(2).replace('.', ',')}`;
+        const pagePricePrefix = productHasMultiplePrices(product) ? 'a partir de ' : '';
+        document.getElementById('pageProductPrice').textContent = `${pagePricePrefix}R$ ${product.price.toFixed(2).replace('.', ',')}`;
         if (product.installments) {
             const installmentValue = product.price / product.installments;
             document.getElementById('pageProductInstallments').textContent = `ou ${product.installments}x de R$ ${installmentValue.toFixed(2).replace('.', ',')} sem juros`;
@@ -1786,6 +1804,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const priceDivNode = document.createElement('div');
                 priceDivNode.className = 'product-price-wrapper';
+                
+                if (productHasMultiplePrices(relProduct)) {
+                    const prefixNode = document.createElement('span');
+                    prefixNode.className = 'price-prefix';
+                    prefixNode.textContent = 'a partir de';
+                    priceDivNode.appendChild(prefixNode);
+                }
+                
                 const priceNode = document.createElement('span');
                 priceNode.className = 'product-price';
                 priceNode.textContent = `R$ ${relProduct.price.toFixed(2).replace('.', ',')}`;

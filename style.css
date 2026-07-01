@@ -1150,6 +1150,17 @@ h4 {
     color: var(--text-muted);
 }
 
+.price-prefix {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1px;
+    opacity: 0.9;
+}
+
 /* ==========================================================================
    About Section
    ========================================================================== */
