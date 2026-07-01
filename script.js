@@ -311,18 +311,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let shippingCost = 0;
     let shippingOption = '';
 
-    /* === Helper: Check if a product has multiple price tiers === */
+    /* === Helper: Check if a product should show "a partir de" === */
     function productHasMultiplePrices(product) {
-        if (!product.variations || product.variations.length === 0) return false;
-        for (const variation of product.variations) {
-            if (!variation.options || variation.options.length <= 1) continue;
-            // Check if any option has an embedded price (R$ X,XX)
-            for (const opt of variation.options) {
-                if (typeof opt === 'string' && opt.match(/R\$\s?\d+[.,]\d{2}/)) {
-                    return true;
-                }
-            }
-        }
+        // Products with "Kit" in the name always show "a partir de"
+        if (product.name && /\bkit\b/i.test(product.name)) return true;
+        // Products with any variation (even single option) show "a partir de"
+        if (product.variations && product.variations.length > 0) return true;
         return false;
     }
 
