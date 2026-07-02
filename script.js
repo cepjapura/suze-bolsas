@@ -263,13 +263,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     "6 Unidades (R$ 309,99)"
                 ] 
             }]
+        },
+        {
+            id: 10,
+            name: "Kit Organizador Mala Maternidade Transparente Necessaire Bebê Luxo",
+            price: 199.00,
+            installments: 3,
+            images: [
+                "images/kit_organizador_1.jpg",
+                "images/kit_organizador_2.jpg",
+                "images/kit_organizador_3.jpg",
+                "images/kit_organizador_4.jpg",
+                "images/kit_organizador_5.jpg",
+                "images/kit_organizador_6.jpg"
+            ],
+            rating: 652,
+            category: "Kits / Trocadores",
+            stars: 5,
+            weightKg: 0.6,
+            badges: [{ text: "Novo", class: "badge-primary" }],
+            description: "Kit Organizador de Mala Maternidade Transparente com Necessaire Bebê Luxo Personalizado.\n\nOrganize a mala do seu bebê com elegância e praticidade! Necessaires transparentes que facilitam a visualização dos itens, com acabamento premium e bordado personalizado.\n\nDisponível em 5 opções de kit:\n\n• Kit 05 — PP + P (2 peças)\n• Kit 01 — P + M (2 peças)\n• Kit 02 — PP + P + M (3 peças)\n• Kit 03 — P + M + G (3 peças)\n• Kit 04 — PP + P + M + G (4 peças)",
+            requiresCustomization: true,
+            variations: [{ 
+                name: "Kit", 
+                options: [
+                    "Kit 05 — PP + P", 
+                    "Kit 01 — P + M (R$ 230,00)", 
+                    "Kit 02 — PP + P + M (R$ 320,00)", 
+                    "Kit 03 — P + M + G (R$ 360,00)", 
+                    "Kit 04 — PP + P + M + G (R$ 420,00)"
+                ] 
+            }]
         }
     ];
 
     // Load from Admin Database if exists
     let storedAdminProducts = localStorage.getItem('suze_products');
 
-    const FORCE_UPDATE_VERSION = 'v15';
+    const FORCE_UPDATE_VERSION = 'v16';
     let storedVersion = localStorage.getItem('suze_products_version');
 
     // Purge cache if version doesn't match or old images are detected
