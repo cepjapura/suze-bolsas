@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 10,
-            name: "Kit Organizador Mala Maternidade Transparente Necessaire Bebê Luxo",
+            name: "Kit Organizador Mala Maternidade Transparente Bebê Luxo",
             price: 199.00,
             installments: 3,
             images: [
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
             stars: 5,
             weightKg: 0.6,
             badges: [{ text: "Novo", class: "badge-primary" }],
-            description: "Kit Organizador de Mala Maternidade Transparente com Necessaire Bebê Luxo Personalizado.\n\nOrganize a mala do seu bebê com elegância e praticidade! Necessaires transparentes que facilitam a visualização dos itens, com acabamento premium e bordado personalizado.\n\nDisponível em 5 opções de kit:\n\n• Kit 05 — PP + P (2 peças)\n• Kit 01 — P + M (2 peças)\n• Kit 02 — PP + P + M (3 peças)\n• Kit 03 — P + M + G (3 peças)\n• Kit 04 — PP + P + M + G (4 peças)",
+            description: "Kit Organizador de Mala Maternidade Transparente Bebê Luxo Personalizado.\n\nOrganize a mala do seu bebê com elegância e praticidade! Organizadores transparentes que facilitam a visualização dos itens, com acabamento premium e bordado personalizado.\n\nDisponível em 5 opções de kit:\n\n• Kit 05 — PP + P (2 peças)\n• Kit 01 — P + M (2 peças)\n• Kit 02 — PP + P + M (3 peças)\n• Kit 03 — P + M + G (3 peças)\n• Kit 04 — PP + P + M + G (4 peças)",
             requiresCustomization: true,
             variations: [{ 
                 name: "Kit", 
