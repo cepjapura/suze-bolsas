@@ -579,28 +579,47 @@
   /* ── ANÁLISE KPIs ── */
   .analise-kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.6rem;
     margin-bottom: 1.5rem;
+  }
+  @media (max-width: 900px) {
+    .analise-kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .analise-kpi-grid { grid-template-columns: repeat(2, 1fr); }
   }
   .akpi {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem;
+    border-radius: 14px;
+    padding: 0.85rem 0.75rem;
     cursor: pointer;
     transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
   }
-  .akpi:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 4px 20px rgba(0,212,255,0.1); }
-  .akpi.active { border-color: var(--accent); background: rgba(0,212,255,0.07); }
-  .akpi-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
-  .akpi-label { font-size: 0.63rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 0.3rem; }
-  .akpi-value { font-size: 1rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; line-height: 1.2; }
-  .akpi-trend { font-size: 0.65rem; margin-top: 0.3rem; }
+  .akpi::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background 0.2s;
+  }
+  .akpi:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .akpi:hover::after { background: var(--accent); }
+  .akpi.active { border-color: var(--accent); background: rgba(0,212,255,0.06); }
+  .akpi.active::after { background: var(--accent); }
+  .akpi-icon { font-size: 1.2rem; margin-bottom: 0.35rem; }
+  .akpi-label { font-size: 0.58rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .09em; margin-bottom: 0.3rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .akpi-value { font-size: 0.88rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .akpi-trend { font-size: 0.6rem; margin-top: 0.3rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .trend-up { color: var(--accent3); }
   .trend-down { color: var(--danger); }
   .trend-neutral { color: var(--text-muted); }
   .analise-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 700px) { .analise-grid-2 { grid-template-columns: 1fr; } }
   .pizza-wrap { display: flex; align-items: center; gap: 1.5rem; padding: 1rem; flex-wrap: wrap; }
   .pizza-legend { flex: 1; min-width: 120px; display: flex; flex-direction: column; gap: 0.4rem; }
   .pizza-leg-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; }
