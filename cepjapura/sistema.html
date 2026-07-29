@@ -626,6 +626,7 @@
     <button class="tab active" onclick="switchTab('lancar')">➕ Lançar</button>
     <button class="tab" onclick="switchTab('tabela')">📋 Tabela</button>
     <button class="tab" onclick="switchTab('mensal')">📅 Visão Mensal</button>
+    <button class="tab" onclick="switchTab('analise')">🔍 Análise</button>
     <button class="tab" onclick="switchTab('dashboard')">📊 Dashboard</button>
     <button class="tab" onclick="switchTab('config')">⚙️ Config</button>
   </div>
@@ -792,6 +793,99 @@
         <tfoot id="tfoot-mensal"></tfoot>
       </table>
     </div>
+  </div>
+
+  <!-- ═══════ TAB: ANÁLISE ═══════ -->
+  <div class="section" id="sec-analise">
+
+    <!-- KPIs clicáveis -->
+    <div class="analise-kpi-grid" id="akpi-grid">
+      <div class="akpi" id="akpi-todos" onclick="filtrarAnalise('todos')">
+        <div class="akpi-icon">📊</div>
+        <div class="akpi-label">Todos</div>
+        <div class="akpi-value" id="av-todos">—</div>
+        <div class="akpi-trend" id="at-todos"></div>
+      </div>
+      <div class="akpi" id="akpi-gastos" onclick="filtrarAnalise('gasto')">
+        <div class="akpi-icon">💸</div>
+        <div class="akpi-label">Gastos</div>
+        <div class="akpi-value red" id="av-gastos">—</div>
+        <div class="akpi-trend" id="at-gastos"></div>
+      </div>
+      <div class="akpi" id="akpi-retiradas" onclick="filtrarAnalise('retirada')">
+        <div class="akpi-icon">🏪</div>
+        <div class="akpi-label">Retiradas Shopee</div>
+        <div class="akpi-value orange" id="av-retiradas">—</div>
+        <div class="akpi-trend" id="at-retiradas"></div>
+      </div>
+      <div class="akpi" id="akpi-entradas" onclick="filtrarAnalise('entrada')">
+        <div class="akpi-icon">📥</div>
+        <div class="akpi-label">Entradas</div>
+        <div class="akpi-value green" id="av-entradas">—</div>
+        <div class="akpi-trend" id="at-entradas"></div>
+      </div>
+      <div class="akpi" id="akpi-invest" onclick="filtrarAnalise('investimento')">
+        <div class="akpi-icon">🏭</div>
+        <div class="akpi-label">Investimentos</div>
+        <div class="akpi-value" style="color:#a855f7" id="av-invest">—</div>
+        <div class="akpi-trend" id="at-invest"></div>
+      </div>
+      <div class="akpi" id="akpi-lucro" onclick="filtrarAnalise('lucro')">
+        <div class="akpi-icon">💰</div>
+        <div class="akpi-label">Lucro Real</div>
+        <div class="akpi-value" id="av-lucro">—</div>
+        <div class="akpi-trend" id="at-lucro"></div>
+      </div>
+    </div>
+
+    <!-- Lançamentos filtrados -->
+    <div class="table-wrap" id="analise-filtro-wrap" style="display:none;margin-bottom:1rem">
+      <div class="table-header">
+        <div class="table-header-title" id="analise-filtro-title">Lançamentos</div>
+        <button class="btn btn-sm" onclick="filtrarAnalise('todos')" style="font-size:.7rem">✕ Limpar filtro</button>
+      </div>
+      <table>
+        <thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Categoria</th><th style="text-align:right">Valor</th></tr></thead>
+        <tbody id="tbody-analise-filtro"></tbody>
+      </table>
+    </div>
+
+    <!-- Linha evolução saldo + Pizza categorias -->
+    <div class="analise-grid-2">
+      <div class="table-wrap">
+        <div class="table-header"><div class="table-header-title">📈 Evolução do Lucro Mensal</div></div>
+        <div class="line-chart-wrap" id="analise-linha"></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header"><div class="table-header-title">🍕 Gastos por Categoria</div></div>
+        <div class="pizza-wrap">
+          <svg id="analise-pizza" width="130" height="130" viewBox="0 0 130 130"></svg>
+          <div class="pizza-legend" id="analise-pizza-legend"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparativo mês atual vs anterior + Ranking -->
+    <div class="analise-grid-2" style="margin-bottom:1rem">
+      <div class="table-wrap">
+        <div class="table-header"><div class="table-header-title">📊 Mês Atual vs Anterior</div></div>
+        <div id="analise-comparativo" style="padding:1rem"></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header"><div class="table-header-title">🏆 Ranking de Meses Lucrativos</div></div>
+        <div id="analise-ranking"></div>
+      </div>
+    </div>
+
+    <!-- Maiores gastos -->
+    <div class="table-wrap">
+      <div class="table-header"><div class="table-header-title">⚠️ Maiores Gastos do Ano</div></div>
+      <table>
+        <thead><tr><th>Descrição</th><th>Categoria</th><th style="text-align:right">Total</th><th>%</th></tr></thead>
+        <tbody id="tbody-maiores-gastos"></tbody>
+      </table>
+    </div>
+
   </div>
 
   <!-- ═══════ TAB: DASHBOARD ═══════ -->
@@ -975,6 +1069,7 @@ function switchTab(id) {
   if(id==='tabela') renderTabela();
   if(id==='dashboard') renderDashboard();
   if(id==='mensal') renderMensal();
+  if(id==='analise') renderAnalise();
 }
 
 // ─── FORM ────────────────────────────────────────────────
@@ -1075,12 +1170,266 @@ function deletar(id, grupoId) {
 }
 
 // ─── RENDER ALL ──────────────────────────────────────────
+
+// ─── ANÁLISE ─────────────────────────────────────────────
+let analise_filtro_ativo = 'todos';
+
+const CORES_CAT = ['#00d4ff','#22c55e','#f59e0b','#ef4444','#a855f7','#06b6d4','#84cc16','#f97316'];
+
+function filtrarAnalise(tipo) {
+  analise_filtro_ativo = tipo;
+  // Toggle active card
+  document.querySelectorAll('.akpi').forEach(el => el.classList.remove('active'));
+  const map = {todos:'akpi-todos',gasto:'akpi-gastos',retirada:'akpi-retiradas',entrada:'akpi-entradas',investimento:'akpi-invest',lucro:'akpi-lucro'};
+  if(map[tipo]) document.getElementById(map[tipo])?.classList.add('active');
+
+  const wrap = document.getElementById('analise-filtro-wrap');
+  const tbody = document.getElementById('tbody-analise-filtro');
+  const title = document.getElementById('analise-filtro-title');
+  const ano = ANO.toString();
+  const ls = lancamentos.filter(l => l.data.startsWith(ano));
+
+  if(tipo === 'todos') {
+    wrap.style.display = 'none';
+    return;
+  }
+
+  wrap.style.display = '';
+  let filtrados, label;
+  if(tipo === 'lucro') {
+    filtrados = ls.filter(l => l.tipo === 'retirada' || l.tipo === 'entrada');
+    label = '💰 Entradas (Lucro Real)';
+  } else {
+    filtrados = ls.filter(l => l.tipo === tipo);
+    label = {gasto:'💸 Gastos',retirada:'🏪 Retiradas Shopee',entrada:'📥 Entradas',investimento:'🏭 Investimentos'}[tipo];
+  }
+
+  filtrados.sort((a,b) => b.data.localeCompare(a.data));
+  title.textContent = `${label} — ${filtrados.length} lançamentos`;
+
+  const tipoMap = {gasto:'badge-gasto',retirada:'badge-retirada',entrada:'badge-entrada',investimento:'badge-investimento'};
+  const isPos = t => t === 'entrada' || t === 'retirada';
+
+  tbody.innerHTML = filtrados.length === 0
+    ? `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:2rem">Sem lançamentos</td></tr>`
+    : filtrados.map(l => `<tr>
+        <td class="td-mono">${l.data}</td>
+        <td><span class="badge-tipo ${tipoMap[l.tipo]||''}">${l.tipo}</span></td>
+        <td>${esc(l.desc||'—')}</td>
+        <td>${esc(l.cat||'—')}</td>
+        <td class="td-mono" style="text-align:right;color:${isPos(l.tipo)?'var(--accent3)':'var(--danger)'}">
+          ${isPos(l.tipo)?'+':'-'} ${fmt(l.valor)}
+        </td>
+      </tr>`).join('');
+}
+
+function renderAnalise() {
+  const ano = ANO.toString();
+  const anoAnt = (ANO - 1).toString();
+  const mesAtual = new Date().getMonth();
+  const mesAnt = mesAtual === 0 ? 11 : mesAtual - 1;
+  const anoMesAnt = mesAtual === 0 ? anoAnt : ano;
+
+  const ls = lancamentos.filter(l => l.data.startsWith(ano));
+  const lsAnt = lancamentos.filter(l => l.data.startsWith(anoAnt));
+
+  const prefixAtual = `${ano}-${String(mesAtual+1).padStart(2,'0')}`;
+  const prefixAnt = `${anoMesAnt}-${String(mesAnt+1).padStart(2,'0')}`;
+
+  const soma = (arr, tipo) => arr.filter(l=>l.tipo===tipo).reduce((a,b)=>a+b.valor,0);
+  const somaM = (arr, prefix, tipo) => arr.filter(l=>l.data.startsWith(prefix)&&l.tipo===tipo).reduce((a,b)=>a+b.valor,0);
+
+  const gastos    = soma(ls,'gasto');
+  const retiradas = soma(ls,'retirada');
+  const entradas  = soma(ls,'entrada');
+  const invest    = soma(ls,'investimento');
+  const lucro     = retiradas + entradas - gastos;
+
+  // KPIs com tendência vs ano anterior
+  const gastosAnt = soma(lsAnt,'gasto');
+  const retiradasAnt = soma(lsAnt,'retirada');
+  const lucroAnt = retiradasAnt + soma(lsAnt,'entrada') - gastosAnt;
+
+  function tendencia(atual, anterior, inverso=false) {
+    if(!anterior) return '<span class="trend-neutral">— sem histórico</span>';
+    const pct = ((atual - anterior) / anterior * 100).toFixed(1);
+    const up = atual >= anterior;
+    const bom = inverso ? !up : up;
+    const cls = bom ? 'trend-up' : 'trend-down';
+    const seta = up ? '▲' : '▼';
+    return `<span class="${cls}">${seta} ${Math.abs(pct)}% vs ${anoAnt}</span>`;
+  }
+
+  document.getElementById('av-todos').textContent = `${ls.length} lançamentos`;
+  document.getElementById('av-gastos').textContent = fmt(gastos);
+  document.getElementById('at-gastos').innerHTML = tendencia(gastos, gastosAnt, true);
+  document.getElementById('av-retiradas').textContent = fmt(retiradas);
+  document.getElementById('at-retiradas').innerHTML = tendencia(retiradas, retiradasAnt);
+  document.getElementById('av-entradas').textContent = fmt(entradas);
+  document.getElementById('av-invest').textContent = fmt(invest);
+  document.getElementById('av-lucro').textContent = (lucro>=0?'+':'') + fmt(lucro);
+  document.getElementById('av-lucro').className = 'akpi-value ' + (lucro>=0?'green':'red');
+  document.getElementById('at-lucro').innerHTML = tendencia(lucro, lucroAnt);
+
+  // Reaplica filtro ativo
+  filtrarAnalise(analise_filtro_ativo);
+
+  // ── Evolução lucro mensal (linha) ──────────────────────
+  const linhaEl = document.getElementById('analise-linha');
+  const mesData = MONTHS.map((m, i) => {
+    const prefix = `${ano}-${String(i+1).padStart(2,'0')}`;
+    const g = ls.filter(l=>l.data.startsWith(prefix)&&l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
+    const e = ls.filter(l=>l.data.startsWith(prefix)&&(l.tipo==='entrada'||l.tipo==='retirada')).reduce((a,b)=>a+b.valor,0);
+    return { m: m.slice(0,3), lucro: e - g, e, g };
+  });
+
+  const maxL = Math.max(...mesData.map(d => Math.abs(d.lucro)), 1);
+  linhaEl.innerHTML = mesData.map((d, i) => {
+    const temDados = d.e > 0 || d.g > 0;
+    const pct = Math.round((Math.abs(d.lucro) / maxL) * 100);
+    const isAt = i === mesAtual;
+    const cor = d.lucro >= 0 ? 'var(--accent3)' : 'var(--danger)';
+    return `<div style="margin-bottom:.6rem;opacity:${temDados?1:0.3}">
+      <div style="display:flex;justify-content:space-between;font-size:.7rem;margin-bottom:2px">
+        <span style="color:${isAt?'var(--accent)':'var(--text-muted)'};font-weight:${isAt?700:400}">${d.m}${isAt?' ●':''}</span>
+        <span style="color:${cor};font-family:'JetBrains Mono',monospace">${d.lucro>=0?'+':''}${fmt(d.lucro)}</span>
+      </div>
+      <div style="background:var(--border);border-radius:4px;height:8px;overflow:hidden">
+        <div style="width:${pct}%;height:100%;background:${cor};border-radius:4px;transition:width .5s ease"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // ── Pizza categorias ───────────────────────────────────
+  const mapCat = {};
+  ls.filter(l=>l.tipo==='gasto').forEach(l => {
+    const c = l.cat || 'Sem categoria';
+    mapCat[c] = (mapCat[c]||0) + l.valor;
+  });
+  const catEntries = Object.entries(mapCat).sort((a,b)=>b[1]-a[1]);
+  const totalCat = catEntries.reduce((a,b)=>a+b[1],0);
+
+  const svg = document.getElementById('analise-pizza');
+  const legend = document.getElementById('analise-pizza-legend');
+
+  if(catEntries.length === 0) {
+    svg.innerHTML = '<text x="65" y="70" text-anchor="middle" fill="var(--text-muted)" font-size="11">Sem dados</text>';
+    legend.innerHTML = '';
+  } else {
+    const cx=65, cy=65, r=55, inner=28;
+    let startAngle = -Math.PI/2;
+    let paths = '';
+    catEntries.forEach(([cat, val], i) => {
+      const angle = (val/totalCat) * Math.PI * 2;
+      const endAngle = startAngle + angle;
+      const x1=cx+r*Math.cos(startAngle), y1=cy+r*Math.sin(startAngle);
+      const x2=cx+r*Math.cos(endAngle),   y2=cy+r*Math.sin(endAngle);
+      const ix1=cx+inner*Math.cos(startAngle), iy1=cy+inner*Math.sin(startAngle);
+      const ix2=cx+inner*Math.cos(endAngle),   iy2=cy+inner*Math.sin(endAngle);
+      const large = angle > Math.PI ? 1 : 0;
+      const cor = CORES_CAT[i % CORES_CAT.length];
+      paths += `<path d="M${ix1},${iy1} L${x1},${y1} A${r},${r} 0 ${large},1 ${x2},${y2} L${ix2},${iy2} A${inner},${inner} 0 ${large},0 ${ix1},${iy1}" fill="${cor}" stroke="var(--bg)" stroke-width="2" opacity="0.9"/>`;
+      startAngle = endAngle;
+    });
+    svg.innerHTML = paths;
+
+    legend.innerHTML = catEntries.slice(0,6).map(([cat,val],i) => {
+      const pct = (val/totalCat*100).toFixed(1);
+      return `<div class="pizza-leg-item">
+        <div class="pizza-leg-dot" style="background:${CORES_CAT[i%CORES_CAT.length]}"></div>
+        <span style="color:var(--text-muted);flex:1">${cat}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.7rem">${pct}%</span>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Comparativo mês atual vs anterior ─────────────────
+  const compEl = document.getElementById('analise-comparativo');
+  const nomesMes = MONTHS;
+  const gA  = somaM(ls, prefixAtual, 'gasto');
+  const eA  = somaM(ls, prefixAtual, 'entrada') + somaM(ls, prefixAtual, 'retirada');
+  const lA  = eA - gA;
+  const gB  = somaM(lancamentos, prefixAnt, 'gasto');
+  const eB  = somaM(lancamentos, prefixAnt, 'entrada') + somaM(lancamentos, prefixAnt, 'retirada');
+  const lB  = eB - gB;
+
+  function compRow(label, vA, vB, inverso=false) {
+    const diff = vA - vB;
+    const bom = inverso ? diff <= 0 : diff >= 0;
+    const cor = bom ? 'var(--accent3)' : 'var(--danger)';
+    const seta = diff >= 0 ? '▲' : '▼';
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:.8rem;color:var(--text-muted)">${label}</span>
+      <div style="text-align:right">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.85rem">${fmt(vA)}</div>
+        <div style="font-size:.65rem;color:${cor}">${seta} ${fmt(Math.abs(diff))} vs ${nomesMes[mesAnt].slice(0,3)}</div>
+      </div>
+    </div>`;
+  }
+
+  compEl.innerHTML = `
+    <div style="font-size:.7rem;color:var(--accent);margin-bottom:.5rem;font-weight:700">${nomesMes[mesAtual]}</div>
+    ${compRow('💸 Gastos', gA, gB, true)}
+    ${compRow('📥 Entradas', eA, eB)}
+    ${compRow('💰 Lucro', lA, lB)}
+  `;
+
+  // ── Ranking meses lucrativos ───────────────────────────
+  const rankEl = document.getElementById('analise-ranking');
+  const rankData = MONTHS.map((m, i) => {
+    const prefix = `${ano}-${String(i+1).padStart(2,'0')}`;
+    const g = ls.filter(l=>l.data.startsWith(prefix)&&l.tipo==='gasto').reduce((a,b)=>a+b.valor,0);
+    const e = ls.filter(l=>l.data.startsWith(prefix)&&(l.tipo==='entrada'||l.tipo==='retirada')).reduce((a,b)=>a+b.valor,0);
+    return { m, lucro: e-g, temDados: e>0||g>0 };
+  }).filter(d=>d.temDados).sort((a,b)=>b.lucro-a.lucro).slice(0,6);
+
+  rankEl.innerHTML = rankData.length === 0
+    ? '<div style="padding:1rem;color:var(--text-muted);text-align:center">Sem dados</div>'
+    : rankData.map((d,i) => {
+        const cls = i===0?'gold':i===1?'silver':i===2?'bronze':'';
+        const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+        const cor = d.lucro>=0?'var(--accent3)':'var(--danger)';
+        return `<div class="mes-rank-item">
+          <div class="mes-rank-num ${cls}">${medal||i+1}</div>
+          <div style="flex:1;font-size:.85rem">${d.m}</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.85rem;color:${cor}">${d.lucro>=0?'+':''}${fmt(d.lucro)}</div>
+        </div>`;
+      }).join('');
+
+  // ── Maiores gastos ─────────────────────────────────────
+  const maiorMap = {};
+  ls.filter(l=>l.tipo==='gasto'&&l.desc).forEach(l => {
+    const k = l.desc;
+    if(!maiorMap[k]) maiorMap[k]={total:0,cat:l.cat||'—'};
+    maiorMap[k].total += l.valor;
+  });
+  const maiores = Object.entries(maiorMap).sort((a,b)=>b[1].total-a[1].total).slice(0,10);
+  const totalG = gastos || 1;
+
+  document.getElementById('tbody-maiores-gastos').innerHTML = maiores.length===0
+    ? `<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:2rem">Sem dados</td></tr>`
+    : maiores.map(([desc,{total,cat}],i) => {
+        const pct = (total/totalG*100).toFixed(1);
+        const cls = pct>30?'danger':pct>15?'warning':'';
+        return `<tr>
+          <td>${i+1}. ${esc(desc)}</td>
+          <td><span style="font-size:.7rem;color:var(--text-muted)">${esc(cat)}</span></td>
+          <td class="td-mono" style="text-align:right;color:var(--danger)">${fmt(total)}</td>
+          <td style="min-width:120px">
+            <div style="font-size:.7rem;color:var(--text-muted);margin-bottom:2px">${pct}%</div>
+            <div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div>
+          </td>
+        </tr>`;
+      }).join('');
+}
+
 function renderAll() {
   renderSummary();
   renderRecentes();
   renderTabela();
   renderDashboard();
   renderMensal();
+  renderAnalise();
 }
 
 // ─── SUMMARY ─────────────────────────────────────────────
