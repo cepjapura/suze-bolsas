@@ -853,38 +853,38 @@
   <div class="section" id="sec-analise">
 
     <!-- KPIs clicáveis -->
-    <div class="analise-kpi-grid" id="akpi-grid">
-      <div class="akpi" id="akpi-todos" onclick="filtrarAnalise('todos')">
+    <div class="analise-kpi-grid" id="akpi-grid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.6rem;margin-bottom:1.5rem;">
+      <div class="akpi" id="akpi-todos" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:0.85rem 0.75rem;cursor:pointer;transition:all 0.2s;" onclick="filtrarAnalise('todos')">
         <div class="akpi-icon">📊</div>
         <div class="akpi-label">Todos</div>
         <div class="akpi-value" id="av-todos">—</div>
         <div class="akpi-trend" id="at-todos"></div>
       </div>
-      <div class="akpi" id="akpi-gastos" onclick="filtrarAnalise('gasto')">
+      <div class="akpi" id="akpi-gastos" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:0.85rem 0.75rem;cursor:pointer;transition:all 0.2s;" onclick="filtrarAnalise('gasto')">
         <div class="akpi-icon">💸</div>
         <div class="akpi-label">Gastos</div>
         <div class="akpi-value red" id="av-gastos">—</div>
         <div class="akpi-trend" id="at-gastos"></div>
       </div>
-      <div class="akpi" id="akpi-retiradas" onclick="filtrarAnalise('retirada')">
+      <div class="akpi" id="akpi-retiradas" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:0.85rem 0.75rem;cursor:pointer;transition:all 0.2s;" onclick="filtrarAnalise('retirada')">
         <div class="akpi-icon">🏪</div>
         <div class="akpi-label">Retiradas Shopee</div>
         <div class="akpi-value orange" id="av-retiradas">—</div>
         <div class="akpi-trend" id="at-retiradas"></div>
       </div>
-      <div class="akpi" id="akpi-entradas" onclick="filtrarAnalise('entrada')">
+      <div class="akpi" id="akpi-entradas" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:0.85rem 0.75rem;cursor:pointer;transition:all 0.2s;" onclick="filtrarAnalise('entrada')">
         <div class="akpi-icon">📥</div>
         <div class="akpi-label">Entradas</div>
         <div class="akpi-value green" id="av-entradas">—</div>
         <div class="akpi-trend" id="at-entradas"></div>
       </div>
-      <div class="akpi" id="akpi-invest" onclick="filtrarAnalise('investimento')">
+      <div class="akpi" id="akpi-invest" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:0.85rem 0.75rem;cursor:pointer;transition:all 0.2s;" onclick="filtrarAnalise('investimento')">
         <div class="akpi-icon">🏭</div>
         <div class="akpi-label">Investimentos</div>
         <div class="akpi-value" style="color:#a855f7" id="av-invest">—</div>
         <div class="akpi-trend" id="at-invest"></div>
       </div>
-      <div class="akpi" id="akpi-lucro" onclick="filtrarAnalise('lucro')">
+      <div class="akpi" id="akpi-lucro" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:0.85rem 0.75rem;cursor:pointer;transition:all 0.2s;" onclick="filtrarAnalise('lucro')">
         <div class="akpi-icon">💰</div>
         <div class="akpi-label">Lucro Real</div>
         <div class="akpi-value" id="av-lucro">—</div>
