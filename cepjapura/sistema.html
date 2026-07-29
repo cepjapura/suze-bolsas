@@ -575,6 +575,41 @@
     margin-bottom: 1rem;
   }
 
+
+  /* ── ANÁLISE KPIs ── */
+  .analise-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .akpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .akpi:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 4px 20px rgba(0,212,255,0.1); }
+  .akpi.active { border-color: var(--accent); background: rgba(0,212,255,0.07); }
+  .akpi-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .akpi-label { font-size: 0.63rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 0.3rem; }
+  .akpi-value { font-size: 1rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; line-height: 1.2; }
+  .akpi-trend { font-size: 0.65rem; margin-top: 0.3rem; }
+  .trend-up { color: var(--accent3); }
+  .trend-down { color: var(--danger); }
+  .trend-neutral { color: var(--text-muted); }
+  .analise-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .pizza-wrap { display: flex; align-items: center; gap: 1.5rem; padding: 1rem; flex-wrap: wrap; }
+  .pizza-legend { flex: 1; min-width: 120px; display: flex; flex-direction: column; gap: 0.4rem; }
+  .pizza-leg-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; }
+  .pizza-leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .mes-rank-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
+  .mes-rank-num { font-size: 1rem; font-weight: 800; color: var(--text-muted); width: 28px; text-align: center; }
+  .mes-rank-num.gold { color: #fbbf24; }
+  .mes-rank-num.silver { color: #94a3b8; }
+  .mes-rank-num.bronze { color: #cd7f32; }
 </style>
 </head>
 <body>
@@ -1346,8 +1381,8 @@ function renderAnalise() {
   // ── Comparativo mês atual vs anterior ─────────────────
   const compEl = document.getElementById('analise-comparativo');
   const nomesMes = MONTHS;
-  const gA  = somaM(ls, prefixAtual, 'gasto');
-  const eA  = somaM(ls, prefixAtual, 'entrada') + somaM(ls, prefixAtual, 'retirada');
+  const gA  = somaM(lancamentos, prefixAtual, 'gasto');
+  const eA  = somaM(lancamentos, prefixAtual, 'entrada') + somaM(lancamentos, prefixAtual, 'retirada');
   const lA  = eA - gA;
   const gB  = somaM(lancamentos, prefixAnt, 'gasto');
   const eB  = somaM(lancamentos, prefixAnt, 'entrada') + somaM(lancamentos, prefixAnt, 'retirada');
@@ -1358,11 +1393,12 @@ function renderAnalise() {
     const bom = inverso ? diff <= 0 : diff >= 0;
     const cor = bom ? 'var(--accent3)' : 'var(--danger)';
     const seta = diff >= 0 ? '▲' : '▼';
-    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border)">
-      <span style="font-size:.8rem;color:var(--text-muted)">${label}</span>
+    const diffStr = vB > 0 ? `${seta} ${fmt(Math.abs(diff))} vs ${nomesMes[mesAnt].slice(0,3)}` : '— sem histórico';
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:.82rem;color:var(--text-muted)">${label}</span>
       <div style="text-align:right">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.85rem">${fmt(vA)}</div>
-        <div style="font-size:.65rem;color:${cor}">${seta} ${fmt(Math.abs(diff))} vs ${nomesMes[mesAnt].slice(0,3)}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.9rem;color:var(--text)">${vA > 0 ? fmt(vA) : '—'}</div>
+        <div style="font-size:.65rem;color:${vB>0?cor:'var(--text-muted)'}">${diffStr}</div>
       </div>
     </div>`;
   }
