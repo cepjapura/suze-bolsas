@@ -2168,7 +2168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         grid.innerHTML = instaImages.map(item => `
-            <a class="insta-item" href="https://www.instagram.com/suzemodacriativa" target="_blank" rel="noopener" aria-label="${item.caption}">
+            <a class="insta-item" href="https://www.instagram.com/suzebolsasmaternidade" target="_blank" rel="noopener" aria-label="${item.caption}">
                 <img src="${item.src}" alt="${item.caption}" loading="lazy">
                 <div class="insta-overlay">
                     <i class="ph ph-instagram-logo"></i> ${item.caption}
