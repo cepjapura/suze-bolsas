@@ -370,6 +370,17 @@
     <script src="catalogo-arquivos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Proteção de Acesso Restrito quando acessado pela internet (Hostinger)
+            if (window.location.protocol.startsWith('http') && !sessionStorage.getItem('_sz_auth')) {
+                const pwd = prompt('🔒 Área Restrita (Suze Bolsas). Digite sua senha de administradora:');
+                if (pwd !== 'SuzeAdmin@2026' && pwd !== 'suze2026') {
+                    alert('Acesso restrito somente à administração da loja.');
+                    window.location.replace('catalogo.html');
+                    return;
+                }
+                sessionStorage.setItem('_sz_auth', btoa(Date.now().toString()));
+            }
+
             const DISCARD_STORAGE_KEY = 'suze_catalogo_fotos_excluidas_v1';
             const DEFAULT_DISCARDED = [
                 'file:///C:/Users/Claud/Desktop/produtos%20suze/PRODUTOS%20SUZE/00ADCCD4-706E-4DB1-9F11-3218B1008A85.jpg',
