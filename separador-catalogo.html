@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curadoria & Separador de Fotos do Catálogo | Suze Bolsas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            --bg: #f6f4f2;
+            --card: #ffffff;
+            --primary: #c37a83;
+            --primary-dark: #a35c65;
+            --green: #1f9d55;
+            --red: #d9383a;
+            --text: #2c2421;
+            --muted: #6e625d;
+            --border: #e6dedb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding-bottom: 4rem;
+        }
+
+        .top-bar {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        }
+
+        .top-bar h1 {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.6rem 1.1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--text);
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-green {
+            background: var(--green);
+            border-color: var(--green);
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .tabs-row {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.4rem;
+            background: #fff;
+            padding: 0.75rem;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            padding: 0.65rem 1.2rem;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .info-banner {
+            background: #fff8f6;
+            border: 1px solid #f1d6d9;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.1rem;
+        }
+
+        .photo-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .photo-card.in-catalog {
+            border-color: var(--green);
+            box-shadow: 0 6px 20px rgba(31, 157, 85, 0.12);
+        }
+
+        .photo-thumb {
+            aspect-ratio: 1 / 1;
+            background: #eee;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-pill {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 0.28rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+        }
+
+        .photo-card.in-catalog .status-pill {
+            background: var(--green);
+        }
+
+        .btn-discard-corner {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background: rgba(217, 56, 58, 0.92);
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+            transition: transform 0.15s ease, background 0.15s ease;
+            z-index: 5;
+        }
+
+        .btn-discard-corner:hover {
+            background: #b82325;
+            transform: scale(1.1);
+        }
+
+        .action-row-dual {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.4rem;
+            margin-top: auto;
+        }
+
+        .btn-discard-inline {
+            padding: 0.6rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(217, 56, 58, 0.3);
+            background: #fdf2f2;
+            color: var(--red);
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            transition: all 0.2s;
+        }
+
+        .btn-discard-inline:hover {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .photo-meta {
+            padding: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            flex: 1;
+        }
+
+        .photo-meta input,
+        .photo-meta select {
+            width: 100%;
+            padding: 0.42rem 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.82rem;
+        }
+
+        .toggle-btn {
+            margin-top: auto;
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 8px;
+            border: none;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.84rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .btn-add {
+            background: #f0f4f1;
+            color: var(--green);
+            border: 1px solid rgba(31, 157, 85, 0.3);
+        }
+
+        .btn-add:hover {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .btn-remove {
+            background: #fdf2f2;
+            color: var(--red);
+            border: 1px solid rgba(217, 56, 58, 0.25);
+        }
+
+        .btn-remove:hover {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #2c2421;
+            color: #fff;
+            padding: 0.85rem 1.3rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="top-bar">
+        <h1>
+            <i class="ph-fill ph-images" style="color:var(--primary)"></i>
+            Separador de Fotos & Curadoria Sem Repetição
+        </h1>
+        <div class="top-actions">
+            <button class="btn" id="btnResetDefault" title="Restaurar a seleção recomendada de 38 modelos únicos">
+                <i class="ph ph-arrow-counter-clockwise"></i> Restaurar 38 Campeãs
+            </button>
+            <a href="catalogo.html" class="btn btn-green">
+                <i class="ph-fill ph-check-circle"></i> Ver Catálogo Pronto (<span id="countBadge">38</span> modelos)
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="info-banner">
+            <div>
+                <strong>💡 Dica para não repetir modelos:</strong> Já deixamos pré-selecionadas <strong>38 fotos campeãs (1 de cada modelo e cor, divididas entre Menino e Menina)</strong>.
+                Aqui você pode revisar os modelos ativos, editar os nomes/preços ou navegar pelas pastas abaixo para incluir novas fotos com 1 clique!
+            </div>
+        </div>
+
+        <div class="tabs-row">
+            <button class="tab-btn active" data-tab="curated">⭐ Modelos Ativos no Catálogo (<span id="tabCountCurated">0</span>)</button>
+            <button class="tab-btn" data-tab="catalogoFolder">🌸 Pasta Produtos Suze Bolsas (<span id="countCatalogoFolder">91</span>)</button>
+            <button class="tab-btn" data-tab="siteFolder">🛍️ Fotos Atuais do Site (<span id="countSiteFolder">58</span>)</button>
+            <button class="tab-btn" data-tab="desktopFolder">📁 Pasta Geral Google Fotos (<span id="countDesktopFolder">358</span>)</button>
+            <button class="tab-btn" data-tab="trashFolder" style="margin-left:auto; color:var(--red);">🗑️ Excluídas (<span id="countTrashFolder">0</span>)</button>
+        </div>
+
+        <div class="photo-grid" id="selectorGrid"></div>
+    </div>
+
+    <div class="toast" id="toastMsg">Salvo no Catálogo!</div>
+
+    <script src="catalogo-dados.js"></script>
+    <script src="catalogo-arquivos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const DISCARD_STORAGE_KEY = 'suze_catalogo_fotos_excluidas_v1';
+            const DEFAULT_DISCARDED = [
+                'file:///C:/Users/Claud/Desktop/produtos%20suze/PRODUTOS%20SUZE/00ADCCD4-706E-4DB1-9F11-3218B1008A85.jpg',
+                'file:///C:/Users/Claud/Desktop/produtos%20suze/PRODUTOS%20SUZE/0495F4AA-BA10-47CF-9F34-9DB09F66A9C9.jpg'
+            ];
+
+            function getDiscardedPhotos() {
+                try {
+                    const raw = localStorage.getItem(DISCARD_STORAGE_KEY);
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        if (Array.isArray(parsed)) {
+                            // Garante que as 2 fotos marcadas pelo usuário estejam sempre incluídas
+                            DEFAULT_DISCARDED.forEach(u => {
+                                if (!parsed.includes(u)) parsed.push(u);
+                            });
+                            return parsed;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Erro ao ler fotos excluídas:', e);
+                }
+                return [...DEFAULT_DISCARDED];
+            }
+
+            function saveDiscardedPhotos(list) {
+                try {
+                    localStorage.setItem(DISCARD_STORAGE_KEY, JSON.stringify(list));
+                } catch (e) {
+                    console.error('Erro ao salvar fotos excluídas:', e);
+                }
+            }
+
+            let catalog = window.getSuzeCatalog();
+            let discardedPhotos = getDiscardedPhotos();
+            saveDiscardedPhotos(discardedPhotos);
+
+            const grid = document.getElementById('selectorGrid');
+            const countBadge = document.getElementById('countBadge');
+            const tabCountCurated = document.getElementById('tabCountCurated');
+            const toast = document.getElementById('toastMsg');
+            let currentTab = 'curated';
+
+            function showToast(msg) {
+                toast.textContent = msg;
+                toast.style.display = 'block';
+                clearTimeout(window._toastTimer);
+                window._toastTimer = setTimeout(() => { toast.style.display = 'none'; }, 2200);
+            }
+
+            function syncCounts() {
+                countBadge.textContent = catalog.length;
+                tabCountCurated.textContent = catalog.length;
+
+                const all = window.SUZE_ALL_PHOTOS || {};
+                const cCat = (all.catalogoFolder || []).filter(u => !discardedPhotos.includes(u)).length;
+                const cSite = (all.siteFolder || []).filter(u => !discardedPhotos.includes(u)).length;
+                const cDesk = (all.desktopFolder || []).filter(u => !discardedPhotos.includes(u)).length;
+
+                const elCat = document.getElementById('countCatalogoFolder');
+                const elSite = document.getElementById('countSiteFolder');
+                const elDesk = document.getElementById('countDesktopFolder');
+                const elTrash = document.getElementById('countTrashFolder');
+
+                if (elCat) elCat.textContent = cCat;
+                if (elSite) elSite.textContent = cSite;
+                if (elDesk) elDesk.textContent = cDesk;
+                if (elTrash) elTrash.textContent = discardedPhotos.length;
+            }
+
+            function renumberCodes() {
+                catalog.forEach((item, index) => {
+                    const num = String(index + 1).padStart(2, '0');
+                    item.code = `Mod. #${num}`;
+                });
+            }
+
+            function saveAndRefresh(msg) {
+                renumberCodes();
+                window.saveSuzeCatalog(catalog);
+                syncCounts();
+                if (msg) showToast(msg);
+                renderCurrentTab();
+            }
+
+            function discardPhoto(imgUrl) {
+                if (!discardedPhotos.includes(imgUrl)) {
+                    discardedPhotos.push(imgUrl);
+                    saveDiscardedPhotos(discardedPhotos);
+                }
+                // Se também estiver no catálogo ativo, remove de lá
+                catalog = catalog.filter(c => c.image !== imgUrl);
+                saveAndRefresh('🗑️ Foto excluída da listagem!');
+            }
+
+            function restorePhoto(imgUrl) {
+                discardedPhotos = discardedPhotos.filter(u => u !== imgUrl);
+                saveDiscardedPhotos(discardedPhotos);
+                syncCounts();
+                showToast('Foto restaurada para a pasta!');
+                renderCurrentTab();
+            }
+
+            function renderCurrentTab() {
+                syncCounts();
+                if (currentTab === 'curated') {
+                    renderCuratedModels();
+                } else if (currentTab === 'trashFolder') {
+                    renderTrashPhotos();
+                } else {
+                    const rawList = (window.SUZE_ALL_PHOTOS && window.SUZE_ALL_PHOTOS[currentTab]) || [];
+                    const filteredList = rawList.filter(u => !discardedPhotos.includes(u));
+                    renderFolderPhotos(filteredList);
+                }
+            }
+
+            function renderCuratedModels() {
+                grid.innerHTML = catalog.map((item, idx) => `
+                    <div class="photo-card in-catalog">
+                        <div class="photo-thumb">
+                            <img src="${item.image}" alt="${item.title}" loading="lazy">
+                            <span class="status-pill">✓ ${item.code}</span>
+                        </div>
+                        <div class="photo-meta">
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;">
+                                <select data-idx="${idx}" class="edit-gender">
+                                    <option value="Menino" ${item.gender === 'Menino' ? 'selected' : ''}>👦 Menino</option>
+                                    <option value="Menina" ${item.gender === 'Menina' ? 'selected' : ''}>👧 Menina</option>
+                                </select>
+                                <select data-idx="${idx}" class="edit-cat">
+                                    <option value="Capa Caderneta" ${item.category === 'Capa Caderneta' ? 'selected' : ''}>Capa Caderneta</option>
+                                    <option value="Saquinho Organizador" ${item.category === 'Saquinho Organizador' ? 'selected' : ''}>Saquinho Organizador</option>
+                                    <option value="Maleta Organizadora" ${item.category === 'Maleta Organizadora' ? 'selected' : ''}>Maleta Organizadora</option>
+                                    <option value="Trocador" ${item.category === 'Trocador' ? 'selected' : ''}>Trocador</option>
+                                    <option value="Kits" ${item.category === 'Kits' ? 'selected' : ''}>Kits</option>
+                                </select>
+                            </div>
+                            <input type="text" data-idx="${idx}" class="edit-title" value="${item.title.replace(/"/g, '&quot;')}" placeholder="Nome do Modelo">
+                            <input type="text" data-idx="${idx}" class="edit-color" value="${(item.colorTag || '').replace(/"/g, '&quot;')}" placeholder="Cor (ex: Linho Bege / Azul)">
+                            <input type="text" data-idx="${idx}" class="edit-price" value="${(item.priceInfo || '').replace(/"/g, '&quot;')}" placeholder="Faixa de Preço">
+                            <button class="toggle-btn btn-remove" data-remove="${idx}">
+                                <i class="ph ph-trash"></i> Remover do Catálogo
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Bind edits
+                grid.querySelectorAll('.edit-gender').forEach(el => {
+                    el.addEventListener('change', e => {
+                        const i = parseInt(e.target.getAttribute('data-idx'), 10);
+                        catalog[i].gender = e.target.value;
+                        window.saveSuzeCatalog(catalog);
+                        showToast('Gênero atualizado!');
+                    });
+                });
+                grid.querySelectorAll('.edit-cat').forEach(el => {
+                    el.addEventListener('change', e => {
+                        const i = parseInt(e.target.getAttribute('data-idx'), 10);
+                        catalog[i].category = e.target.value;
+                        window.saveSuzeCatalog(catalog);
+                        showToast('Categoria atualizada!');
+                    });
+                });
+                grid.querySelectorAll('.edit-title').forEach(el => {
+                    el.addEventListener('change', e => {
+                        const i = parseInt(e.target.getAttribute('data-idx'), 10);
+                        catalog[i].title = e.target.value;
+                        window.saveSuzeCatalog(catalog);
+                        showToast('Título salvo!');
+                    });
+                });
+                grid.querySelectorAll('.edit-color').forEach(el => {
+                    el.addEventListener('change', e => {
+                        const i = parseInt(e.target.getAttribute('data-idx'), 10);
+                        catalog[i].colorTag = e.target.value;
+                        window.saveSuzeCatalog(catalog);
+                        showToast('Cor atualizada!');
+                    });
+                });
+                grid.querySelectorAll('.edit-price').forEach(el => {
+                    el.addEventListener('change', e => {
+                        const i = parseInt(e.target.getAttribute('data-idx'), 10);
+                        catalog[i].priceInfo = e.target.value;
+                        window.saveSuzeCatalog(catalog);
+                        showToast('Preço atualizado!');
+                    });
+                });
+                grid.querySelectorAll('[data-remove]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const i = parseInt(btn.getAttribute('data-remove'), 10);
+                        catalog.splice(i, 1);
+                        saveAndRefresh('Modelo removido do catálogo');
+                    });
+                });
+            }
+
+            function renderFolderPhotos(photoPaths) {
+                if (photoPaths.length === 0) {
+                    grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--muted);">Nenhuma foto disponível nesta pasta.</div>`;
+                    return;
+                }
+
+                grid.innerHTML = photoPaths.map((imgUrl, idx) => {
+                    const existingIndex = catalog.findIndex(c => c.image === imgUrl);
+                    const isInCatalog = existingIndex !== -1;
+                    const existingItem = isInCatalog ? catalog[existingIndex] : null;
+                    const fileName = decodeURIComponent(imgUrl.split('/').pop());
+
+                    return `
+                        <div class="photo-card ${isInCatalog ? 'in-catalog' : ''}">
+                            <div class="photo-thumb">
+                                <img src="${imgUrl}" alt="${fileName}" loading="lazy">
+                                <span class="status-pill">${isInCatalog ? `✓ No Catálogo (${existingItem.code})` : fileName.slice(0, 18)}</span>
+                                <button class="btn-discard-corner" data-discard-url="${imgUrl}" title="Excluir / Ocultar esta foto da pasta">✕</button>
+                            </div>
+                            <div class="photo-meta">
+                                ${isInCatalog ? `
+                                    <strong style="font-size:0.84rem; color:var(--green);">${existingItem.title}</strong>
+                                    <button class="toggle-btn btn-remove" data-url="${imgUrl}">
+                                        <i class="ph ph-x-circle"></i> Tirar do Catálogo
+                                    </button>
+                                ` : `
+                                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;">
+                                        <select id="gender-sel-${idx}">
+                                            <option value="Menino">👦 Menino</option>
+                                            <option value="Menina">👧 Menina</option>
+                                        </select>
+                                        <select id="cat-sel-${idx}">
+                                            <option value="Capa Caderneta">Capa Caderneta</option>
+                                            <option value="Saquinho Organizador">Saquinho Organizador</option>
+                                            <option value="Maleta Organizadora">Maleta Organizadora</option>
+                                            <option value="Trocador">Trocador</option>
+                                            <option value="Kits">Kits</option>
+                                        </select>
+                                    </div>
+                                    <input type="text" id="title-sel-${idx}" placeholder="Nome/Modelo (ex: Capa Linho Rosa)">
+                                    <input type="text" id="color-sel-${idx}" placeholder="Cor (ex: Rosa Bebê)">
+                                    <div class="action-row-dual">
+                                        <button class="toggle-btn btn-add" data-add-idx="${idx}" data-url="${imgUrl}">
+                                            <i class="ph ph-plus-circle"></i> Incluir
+                                        </button>
+                                        <button class="btn-discard-inline" data-discard-url="${imgUrl}" title="Excluir foto que não tem a ver com produtos">
+                                            <i class="ph ph-trash"></i> Excluir
+                                        </button>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                grid.querySelectorAll('.btn-add').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const idx = btn.getAttribute('data-add-idx');
+                        const imgUrl = btn.getAttribute('data-url');
+                        const gender = document.getElementById(`gender-sel-${idx}`).value;
+                        const category = document.getElementById(`cat-sel-${idx}`).value;
+                        const titleInput = document.getElementById(`title-sel-${idx}`).value.trim();
+                        const colorInput = document.getElementById(`color-sel-${idx}`).value.trim();
+
+                        catalog.push({
+                            id: 'mod-' + Date.now(),
+                            code: `Mod. #${String(catalog.length + 1).padStart(2, '0')}`,
+                            title: titleInput || `${category} Personalizado`,
+                            category: category,
+                            gender: gender,
+                            colorTag: colorInput || 'Personalizável',
+                            priceInfo: 'Consulte opções e tamanhos',
+                            image: imgUrl,
+                            desc: 'Peça artesanal personalizada com o nome e inicial do seu bebê na cor escolhida.'
+                        });
+                        saveAndRefresh('Foto adicionada ao Catálogo!');
+                    });
+                });
+
+                grid.querySelectorAll('.btn-remove[data-url]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const url = btn.getAttribute('data-url');
+                        catalog = catalog.filter(c => c.image !== url);
+                        saveAndRefresh('Foto removida do Catálogo!');
+                    });
+                });
+
+                grid.querySelectorAll('[data-discard-url]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const url = btn.getAttribute('data-discard-url');
+                        discardPhoto(url);
+                    });
+                });
+            }
+
+            function renderTrashPhotos() {
+                if (discardedPhotos.length === 0) {
+                    grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--muted);">Nenhuma foto excluída no momento.</div>`;
+                    return;
+                }
+
+                grid.innerHTML = discardedPhotos.map(imgUrl => {
+                    const fileName = decodeURIComponent(imgUrl.split('/').pop());
+                    return `
+                        <div class="photo-card" style="opacity:0.85;">
+                            <div class="photo-thumb">
+                                <img src="${imgUrl}" alt="${fileName}" loading="lazy">
+                                <span class="status-pill" style="background:var(--red);">🗑️ Excluída</span>
+                            </div>
+                            <div class="photo-meta">
+                                <span style="font-size:0.78rem; color:var(--muted); word-break:break-all;">${fileName}</span>
+                                <button class="toggle-btn btn-add" data-restore-url="${imgUrl}">
+                                    <i class="ph ph-arrow-counter-clockwise"></i> Restaurar Foto
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                grid.querySelectorAll('[data-restore-url]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const url = btn.getAttribute('data-restore-url');
+                        restorePhoto(url);
+                    });
+                });
+            }
+
+            // Tab switching
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentTab = btn.getAttribute('data-tab');
+                    renderCurrentTab();
+                });
+            });
+
+            // Reset default
+            document.getElementById('btnResetDefault').addEventListener('click', () => {
+                if (confirm('Deseja restaurar a curadoria padrão com os 38 modelos únicos recomendados?')) {
+                    localStorage.removeItem(window.SUZE_CATALOG_STORAGE_KEY);
+                    catalog = JSON.parse(JSON.stringify(window.SUZE_DEFAULT_CATALOG));
+                    saveAndRefresh('Catálogo padrão de 38 modelos restaurado!');
+                }
+            });
+
+            renderCurrentTab();
+        });
+    </script>
+</body>
+
+</html>

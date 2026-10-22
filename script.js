@@ -99,8 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let products = [
         {
             id: 1,
-            name: "Capa para Caderneta de Vacina Linho Luxo / Porta Documentos",
-            price: 149.90,
+            name: "Capa Caderneta Vacina Personalizada Com Nome Porta Documentos Linho Luxo",
+            price: 137.90,
+            shopeePrice: 149.90,
             installments: 3,
             images: [
                 "images/capa_vacinacao_heitor_luxo.jpg?v=1",
@@ -114,14 +115,21 @@ document.addEventListener('DOMContentLoaded', () => {
             stars: 5,
             weightKg: 0.3,
             badges: [{ text: "Mais Vendido", class: "badge-primary" }],
-            description: "Capa para caderneta de vacinação luxo com porta documentos. Protege o histórico do seu bebê com estilo.",
+            description: "Capa para caderneta de vacinação Linho Luxo com porta documentos e chaveiro personalizado. Protege o histórico do seu bebê com sofisticação.\n\n• Tamanho Normal SUS\n• Tamanho Espiral (Maior)",
             requiresCustomization: true,
-            variations: [{ name: "Material", options: ["Linho Luxo"] }]
+            variations: [{
+                name: "Tamanho / Modelo",
+                options: [
+                    "Tamanho Normal SUS — Linho Luxo (R$ 137,90)",
+                    "Tamanho Espiral Maior — Linho Luxo (R$ 147,90)"
+                ]
+            }]
         },
         {
             id: 2,
-            name: "Organizador Necessaire Transparente Bebe Mala Bege Maternidade",
-            price: 110.00,
+            name: "Maleta Organizadora Maternidade Transparente Suze Bolsas",
+            price: 109.90,
+            shopeePrice: 120.00,
             installments: 3,
             images: [
                 "images/necessaire_transparente_1.jpg?v=1",
@@ -133,15 +141,24 @@ document.addEventListener('DOMContentLoaded', () => {
             rating: 45,
             category: "Necessaires / Bolsas",
             stars: 5,
-            weightKg: 0.2,
-            description: "Necessaire transparente ideal para organizar itens da mala maternidade com visualização fácil e rápida.",
+            weightKg: 0.25,
+            description: "Maleta organizadora transparente estruturada com alça superior, ideal para organizar itens da mala maternidade com visualização fácil e rápida.\n\nMedidas disponíveis:\n• PP (12x20x8cm)\n• P (17x26x10cm)\n• M (22x30x12cm)\n• G (Grande)",
             requiresCustomization: true,
-            variations: []
+            variations: [{
+                name: "Tamanho da Maleta",
+                options: [
+                    "PP (12x20x8cm) — (R$ 109,90)",
+                    "P (17x26x10cm) — (R$ 128,90)",
+                    "M (22x30x12cm) — (R$ 146,90)",
+                    "G (Grande) — (R$ 164,90)"
+                ]
+            }]
         },
         {
             id: 3,
-            name: "Capa Caderneta Vacina Porta Documentos Organização Linho",
-            price: 124.90,
+            name: "Capa Caderneta Vacina Porta Documentos Organização Sintético ou Linho Luxo",
+            price: 114.90,
+            shopeePrice: 124.90,
             installments: 3,
             images: [
                 "images/capa_linho_joaovinicius.jpg?v=1",
@@ -154,28 +171,75 @@ document.addEventListener('DOMContentLoaded', () => {
             category: "Capas",
             stars: 5,
             weightKg: 0.3,
-            description: "Capa organizadora em linho para caderneta de vacina e documentos do bebê. Delicada e resistente.",
+            description: "Capa organizadora personalizada para caderneta de vacina e documentos do bebê. Disponível em Sintético Luxo ou Linho Luxo, para caderneta padrão SUS ou modelo em Espiral.",
             requiresCustomization: true,
-            variations: []
+            variations: [{
+                name: "Material e Tamanho",
+                options: [
+                    "Sintético Luxo — Tamanho Padrão SUS (R$ 114,90)",
+                    "Sintético Luxo — Tamanho em Espiral (R$ 124,90)",
+                    "Linho Luxo — Tamanho Padrão SUS (R$ 137,90)",
+                    "Linho Luxo — Tamanho em Espiral (R$ 147,90)"
+                ]
+            }]
         },
         {
             id: 4,
-            name: "Kit Capa Vacinação / Trocador Portatil - Sintético ou Linho Luxo",
-            price: 74.90,
+            name: "Kit Capa Vacinação + Trocador Portátil — Sintético ou Linho Luxo",
+            price: 147.90,
+            shopeePrice: 159.99,
             installments: 3,
             images: ["images/kit_noah_luxury.jpg?v=1"],
             rating: 210,
             category: "Kits / Trocadores",
             stars: 5,
             weightKg: 0.5,
-            description: "Kit trocador e capa para vacinação em opções de sintético ou linho luxo. Conforto e praticidade.",
+            badges: [{ text: "Kit Queridinho", class: "badge-primary" }],
+            description: "Kit coordenado com Capa de Caderneta de Vacinação + Trocador Portátil dobrável impermeável. Disponível em Sintético ou Linho Luxo (Padrão SUS ou Espiral).",
             requiresCustomization: true,
-            variations: [{ name: "Material", options: ["Sintético", "Linho Luxo (R$ 149,90)", "Somente Trocador"] }]
+            variations: [{
+                name: "Material e Modelo",
+                options: [
+                    "Sintético — SUS Padrão (R$ 147,90)",
+                    "Sintético — Caderneta Espiral (R$ 164,90)",
+                    "Linho Luxo — SUS Padrão (R$ 164,90)",
+                    "Linho Luxo — Caderneta Espiral (R$ 183,90)",
+                    "Somente Trocador Portátil Sintético (R$ 73,90)",
+                    "Somente Trocador Portátil Linho (R$ 91,90)"
+                ]
+            }]
+        },
+        {
+            id: 11,
+            name: "Trocador de Fraldas Portátil Para Passeio Bebê Personalizado",
+            price: 73.90,
+            shopeePrice: 79.99,
+            installments: 2,
+            images: [
+                "images/catalogo/photo_4967819282528013380_y.jpg",
+                "images/catalogo/photo_4967819282528013355_y.jpg",
+                "images/kit_noah_luxury.jpg?v=1"
+            ],
+            rating: 98,
+            category: "Kits / Trocadores",
+            stars: 5,
+            weightKg: 0.25,
+            badges: [{ text: "Passeio Prático", class: "badge-secondary" }],
+            description: "Trocador de fraldas portátil dobrável para passeio, acolchoado, impermeável na parte interna e bordado com o nome do bebê.",
+            requiresCustomization: true,
+            variations: [{
+                name: "Material",
+                options: [
+                    "Sintético Impermeável (R$ 73,90)",
+                    "Linho Luxo Impermeável (R$ 91,90)"
+                ]
+            }]
         },
         {
             id: 5,
-            name: "Mochila Térmica Maternidade Luxo",
-            price: 210.00,
+            name: "Mochila Térmica Maternidade Luxo 2 em 1",
+            price: 194.90,
+            shopeePrice: 210.00,
             installments: 3,
             images: ["images/mochila_sarah_luxury_v2.png"],
             rating: 34,
@@ -185,26 +249,38 @@ document.addEventListener('DOMContentLoaded', () => {
             badges: [{ text: "Premium", class: "badge-dark" }],
             description: "Mochila térmica espaçosa com design moderno para carregar mamadeiras e todos os itens do bebê.",
             requiresCustomization: true,
-            variations: []
+            variations: [{
+                name: "Acabamento",
+                options: ["Linho & Sintético Luxo Personalizado (R$ 194,90)"]
+            }]
         },
         {
             id: 6,
-            name: "Kit Necessarie Luxo e Capa Caderneta Vacinação Personalizada",
-            price: 209.99,
+            name: "Kit Necessaire Luxo e Capa Caderneta Vacinação e Porta Documentos",
+            price: 209.90,
+            shopeePrice: 229.99,
             installments: 3,
             images: ["images/kit_francisco_1.jpg", "images/kit_francisco_2.jpg"],
-            rating: 15,
+            rating: 64,
             category: "Kits / Trocadores",
             stars: 5,
             weightKg: 0.5,
-            description: "Kit completo de luxo coordenado contendo:\n\n- 01 Capa para Caderneta de Vacinação com pingente personalizado.\n- 01 Necessaire formato Box estruturada.\n\nFabricado em linho premium com bordados de alta definição (ex: Francisco). Essencial para manter a organização e os documentos do seu bebê maravilhosamente seguros.",
+            description: "Kit completo de luxo coordenado contendo:\n\n• 01 Capa para Caderneta de Vacinação e Porta Documentos com pingente personalizado.\n• 01 Necessaire formato Box estruturada.\n\nDisponível em Sintético ou Linho Luxo (para Caderneta SUS ou Espiral Maior).",
             requiresCustomization: true,
-            variations: [{ name: "Cor do Linho", options: ["Bege / Dourado"] }]
+            variations: [{
+                name: "Material e Modelo da Caderneta",
+                options: [
+                    "Sintético — Caderneta SUS (R$ 209,90)",
+                    "Linho — Caderneta SUS (R$ 247,90)",
+                    "Linho — Caderneta Espiral Maior (R$ 257,90)"
+                ]
+            }]
         },
         {
             id: 7,
             name: "Chaveiro Personalizado Luxo - Bolsa Maternidade",
-            price: 34.90,
+            price: 31.90,
+            shopeePrice: 34.90,
             installments: 1,
             images: ["images/chaveiro_mirela_luxury.png"],
             rating: 320,
@@ -217,8 +293,9 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 8,
-            name: "Necessarie Box Baby Personalizada - Suze Bolsas",
-            price: 109.99,
+            name: "Necessaire Box Baby Personalizada - Suze Bolsas",
+            price: 101.90,
+            shopeePrice: 109.99,
             installments: 3,
             images: [
                 "images/necessaire_box_baby_augusto.jpg?v=1",
@@ -228,15 +305,16 @@ document.addEventListener('DOMContentLoaded', () => {
             category: "Necessaires / Bolsas",
             stars: 5,
             weightKg: 0.2,
-            description: "Necessaire personalizada em formato Box, estruturada para proteger pequenos itens.",
+            description: "Necessaire personalizada em formato Box com alça, estruturada para organizar itens de higiene, remédios e fraldas.",
             requiresCustomization: true,
             variations: []
         },
         {
             id: 9,
-            name: "Kit Saquinho Maternidade Personalizado Organizador Luxo",
-            price: 79.99,
-            installments: 2,
+            name: "Kit Saquinho Maternidade Personalizado Organizador Luxo Com Nome",
+            price: 174.90,
+            shopeePrice: 189.99,
+            installments: 3,
             images: [
                 "images/kit_saquinho_1.jpg?v=1",
                 "images/kit_saquinho_2.jpg?v=1",
@@ -250,24 +328,28 @@ document.addEventListener('DOMContentLoaded', () => {
             rating: 145,
             category: "Saquinhos Maternidades",
             stars: 5,
-            weightKg: 0.3,
-            description: "O Kit Saquinho Maternidade Personalizado Organizador Luxo Com Nome é a solução perfeita para organização e sofisticação na mala do bebê. Fechamento com zíper e acabamento impecável.",
+            weightKg: 0.35,
+            badges: [{ text: "Essencial Mala", class: "badge-primary" }],
+            description: "O Kit Saquinho Maternidade Personalizado Organizador Luxo Com Nome é a solução perfeita para separar cada troca do bebê na maternidade (1ª troca, 2ª troca, saída maternidade, etc.). Visor transparente, fechamento com zíper e chaveiros bordados.",
             requiresCustomization: true,
-            variations: [{ 
-                name: "Quantidade de saquinhos", 
+            variations: [{
+                name: "Quantidade de Saquinhos",
                 options: [
-                    "1 Unidade", 
-                    "3 Unidades (R$ 189,99)", 
-                    "4 Unidades (R$ 239,99)", 
-                    "5 Unidades (R$ 279,99)", 
-                    "6 Unidades (R$ 309,99)"
-                ] 
+                    "03 Unidades (R$ 174,90)",
+                    "04 Unidades (R$ 215,90)",
+                    "05 Unidades (R$ 266,90)",
+                    "06 Unidades (R$ 303,90)",
+                    "07 Unidades (R$ 330,90)",
+                    "08 Unidades (R$ 358,90)",
+                    "01 Unidade Avulsa (R$ 73,90)"
+                ]
             }]
         },
         {
             id: 10,
-            name: "Kit Organizador Mala Maternidade Transparente Bebê Luxo",
-            price: 199.00,
+            name: "KIT Organizador Mala Maternidade Transparente Necessaire Bebê Luxo",
+            price: 229.90,
+            shopeePrice: 250.00,
             installments: 3,
             images: [
                 "images/kit_organizador_1.jpg",
@@ -281,18 +363,18 @@ document.addEventListener('DOMContentLoaded', () => {
             category: "Kits / Trocadores",
             stars: 5,
             weightKg: 0.6,
-            badges: [{ text: "Novo", class: "badge-primary" }],
-            description: "Kit Organizador de Mala Maternidade Transparente Bebê Luxo Personalizado.\n\nOrganize a mala do seu bebê com elegância e praticidade! Organizadores transparentes que facilitam a visualização dos itens, com acabamento premium e bordado personalizado.\n\nDisponível em 5 opções de kit:\n\n• Kit 05 — PP + P (2 peças)\n• Kit 01 — P + M (2 peças)\n• Kit 02 — PP + P + M (3 peças)\n• Kit 03 — P + M + G (3 peças)\n• Kit 04 — PP + P + M + G (4 peças)",
+            badges: [{ text: "Campeão de Vendas", class: "badge-primary" }],
+            description: "Kit Organizador de Mala Maternidade Transparente Bebê Luxo Personalizado.\n\nOrganize a mala do seu bebê com elegância e praticidade! Maletas organizadoras transparentes que facilitam a visualização dos itens, com acabamento premium e bordado personalizado.\n\nDisponível em 5 opções de kit:\n• Kit 02 Unid (PP + P)\n• Kit 02 Unid (P + M)\n• Kit 03 Unid (PP + P + M)\n• Kit 03 Unid (P + M + G)\n• Kit 04 Unid (PP + P + M + G)",
             requiresCustomization: true,
-            variations: [{ 
-                name: "Kit", 
+            variations: [{
+                name: "Opção do Kit de Maletas",
                 options: [
-                    "Kit 05 — PP + P", 
-                    "Kit 01 — P + M (R$ 230,00)", 
-                    "Kit 02 — PP + P + M (R$ 320,00)", 
-                    "Kit 03 — P + M + G (R$ 360,00)", 
-                    "Kit 04 — PP + P + M + G (R$ 420,00)"
-                ] 
+                    "Kit 02 Unid (PP + P) — (R$ 229,90)",
+                    "Kit 02 Unid (P + M) — (R$ 257,90)",
+                    "Kit 03 Unid (PP + P + M) — (R$ 339,90)",
+                    "Kit 03 Unid (P + M + G) — (R$ 367,90)",
+                    "Kit 04 Unid (PP + P + M + G) — (R$ 422,90)"
+                ]
             }]
         }
     ];
@@ -300,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load from Admin Database if exists
     let storedAdminProducts = localStorage.getItem('suze_products');
 
-    const FORCE_UPDATE_VERSION = 'v16';
+    const FORCE_UPDATE_VERSION = 'v18';
     let storedVersion = localStorage.getItem('suze_products_version');
 
     // Purge cache if version doesn't match or old images are detected
@@ -462,9 +544,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span>(${product.rating || 0})</span>
                         </div>
                         <div class="product-price">
-                            ${productHasMultiplePrices(product) ? '<span class="price-prefix">a partir de</span>' : ''}
+                            ${product.shopeePrice ? `<span style="display:block; font-size:0.78rem; color:#9e8f8a; text-decoration:line-through; margin-bottom:2px;">De R$ ${parseFloat(product.shopeePrice).toFixed(2).replace('.', ',')}</span>` : ''}
+                            <span class="price-prefix">a partir de</span>
                             <span class="price">R$ ${formattedPrice}</span>
-                            <span class="installments">ou ${installmentsVal}x de R$ ${installmentValue}</span>
+                            <span class="installments">ou ${installmentsVal}x de R$ ${installmentValue} sem juros</span>
                         </div>
                     </div>
                 `;
@@ -1345,6 +1428,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const encodedMessage = encodeURIComponent(message);
             const whatsappLink = `https://wa.me/5544920002854?text=${encodedMessage}`;
+
+            // Salva backup automático do pedido no servidor Hostinger antes de abrir o WhatsApp
+            if (window.location.protocol.startsWith('http')) {
+                fetch('api-servidor.php?action=save_order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        customer: { name, cpf, email, phone, cep, street, number, complement, neighborhood, city, state },
+                        items: cart.map(i => ({ name: i.name, quantity: i.quantity, unitPrice: i.unitPrice, variations: i.variations, customText: i.customText })),
+                        shipping: { option: shippingOption, cost: shippingCost },
+                        total: finalTotal
+                    })
+                }).catch(() => {});
+            }
 
             // Simulate loading display briefly, then redirect
             setTimeout(() => {
@@ -2371,7 +2468,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let text = 'Temos produtos lindos feitos com carinho! 🛍️ Aqui estão nossos destaques:';
                 const topProducts = products.slice(0, 5);
                 const cards = buildProductCards(topProducts);
-                addBotMessage(null, formatBotText(text) + cards + '<br><br>' + formatBotText('Clique em qualquer produto para ver detalhes! 💗\n\nQuer ver **todos**? Acesse nossa <a href="index.html#maternidade">coleção completa</a>.'));
+                addBotMessage(null, formatBotText(text) + cards + '<br><br>' + formatBotText('Clique em qualquer produto para ver detalhes! 💗\n\n📖 Quer ver nosso **Catálogo Completo de Modelos & Cores**? <a href="catalogo.html">Abrir Catálogo Oficial</a>'));
                 return;
             }
 

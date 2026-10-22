@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Oficial de Modelos & Cores | Suze Bolsas Maternidade</title>
+    <meta name="description"
+        content="Catálogo completo de inspirações, cores, bordados e valores da Suze Bolsas Maternidade. Escolha seu modelo e personalize com o nome do seu bebê.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            --cat-bg: #fdfbf9;
+            --cat-card: #ffffff;
+            --cat-border: #efe6e2;
+            --cat-primary: #c37a83;
+            --cat-primary-dark: #a35c65;
+            --cat-gold: #b8925a;
+            --cat-text: #2e2522;
+            --cat-muted: #756863;
+        }
+
+        body {
+            background-color: var(--cat-bg);
+            color: var(--cat-text);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Header do Catálogo */
+        .cat-topbar {
+            background: #fff;
+            border-bottom: 1px solid var(--cat-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0.85rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .cat-topbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            text-decoration: none;
+            color: var(--cat-text);
+        }
+
+        .cat-brand img {
+            height: 48px;
+            width: auto;
+        }
+
+        .cat-brand-text strong {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--cat-text);
+        }
+
+        .cat-brand-text span {
+            font-size: 0.78rem;
+            color: var(--cat-primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .cat-top-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-cat {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.6rem 1.15rem;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-cat-outline {
+            background: #fff;
+            border-color: var(--cat-border);
+            color: var(--cat-text);
+        }
+
+        .btn-cat-outline:hover {
+            border-color: var(--cat-primary);
+            color: var(--cat-primary-dark);
+        }
+
+        .btn-cat-pdf {
+            background: #f8f0f1;
+            color: var(--cat-primary-dark);
+            border-color: rgba(195, 122, 131, 0.3);
+        }
+
+        .btn-cat-pdf:hover {
+            background: var(--cat-primary);
+            color: #fff;
+        }
+
+        .btn-cat-wa {
+            background: #25D366;
+            color: #fff;
+        }
+
+        .btn-cat-wa:hover {
+            background: #1ebe5b;
+            transform: translateY(-1px);
+        }
+
+        /* Hero do Catálogo */
+        .cat-hero {
+            padding: 2.8rem 0 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, #fff9f7 0%, var(--cat-bg) 100%);
+            border-bottom: 1px solid var(--cat-border);
+        }
+
+        .cat-kicker {
+            display: inline-block;
+            background: rgba(195, 122, 131, 0.14);
+            color: var(--cat-primary-dark);
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.9rem;
+        }
+
+        .cat-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.85rem, 4vw, 2.75rem);
+            color: var(--cat-text);
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .cat-hero p {
+            max-width: 680px;
+            margin: 0 auto 1.6rem;
+            color: var(--cat-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Passo a Passo de Personalização */
+        .cat-how-it-works {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1rem;
+            max-width: 960px;
+            margin: 0 auto 1.5rem;
+            text-align: left;
+        }
+
+        .cat-step-card {
+            background: #fff;
+            border: 1px solid var(--cat-border);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .cat-step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--cat-primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .cat-step-card strong {
+            display: block;
+            font-size: 0.92rem;
+            margin-bottom: 0.2rem;
+            color: var(--cat-text);
+        }
+
+        .cat-step-card span {
+            font-size: 0.82rem;
+            color: var(--cat-muted);
+            line-height: 1.4;
+            display: block;
+        }
+
+        /* Tabela Resumo de Preços */
+        .price-summary-box {
+            max-width: 960px;
+            margin: 1.2rem auto 0;
+            background: #fff;
+            border: 1px solid var(--cat-border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .price-summary-header {
+            padding: 0.95rem 1.4rem;
+            background: #faf4f2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .price-summary-header h3 {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--cat-text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+        }
+
+        .price-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 0.75rem;
+            padding: 1.1rem 1.4rem;
+            text-align: left;
+        }
+
+        .price-pill {
+            padding: 0.65rem 0.9rem;
+            border-radius: 10px;
+            background: #fdfbf9;
+            border: 1px solid #f2eae6;
+        }
+
+        .price-pill strong {
+            display: block;
+            font-size: 0.86rem;
+            color: var(--cat-text);
+        }
+
+        .price-pill span {
+            font-size: 0.82rem;
+            color: var(--cat-primary-dark);
+            font-weight: 600;
+        }
+
+        /* Barra de Filtros e Busca */
+        .cat-controls {
+            padding: 1.6rem 0 0.8rem;
+        }
+
+        .cat-filter-panel {
+            background: #fff;
+            border: 1px solid var(--cat-border);
+            border-radius: 18px;
+            padding: 1.15rem 1.35rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.025);
+            display: flex;
+            flex-direction: column;
+            gap: 0.95rem;
+        }
+
+        .cat-controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-filter-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: var(--cat-muted);
+            margin-right: 0.25rem;
+        }
+
+        .cat-filter-pills {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-pill-btn,
+        .cat-gender-btn {
+            padding: 0.55rem 1.1rem;
+            border-radius: 50px;
+            border: 1px solid var(--cat-border);
+            background: #fdfbf9;
+            color: var(--cat-muted);
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .cat-pill-btn:hover,
+        .cat-pill-btn.active {
+            background: var(--cat-primary);
+            border-color: var(--cat-primary);
+            color: #fff;
+        }
+
+        .cat-gender-btn[data-gender="Todos"].active,
+        .cat-gender-btn[data-gender="Todos"]:hover {
+            background: var(--cat-text);
+            border-color: var(--cat-text);
+            color: #fff;
+        }
+
+        .cat-gender-btn[data-gender="Menino"].active,
+        .cat-gender-btn[data-gender="Menino"]:hover {
+            background: #4a7c9b;
+            border-color: #4a7c9b;
+            color: #fff;
+        }
+
+        .cat-gender-btn[data-gender="Menina"].active,
+        .cat-gender-btn[data-gender="Menina"]:hover {
+            background: #c96f82;
+            border-color: #c96f82;
+            color: #fff;
+        }
+
+        .cat-gender-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            margin-left: 0.4rem;
+        }
+
+        .cat-gender-badge.menino {
+            background: #eaf3f8;
+            color: #356786;
+        }
+
+        .cat-gender-badge.menina {
+            background: #fceef1;
+            color: #b45468;
+        }
+
+        .cat-search-wrap {
+            position: relative;
+            min-width: 250px;
+            flex: 1;
+            max-width: 340px;
+        }
+
+        .cat-search-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--cat-muted);
+        }
+
+        .cat-search-wrap input {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem 2.3rem;
+            border-radius: 50px;
+            border: 1px solid var(--cat-border);
+            background: #fff;
+            font-family: inherit;
+            font-size: 0.88rem;
+        }
+
+        /* Grid de Modelos do Catálogo */
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0 4rem;
+        }
+
+        .cat-card {
+            background: var(--cat-card);
+            border: 1px solid var(--cat-border);
+            border-radius: 18px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.03);
+        }
+
+        .cat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(195, 122, 131, 0.12);
+        }
+
+        .cat-img-box {
+            position: relative;
+            aspect-ratio: 4 / 4;
+            background: #f7f2ef;
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+
+        .cat-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .cat-card:hover .cat-img-box img {
+            transform: scale(1.04);
+        }
+
+        .cat-code-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(46, 37, 34, 0.88);
+            backdrop-filter: blur(6px);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.32rem 0.75rem;
+            border-radius: 50px;
+            letter-spacing: 0.5px;
+        }
+
+        .cat-color-badge {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(6px);
+            color: var(--cat-text);
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 0.28rem 0.7rem;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .cat-zoom-hint {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.88);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cat-text);
+            font-size: 1rem;
+        }
+
+        .cat-card-body {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .cat-card-cat {
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--cat-primary-dark);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .cat-card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--cat-text);
+            margin-bottom: 0.45rem;
+            line-height: 1.35;
+        }
+
+        .cat-card-desc {
+            font-size: 0.85rem;
+            color: var(--cat-muted);
+            line-height: 1.5;
+            margin-bottom: 0.9rem;
+            flex: 1;
+        }
+
+        .cat-card-price {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--cat-text);
+            background: #faf5f3;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.9rem;
+            border-left: 3px solid var(--cat-primary);
+        }
+
+        .cat-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-want-model {
+            flex: 1;
+            background: #25D366;
+            color: #fff;
+            border: none;
+            padding: 0.72rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-want-model:hover {
+            background: #1ebe5b;
+        }
+
+        /* Lightbox Zoom */
+        .cat-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.86);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .cat-lightbox.open {
+            display: flex;
+        }
+
+        .cat-lightbox-inner {
+            max-width: 900px;
+            width: 100%;
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .cat-lightbox-inner {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
+            }
+        }
+
+        .cat-lb-img-wrap {
+            background: #f5f0ed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-height: 85vh;
+        }
+
+        .cat-lb-img-wrap img {
+            width: 100%;
+            height: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        .cat-lb-info {
+            padding: 2rem 1.6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .cat-lb-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        /* Rodapé de Personalização */
+        .cat-footer-cta {
+            background: #fff;
+            border-top: 1px solid var(--cat-border);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        /* ===== ESTILO DE IMPRESSÃO / PDF AUTOMÁTICO ===== */
+        @media print {
+            body {
+                background: #fff !important;
+            }
+            .cat-topbar,
+            .cat-controls,
+            .cat-zoom-hint,
+            .cat-card-actions,
+            .cat-footer-cta,
+            .no-print {
+                display: none !important;
+            }
+            .cat-hero {
+                padding: 1rem 0 !important;
+                background: #fff !important;
+            }
+            .cat-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1rem !important;
+                padding: 1rem 0 !important;
+            }
+            .cat-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+            .cat-img-box {
+                aspect-ratio: 4 / 3.4 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Topbar -->
+    <header class="cat-topbar">
+        <div class="container cat-topbar-inner">
+            <a href="index.html" class="cat-brand">
+                <img src="logo.png" alt="Suze Bolsas | Maternidade">
+                <div class="cat-brand-text">
+                    <strong>Suze Bolsas</strong>
+                    <span>Catálogo de Modelos & Cores</span>
+                </div>
+            </a>
+
+            <div class="cat-top-actions">
+                <a href="index.html" class="btn-cat btn-cat-outline">
+                    <i class="ph ph-storefront"></i> Voltar à Loja Online
+                </a>
+                <a href="separador-catalogo.html" class="btn-cat btn-cat-outline" title="Trocar ou selecionar fotos das suas pastas">
+                    <i class="ph ph-images"></i> Escolher / Trocar Fotos
+                </a>
+                <button onclick="window.print()" class="btn-cat btn-cat-pdf">
+                    <i class="ph-fill ph-file-pdf"></i> Salvar Catálogo em PDF
+                </button>
+                <a href="https://wa.me/5544920002854?text=Ol%C3%A1!%20Estou%20vendo%20o%20Cat%C3%A1logo%20Digital%20da%20Suze%20Bolsas%20e%20gostaria%20de%20ajuda%20para%20montar%20meu%20kit."
+                    target="_blank" class="btn-cat btn-cat-wa">
+                    <i class="ph-fill ph-whatsapp-logo"></i> Atendimento WhatsApp
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero & Explicação -->
+    <section class="cat-hero">
+        <div class="container">
+            <span class="cat-kicker">✦ Catálogo Oficial de Inspirações — Sem Repetições</span>
+            <h1>Escolha o Modelo, a Cor e o Bordado<br>para o Enxoval do Seu Bebê</h1>
+            <p>Selecionamos <strong>1 foto real de cada modelo e combinação de cor</strong> produzida em nosso ateliê. Os nomes nas fotos são exemplos — todas as peças são <strong>feitas sob medida com o nome e a inicial do seu bebê</strong>!</p>
+
+            <div class="cat-how-it-works">
+                <div class="cat-step-card">
+                    <div class="cat-step-num">1</div>
+                    <div>
+                        <strong>Escolha a Referência (Mod. #)</strong>
+                        <span>Veja os modelos abaixo e anote ou clique no código do modelo que mais amou (ex: <em>Mod. #02</em>).</span>
+                    </div>
+                </div>
+                <div class="cat-step-card">
+                    <div class="cat-step-num">2</div>
+                    <div>
+                        <strong>Personalize Nome e Cores</strong>
+                        <span>Bordamos o nome do seu bebê e adaptamos a cor do tecido/linha como você preferir.</span>
+                    </div>
+                </div>
+                <div class="cat-step-card">
+                    <div class="cat-step-num">3</div>
+                    <div>
+                        <strong>Compre no Site ou WhatsApp</strong>
+                        <span>Clique em <em>"Quero este Modelo"</em> para enviar a referência pronta para o nosso WhatsApp!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela Resumo de Preços -->
+            <div class="price-summary-box">
+                <div class="price-summary-header" onclick="const g = document.getElementById('priceSummaryGrid'); g.style.display = g.style.display === 'none' ? 'grid' : 'none';">
+                    <h3><i class="ph-fill ph-tag" style="color:var(--cat-primary)"></i> Tabela Oficial do Site (~8% OFF exclusivo em relação à Shopee)</h3>
+                    <span style="font-size:0.8rem; color:var(--cat-primary-dark); font-weight:600;">Clique para recolher/expandir ▾</span>
+                </div>
+                <div class="price-summary-grid" id="priceSummaryGrid">
+                    <div class="price-pill">
+                        <strong>📒 Capa Caderneta de Vacina</strong>
+                        <span>A partir de R$ 114,90 (Sintético) | R$ 137,90 (Linho Luxo)</span>
+                    </div>
+                    <div class="price-pill">
+                        <strong>👶 Kit Saquinhos Organizadores</strong>
+                        <span>3 un: R$ 174,90 | 4 un: R$ 215,90 | 5 un: R$ 266,90 | 6 un: R$ 303,90</span>
+                    </div>
+                    <div class="price-pill">
+                        <strong>🧳 Maleta Organizadora (Avulsa)</strong>
+                        <span>PP: R$ 109,90 | P: R$ 128,90 | M: R$ 146,90 | G: R$ 164,90</span>
+                    </div>
+                    <div class="price-pill">
+                        <strong>🎁 Kit Maletas Organizadoras</strong>
+                        <span>2 pçs: a partir de R$ 229,90 | 3 pçs: R$ 339,90 | 4 pçs: R$ 422,90</span>
+                    </div>
+                    <div class="price-pill">
+                        <strong>🍼 Trocador Portátil &amp; Kits</strong>
+                        <span>Trocador: a partir de R$ 73,90 | Kit Capa + Trocador: R$ 147,90</span>
+                    </div>
+                    <div class="price-pill">
+                        <strong>🎀 Kit Necessaire Box + Capa</strong>
+                        <span>A partir de R$ 209,90 (Sintético) | R$ 247,90 (Linho Luxo)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filtros e Busca -->
+    <section class="cat-controls">
+        <div class="container">
+            <div class="cat-filter-panel">
+                <!-- Linha 1: Gênero (Menino / Menina) + Busca -->
+                <div class="cat-controls-row" style="border-bottom: 1px solid #f4ece9; padding-bottom: 0.85rem;">
+                    <div class="cat-filter-group">
+                        <span class="cat-filter-label"><i class="ph-fill ph-baby"></i> Inspiração:</span>
+                        <div class="cat-filter-pills" id="catGenderPills">
+                            <button class="cat-gender-btn active" data-gender="Todos">✨ Todos (Menino & Menina)</button>
+                            <button class="cat-gender-btn" data-gender="Menino">👦 Menino</button>
+                            <button class="cat-gender-btn" data-gender="Menina">👧 Menina</button>
+                        </div>
+                    </div>
+
+                    <div class="cat-search-wrap">
+                        <i class="ph ph-magnifying-glass"></i>
+                        <input type="text" id="catSearchInput" placeholder="Buscar cor (bege, azul, rosê, verde, caramelo)...">
+                    </div>
+                </div>
+
+                <!-- Linha 2: Tipo de Produto -->
+                <div class="cat-controls-row">
+                    <div class="cat-filter-group">
+                        <span class="cat-filter-label"><i class="ph-fill ph-handbag"></i> Tipo de Produto:</span>
+                        <div class="cat-filter-pills" id="catFilterPills">
+                            <button class="cat-pill-btn active" data-cat="Todos">Todos os Produtos</button>
+                            <button class="cat-pill-btn" data-cat="Capa Caderneta">📒 Capa Caderneta</button>
+                            <button class="cat-pill-btn" data-cat="Saquinho Organizador">👶 Saquinho Organizador</button>
+                            <button class="cat-pill-btn" data-cat="Maleta Organizadora">🧳 Maleta Organizadora</button>
+                            <button class="cat-pill-btn" data-cat="Trocador">🍼 Trocador</button>
+                            <button class="cat-pill-btn" data-cat="Kits">🎁 Kits</button>
+                        </div>
+                    </div>
+
+                    <span id="catResultCount" style="font-size: 0.84rem; font-weight: 600; color: var(--cat-muted);"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grid de Modelos -->
+    <main class="container">
+        <div class="cat-grid" id="catalogGrid"></div>
+    </main>
+
+    <!-- Lightbox de Zoom -->
+    <div class="cat-lightbox" id="catLightbox">
+        <div class="cat-lightbox-inner">
+            <button class="cat-lb-close" id="catLbClose" aria-label="Fechar"><i class="ph ph-x"></i></button>
+            <div class="cat-lb-img-wrap">
+                <img src="" alt="" id="catLbImg">
+            </div>
+            <div class="cat-lb-info">
+                <span class="cat-kicker" id="catLbCode" style="align-self:flex-start;">Mod. #01</span>
+                <h2 id="catLbTitle" style="font-family:'Playfair Display',serif; font-size:1.45rem; margin-bottom:0.6rem;"></h2>
+                <p id="catLbColor" style="font-size:0.86rem; font-weight:600; color:var(--cat-primary-dark); margin-bottom:0.8rem;"></p>
+                <p id="catLbDesc" style="font-size:0.92rem; color:var(--cat-muted); line-height:1.6; margin-bottom:1rem;"></p>
+                <div class="cat-card-price" id="catLbPrice"></div>
+                <p style="font-size:0.8rem; color:var(--cat-muted); margin-bottom:1.2rem;">
+                    ✨ <strong>Personalização:</strong> Bordamos com o nome e inicial do seu bebê na fonte e cor de sua preferência (tanto para menino quanto para menina!).
+                </p>
+                <a href="#" target="_blank" id="catLbWaBtn" class="btn-want-model" style="padding:0.9rem 1.2rem; font-size:0.95rem;">
+                    <i class="ph-fill ph-whatsapp-logo"></i> Quero este Modelo no WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé CTA -->
+    <section class="cat-footer-cta">
+        <div class="container">
+            <h2 style="font-family:'Playfair Display',serif; font-size:1.75rem; margin-bottom:0.6rem;">Quer combinar uma cor diferente ou montar seu próprio Kit?</h2>
+            <p style="color:var(--cat-muted); max-width:580px; margin:0 auto 1.4rem;">Fazemos combinações personalizadas de tecidos, fitas e bordados. Chame nossa equipe no WhatsApp e diga quais peças você deseja!</p>
+            <div style="display:flex; justify-content:center; gap:0.8rem; flex-wrap:wrap;">
+                <a href="https://wa.me/5544920002854?text=Ol%C3%A1!%20Vi%20o%20Cat%C3%A1logo%20da%20Suze%20Bolsas%20e%20quero%20montar%20um%20kit%20personalizado."
+                    target="_blank" class="btn-cat btn-cat-wa" style="padding:0.8rem 1.6rem; font-size:0.96rem;">
+                    <i class="ph-fill ph-whatsapp-logo"></i> Montar Meu Kit no WhatsApp
+                </a>
+                <a href="index.html#maternidade" class="btn-cat btn-cat-outline" style="padding:0.8rem 1.6rem; font-size:0.96rem;">
+                    <i class="ph ph-handbag"></i> Comprar Direto pelo Site
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="catalogo-dados.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let catalogItems = window.getSuzeCatalog();
+            const grid = document.getElementById('catalogGrid');
+            const filterBtns = document.querySelectorAll('.cat-pill-btn');
+            const genderBtns = document.querySelectorAll('.cat-gender-btn');
+            const searchInput = document.getElementById('catSearchInput');
+            const resultCount = document.getElementById('catResultCount');
+
+            if (typeof window.syncCatalogFromHostinger === 'function') {
+                window.syncCatalogFromHostinger((serverItems) => {
+                    catalogItems = serverItems;
+                    renderCatalog();
+                });
+            }
+
+            let activeCategory = 'Todos';
+            let activeGender = 'Todos';
+            let searchQuery = '';
+
+            function buildWhatsAppUrl(item) {
+                const msg = `Olá! 🌸 Vi o Catálogo Oficial da Suze Bolsas e amei o *${item.code} — ${item.title}* (Categoria: ${item.category} | Cor: ${item.colorTag}). Gostaria de encomendar personalizado com o nome do meu bebê!`;
+                return `https://wa.me/5544920002854?text=${encodeURIComponent(msg)}`;
+            }
+
+            function renderCatalog() {
+                const filtered = catalogItems.filter(item => {
+                    const matchCat = activeCategory === 'Todos' || item.category === activeCategory;
+                    const matchGender = activeGender === 'Todos' || item.gender === activeGender || item.gender === 'Unissex';
+                    const q = searchQuery.trim().toLowerCase();
+                    const matchSearch = !q ||
+                        item.title.toLowerCase().includes(q) ||
+                        (item.colorTag && item.colorTag.toLowerCase().includes(q)) ||
+                        (item.desc && item.desc.toLowerCase().includes(q)) ||
+                        (item.category && item.category.toLowerCase().includes(q)) ||
+                        (item.code && item.code.toLowerCase().includes(q));
+                    return matchCat && matchGender && matchSearch;
+                });
+
+                resultCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'modelo único exibido' : 'modelos únicos exibidos'}`;
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--cat-muted);">
+                        <p style="font-size:1.1rem; margin-bottom:0.8rem;">Nenhum modelo encontrado para esse filtro combinado.</p>
+                        <button class="cat-pill-btn active" onclick="document.querySelector('[data-gender=Todos]').click(); document.querySelector('[data-cat=Todos]').click();">Limpar Filtros e Ver Todos</button>
+                    </div>`;
+                    return;
+                }
+
+                grid.innerHTML = filtered.map((item, idx) => {
+                    const isGirl = item.gender === 'Menina';
+                    const genderBadgeHtml = item.gender
+                        ? `<span class="cat-gender-badge ${isGirl ? 'menina' : 'menino'}">${isGirl ? '👧 Menina' : '👦 Menino'}</span>`
+                        : '';
+
+                    return `
+                    <article class="cat-card">
+                        <div class="cat-img-box" data-idx="${idx}">
+                            <img src="${item.image}" alt="${item.title}" loading="lazy">
+                            <span class="cat-code-badge">${item.code}</span>
+                            <span class="cat-color-badge">🎨 ${item.colorTag || 'Personalizável'}</span>
+                            <span class="cat-zoom-hint" title="Ampliar foto"><i class="ph ph-magnifying-glass-plus"></i></span>
+                        </div>
+                        <div class="cat-card-body">
+                            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.35rem;">
+                                <span class="cat-card-cat" style="margin-bottom:0;">${item.category}</span>
+                                ${genderBadgeHtml}
+                            </div>
+                            <h2 class="cat-card-title">${item.title}</h2>
+                            <p class="cat-card-desc">${item.desc || ''}</p>
+                            <div class="cat-card-price">${item.priceInfo || 'Consulte valores das opções'}</div>
+                            <div class="cat-card-actions">
+                                <a href="${buildWhatsAppUrl(item)}" target="_blank" rel="noopener" class="btn-want-model">
+                                    <i class="ph-fill ph-whatsapp-logo"></i> Quero o ${item.code}
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                `}).join('');
+
+                // Lightbox events
+                grid.querySelectorAll('.cat-img-box').forEach(box => {
+                    box.addEventListener('click', () => {
+                        const i = parseInt(box.getAttribute('data-idx'), 10);
+                        openLightbox(filtered[i]);
+                    });
+                });
+            }
+
+            // Lightbox
+            const lightbox = document.getElementById('catLightbox');
+            const lbClose = document.getElementById('catLbClose');
+
+            function openLightbox(item) {
+                if (!item) return;
+                document.getElementById('catLbImg').src = item.image;
+                document.getElementById('catLbCode').textContent = `${item.code} • ${item.category} (${item.gender || 'Personalizável'})`;
+                document.getElementById('catLbTitle').textContent = item.title;
+                document.getElementById('catLbColor').textContent = `🎨 Cor / Acabamento na foto: ${item.colorTag || 'Personalizável'}`;
+                document.getElementById('catLbDesc').textContent = item.desc || '';
+                document.getElementById('catLbPrice').textContent = item.priceInfo || '';
+                document.getElementById('catLbWaBtn').href = buildWhatsAppUrl(item);
+                lightbox.classList.add('open');
+            }
+
+            lbClose.addEventListener('click', () => lightbox.classList.remove('open'));
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) lightbox.classList.remove('open');
+            });
+
+            // Gender Filter
+            genderBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    genderBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeGender = btn.getAttribute('data-gender');
+                    renderCatalog();
+                });
+            });
+
+            // Category Filter
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeCategory = btn.getAttribute('data-cat');
+                    renderCatalog();
+                });
+            });
+
+            // Search Filter
+            searchInput.addEventListener('input', () => {
+                searchQuery = searchInput.value;
+                renderCatalog();
+            });
+
+            renderCatalog();
+        });
+    </script>
+</body>
+
+</html>

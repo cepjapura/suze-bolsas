@@ -1,0 +1,49 @@
+# ======================================================================
+# SUZE BOLSAS | CONFIGURAÇÃO OTIMIZADA PARA HOSTINGER (LITESPEED/APACHE)
+# ======================================================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. Forçar HTTPS (Cadeado de Segurança SSL)
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # 2. Links Curtos e Amigáveis (ex: suzebolsas.com.br/catalogo)
+    RewriteRule ^catalogo/?$ catalogo.html [L,NC]
+    RewriteRule ^separador/?$ separador-catalogo.html [L,NC]
+    RewriteRule ^cuidados/?$ cuidados.html [L,NC]
+    RewriteRule ^admin/?$ admin.html [L,NC]
+
+    # 3. Permitir URLs sem .html automaticamente se o arquivo existir
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.html -f
+    RewriteRule ^([^\.]+)$ $1.html [NC,L]
+</IfModule>
+
+# 4. Proteger arquivos JSON internos de leitura direta indevida de pedidos/clientes
+<FilesMatch "^(pedidos-recebidos\.json)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 5. Compressão GZIP para carregamento ultrarrápido no 4G/5G
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# 6. Cache inteligente de imagens e fontes
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 30 days"
+    ExpiresByType image/jpeg "access plus 30 days"
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType image/webp "access plus 30 days"
+    ExpiresByType text/css "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
+</IfModule>
